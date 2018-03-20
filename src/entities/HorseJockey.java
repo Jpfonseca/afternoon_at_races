@@ -51,6 +51,13 @@ public class HorseJockey extends Thread{
         this.st = st;
         this.pd = pd;
         this.rt = rt;
+
+        /*
+        each horse / jockey Cnk, with n = 0, 1, ... , N-1 and k = 0, 1, ... , K-1 carries out a single position
+        increment per iteration by moving randomly 1 to Pnk length units along its path – the maximum
+        value Pnk is specific of a given horse, because they are not all equal, some being more agile and
+        faster than others;
+         */
     }
 
     /**
