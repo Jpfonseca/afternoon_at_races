@@ -35,18 +35,18 @@ public class HorseJockey extends Thread{
      * Index of HorseJockey
      * @serialField n
      */
-    private int n;
+    private int hj_number;
 
     /**
      * HorseJockey Constructor
-     * @param n HorseJockey index
+     * @param hj_number HorseJockey index
      * @param ccws Control Centre & Watching Stand - Shared Region
      * @param st Stable - Shared Region
      * @param pd Paddock - Shared Region
      * @param rt Racing Track- Shared Region
      */
-    public HorseJockey(int n, ControlCentre ccws, Stable st, Paddock pd, RacingTrack rt) {
-        this.n = n;
+    public HorseJockey(int hj_number, ControlCentre ccws, Stable st, Paddock pd, RacingTrack rt) {
+        this.hj_number = hj_number;
         this.ccws = ccws;
         this.st = st;
         this.pd = pd;
@@ -67,20 +67,21 @@ public class HorseJockey extends Thread{
     public void run(){
         boolean last;
 
-        st.proceedToStable(n);
+        st.proceedToStable(this.hj_number);
 
-        st.proceedToPaddock(n);           // Spectator à espera no st
-        last = pd.proceedToPaddock1(n);     // Este método verifica o último.
+        st.proceedToPaddock(this.hj_number);           // Spectator à espera no st
+        last = pd.proceedToPaddock1(this.hj_number);     // Este método verifica o último.
         if (last)
-            ccws.proceedToPaddock(n);    // Acorda spectator que está no ccws a espera de ser acordado
-        pd.proceedToPaddock2(n);   //envia para o paddock
+            ccws.proceedToPaddock(this.hj_number);    // Acorda spectator que está no ccws a espera de ser acordado
+        pd.proceedToPaddock2(this.hj_number);   //envia para o paddock
 
-        rt.proceedToStartLine(n);
+        rt.proceedToStartLine(this.hj_number);
 
         do{
-            rt.makeAMove(n);
-        }while(!rt.hasFinishLineBeenCrossed(n)); //devolve se terminou ou não. Em caso de témino devolve a posição
-        st.proceedToStable2();
+            rt.makeAMove(this.hj_number);
+        }while(!rt.hasFinishLineBeenCrossed(this.hj_number)); //devolve se terminou ou não. Em caso de témino devolve a posição
+        st.proceedToStable2(this.hj_number);
+
     }
 
 }
