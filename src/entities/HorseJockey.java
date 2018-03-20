@@ -60,20 +60,20 @@ public class HorseJockey extends Thread{
     public void run(){
         boolean last;
 
-        st.proceedtothestable(n);
+        st.proceedToStable(n);
 
-        st.proceedtothepaddock(n);           // Spectator à espera no st
-        last = pd.proceedtothepaddock1(n);     // Este método verifica o último.
+        st.proceedToPaddock(n);           // Spectator à espera no st
+        last = pd.proceedToPaddock1(n);     // Este método verifica o último.
         if (last)
-            ccws.proceedtothepaddock(n);    // Acorda spectator que está no ccws a espera de ser acordado
-        pd.proceedtothepaddock2(n);   //envia para o paddock
+            ccws.proceedToPaddock(n);    // Acorda spectator que está no ccws a espera de ser acordado
+        pd.proceedToPaddock2(n);   //envia para o paddock
 
-        rt.proceedtothestartLine(n);
+        rt.proceedToStartLine(n);
 
         do{
-            rt.makeAmove(n);
+            rt.makeAMove(n);
         }while(!rt.hasFinishLineBeenCrossed(n)); //devolve se terminou ou não. Em caso de témino devolve a posição
-        st.proceedtoStable2();
+        st.proceedToStable2();
     }
 
 }
