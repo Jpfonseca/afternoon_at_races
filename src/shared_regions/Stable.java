@@ -1,23 +1,26 @@
 package shared_regions;
 import entities.*;
 
+/**
+ * This class specifies the methods that will be executed on the Stable .
+ */
 public class Stable{
-    void summonHorsesToPaddock(int number_race){
+    public void summonHorsesToPaddock(int number_race){
         //Muda de estado ->AT_THE_STABLE
         //Bloqueia o Horse/Jockey
     }
 
-    void proceedToTheStable(HorseJockey horse_jockey){
+    public void proceedToStable(HorseJockey horse_jockey){
         //Muda de estado ->AT_THE_STABLE
         //Bloqueia o Horse/Jockey  em waitForNextRace
     }
 
-    void proceedToThePaddock(HorseJockey horse_jockey){
+    public void proceedToPaddock(HorseJockey horse_jockey){
         //Muda de estado ->AT_THE_PADDOCK
         // Bloqueia o Horse/Jockey  em waitBeingChecked
     }
 
-    void proceedtoStable2(HorseJockey horse_jockey){
+    public void proceedToStable2(HorseJockey horse_jockey){
         //Muda de estado ->AT_THE_STABLE
         //mata o cavalo ???
     }
