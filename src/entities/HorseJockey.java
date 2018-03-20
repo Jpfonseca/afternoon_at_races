@@ -51,6 +51,13 @@ public class HorseJockey extends Thread{
         this.st = st;
         this.pd = pd;
         this.rt = rt;
+
+        /*
+        each horse / jockey Cnk, with n = 0, 1, ... , N-1 and k = 0, 1, ... , K-1 carries out a single position
+        increment per iteration by moving randomly 1 to Pnk length units along its path – the maximum
+        value Pnk is specific of a given horse, because they are not all equal, some being more agile and
+        faster than others;
+         */
     }
 
     /**
@@ -60,20 +67,20 @@ public class HorseJockey extends Thread{
     public void run(){
         boolean last;
 
-        st.proceedtothestable(n);
+        st.proceedToStable(n);
 
-        st.proceedtothepaddock(n);           // Spectator à espera no st
-        last = pd.proceedtothepaddock1(n);     // Este método verifica o último.
+        st.proceedToPaddock(n);           // Spectator à espera no st
+        last = pd.proceedToPaddock1(n);     // Este método verifica o último.
         if (last)
-            ccws.proceedtothepaddock(n);    // Acorda spectator que está no ccws a espera de ser acordado
-        pd.proceedtothepaddock2(n);   //envia para o paddock
+            ccws.proceedToPaddock(n);    // Acorda spectator que está no ccws a espera de ser acordado
+        pd.proceedToPaddock2(n);   //envia para o paddock
 
-        rt.proceedtothestartLine(n);
+        rt.proceedToStartLine(n);
 
         do{
-            rt.makeAmove(n);
+            rt.makeAMove(n);
         }while(!rt.hasFinishLineBeenCrossed(n)); //devolve se terminou ou não. Em caso de témino devolve a posição
-        st.proceedtoStable2();
+        st.proceedToStable2();
     }
 
 }

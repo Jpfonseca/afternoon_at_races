@@ -31,6 +31,11 @@ public class Broker extends Thread{
      * @serialField K
      */
     private int K;
+    /**
+     * Total competitors per race
+     * @serialField N
+     */
+    private int N;
 
     /**
      * Broker Constructor
@@ -39,7 +44,7 @@ public class Broker extends Thread{
      * @param st Stable - Shared Region
      * @param bc Betting Centre - Shared Region
      */
-    public Broker(int K, ControlCentre ccws, Stable st, BettingCentre bc) {
+    public Broker(int K, int N, ControlCentre ccws, Stable st, BettingCentre bc) {
         this.K = K;
         this.ccws = ccws;
         this.st = st;
@@ -54,16 +59,18 @@ public class Broker extends Thread{
 
         //K is the number of races
         //k is the current race
+        //N competitors per race
 
         for(int k=0;k<K;k++){
-            st.summonhorsestopaddock(k); // primeira parte é invocada no stable a segunda no ccws
-            ccws.summonhorsestopaddock(k);
+            st.summonHorsesToPaddock(k); // primeira parte é invocada no stable a segunda no ccws
+            ccws.summonHorsesToPaddock(k);
             bc.acceptTheBets(k);
-            ccws.starttherace(k);
-            ccws.reportresults(k);
-            if(bc.arethereanywinners(k)) bc.honourthebets(k);
+            ccws.startTheRace(k);
+            ccws.reportResults(k);
+            if(bc.areThereAnyWinners(k))
+                bc.honourTheBets(k);
         }
-        ccws.entertaintheguests();
+        ccws.entertainTheGuests();
     }
 
 }

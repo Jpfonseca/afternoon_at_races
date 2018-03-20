@@ -44,19 +44,18 @@ public class Spectator extends Thread{
     public void run(){
         boolean last;
 
-        while(ccws.waitfornextrace()){
-            pd.goCheckHorses();
+        while(ccws.waitForNextRace()){
             last = pd.goCheckHorses1();     // Este método verifica o último.
             if (last)
                 ccws.goCheckHorses();    // Acorda o Broker , que dá inicio à corrida
             pd.goCheckHorses2(last);          //envia o spectator para o pd e diz se é o último
 
             bc.placeABet();
-            ccws.goWatchtheRace();
-            if(bc.haveIwon())
-                bc.goCollecttheGain();
+            ccws.goWatchTheRace();
+            if(bc.haveIWon())
+                bc.goCollectTheGains();
         }
-        ccws.relaxAbit();
+        ccws.relaxABit();
     }
 
 }
