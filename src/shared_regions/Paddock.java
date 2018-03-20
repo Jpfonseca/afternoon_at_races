@@ -8,12 +8,12 @@ public class Paddock{
     /**
      * Horse_Jockey
      * */
-    public boolean proceedToThePaddock1(HorseJockey horse){
+    public boolean proceedToPaddock1(HorseJockey horse){
         //check if it’s the last horse
 
         return false;
     }
-    public void proceedToThePaddock2(HorseJockey horse){
+    public void proceedToPaddock2(HorseJockey horse){
         //Muda de estado ->AT_THE_PADDOCK
         // Bloqueia o Horse/Jockey  em waitBeingChecked
     }
@@ -22,7 +22,7 @@ public class Paddock{
      *
      */
 
-    public boolean goCheckHorses(){
+    public boolean goCheckHorses1(){
         //checks if the horse is the last to enter the paddock
 
         return false;

@@ -10,17 +10,17 @@ public class Stable{
         //Bloqueia o Horse/Jockey
     }
 
-    public void proceedToTheStable(HorseJockey horse_jockey){
+    public void proceedToStable(HorseJockey horse_jockey){
         //Muda de estado ->AT_THE_STABLE
         //Bloqueia o Horse/Jockey  em waitForNextRace
     }
 
-    public void proceedToThePaddock(HorseJockey horse_jockey){
+    public void proceedToPaddock(HorseJockey horse_jockey){
         //Muda de estado ->AT_THE_PADDOCK
         // Bloqueia o Horse/Jockey  em waitBeingChecked
     }
 
-    public void proceedtoStable2(HorseJockey horse_jockey){
+    public void proceedToStable2(HorseJockey horse_jockey){
         //Muda de estado ->AT_THE_STABLE
         //mata o cavalo ???
     }
