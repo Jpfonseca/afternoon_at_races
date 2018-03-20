@@ -40,7 +40,7 @@ public class BettingCentre{
         return false;
     }
 
-    public void goCollectTheGain(){
+    public void goCollectTheGains(){
 
         // Muda o estado -> WAITING_FOR_A_RACE_TO_START(enquanto existirem corridas)
     }
