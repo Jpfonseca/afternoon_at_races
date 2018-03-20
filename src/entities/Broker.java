@@ -56,14 +56,15 @@ public class Broker extends Thread{
         //k is the current race
 
         for(int k=0;k<K;k++){
-            st.summonhorsestopaddock(k); // primeira parte é invocada no stable a segunda no ccws
-            ccws.summonhorsestopaddock(k);
+            st.summonHorsesToPaddock(k); // primeira parte é invocada no stable a segunda no ccws
+            ccws.summonHorsesToPaddock(k);
             bc.acceptTheBets(k);
-            ccws.starttherace(k);
-            ccws.reportresults(k);
-            if(bc.arethereanywinners(k)) bc.honourthebets(k);
+            ccws.startTheRace(k);
+            ccws.reportResults(k);
+            if(bc.areThereAnyWinners(k))
+                bc.honourTheBets(k);
         }
-        ccws.entertaintheguests();
+        ccws.entertainTheGuests();
     }
 
 }
