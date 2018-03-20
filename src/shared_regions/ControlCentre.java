@@ -1,45 +1,47 @@
 package shared_regions;
 import entities.*;
-
+/**
+ * This class specifies the methods that will be executed on the Control Centre and the Watching Stand .
+ */
 public class ControlCentre{
-    void summonHorsesToPaddock(int k){
+    public void summonHorsesToPaddock(int k){
         // Mudar o estado -> ANNOUNCING_NEXT_RACE
         // bloquear em waitForSpectatorEvaluation
     }
 
-    void startTheRace(int k){
+    public void startTheRace(int k){
         // Mudar o estado -> SUPERVISING_THE_RACE
         // bloquear em waitForRaceToFinish
     }
 
-    void reportResults(int k){
+    public void reportResults(int k){
         // Reports results
     }
 
-    void entertainTheGuests(){
+    public void entertainTheGuests(){
         // Waiting for childs to die
     }
 
-    void proceedToPaddock(HorseJockey horse_jockey){
+    public void proceedToPaddock(HorseJockey horse_jockey){
         // Wakes up Spectator that is in CCWS
     }
 
-    boolean waitForNextRace(){
+    public boolean waitForNextRace(){
         // Mudar o estado -> WAITING_FOR_A_RACE_TO_START
         // Block waitForRaceToStart (while(!raceStart && races<K-1))
         return false;
     }
-    boolean goCheckHorses(){
+    public boolean goCheckHorses(){
         // Actualiza waitForSpectatorEvaluation
         // Acorda Broker
         return false;
     }
-    void goWatchtheRace(){
+    public void goWatchtheRace(){
         // Muda o estado -> WATCHING_A_RACE
         // Bloquear em waitForResults
     }
 
-    void relaxAbit(){
+    public void relaxAbit(){
         // muda o estado -> CELEBRATING
         // Preparar para terminar thread
     }
