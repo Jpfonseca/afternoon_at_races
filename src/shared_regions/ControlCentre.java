@@ -21,7 +21,6 @@ public class ControlCentre{
     public void entertainTheGuests(){
         // Waiting for childs to die
     }
-
     public void proceedToPaddock(int hj_number){
         // Wakes up Spectator that is in CCWS
     }
