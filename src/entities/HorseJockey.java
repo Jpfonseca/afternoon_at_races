@@ -81,6 +81,7 @@ public class HorseJockey extends Thread{
             rt.makeAMove(this.hj_number);
         }while(!rt.hasFinishLineBeenCrossed(this.hj_number)); //devolve se terminou ou não. Em caso de témino devolve a posição
         st.proceedToStable2(this.hj_number);
+
     }
 
 }
