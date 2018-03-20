@@ -1,34 +1,38 @@
 package shared_regions;
 
 /**
- * This class specifies
- * */
+ * This class specifies the Place where the spectators will make the bets.
+ *
+ */
 public class BettingCentre{
-
-    void acceptTheBets(int betAmount){
+    /**
+     *
+     * @param betAmount it should be an integer and it will range from 0 to Max_bet_value
+     */
+    public void acceptTheBets(int betAmount){
 
     }
 
-    boolean areThereAnyWinners(int k){
+    public boolean areThereAnyWinners(int k){
         // devolve a  existencia de winners
         // faz unlock ao Broker
         return false;
     }
 
 
-    void honourTheBets(int k){
+    public void honourTheBets(int k){
         //Muda o estado ->SETTLING_ACCOUNTS
         //bloqueia em waitForSpectactorCollectsMoney
     }
 
 
-    void placeABet(){
+    public void placeABet(){
         //Muda o  estado -> PLACING_A_BET
         //bloqueia em isBetDone (espera pelo acceptbets do broker cada bet é unica)
     }
 
 
-    boolean haveIWon(){
+    public boolean haveIWon(){
         // Muda o estado->COLLECTING_THE_GAINS (se ganha alguma coisa)
         //OR
         //        ->WAITING_FOR_A_RACE_TO_START(enquanto existirem corridas)
@@ -36,7 +40,7 @@ public class BettingCentre{
         return false;
     }
 
-    void goCollectTheGain(){
+    public void goCollectTheGain(){
 
         // Muda o estado -> WAITING_FOR_A_RACE_TO_START(enquanto existirem corridas)
     }
