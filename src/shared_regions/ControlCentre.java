@@ -36,12 +36,12 @@ public class ControlCentre{
         // Acorda Broker
         return false;
     }
-    public void goWatchtheRace(){
+    public void goWatchTheRace(){
         // Muda o estado -> WATCHING_A_RACE
         // Bloquear em waitForResults
     }
 
-    public void relaxAbit(){
+    public void relaxABit(){
         // muda o estado -> CELEBRATING
         // Preparar para terminar thread
     }
