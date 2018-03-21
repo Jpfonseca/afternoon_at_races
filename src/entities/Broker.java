@@ -57,6 +57,7 @@ public class Broker extends Thread{
      */
     public Broker(int K, int N, ControlCentre ccws, Stable st, BettingCentre bc, Paddock pd, RacingTrack rt) {
         this.K = K;
+        this.N = N;
         this.ccws = ccws;
         this.st = st;
         this.bc = bc;
@@ -76,13 +77,15 @@ public class Broker extends Thread{
         //K is the number of races
         //k is the current race
         //N competitors per race
-
+        System.out.println("TEST1");
         for(int k=0;k<K;k++) {
+            System.out.println("TEST2");
 
             // HorseJockey Instantiation and start
             for (int j = 0; j < N; j++) {
                 horseJockeys[j] = new HorseJockey(k, j, ccws, st, pd, rt);
                 horseJockeys[j].start();
+                System.out.println("HorseJockey " + j + " started");
             }
 
             st.summonHorsesToPaddock(k); // primeira parte é invocada no stable a segunda no ccws

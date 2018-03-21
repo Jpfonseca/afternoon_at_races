@@ -31,26 +31,20 @@ public class Simulator{
 
         Broker broker;
         broker = new Broker(K, N, ccws, st, bc, pd, rt);
-        System.out.println("Broker started");
 
         Spectator [] spectator = new Spectator[M];
-        for (int i=0; i<M; i++) {
+        for (int i=0; i<M; i++)
             spectator[i] = new Spectator(ccws, pd, bc);
-            System.out.println("Spectator "+i+" started");
-        }
 
 
         // Simulation Start
-        for (int i=0; i<M; i++)
+        for (int i=0; i<M; i++){
             spectator[i].start();
-
-        try {
-            broker.join();
-        } catch (InterruptedException e) {
-            System.out.println("Broker InterruptedException: "+e);
+            System.out.println("Spectator "+i+" started");
         }
 
-        System.out.println("Broker ended");
+        broker.start();
+        System.out.println("Broker started");
 
 
         /* Simulation End */
@@ -66,5 +60,13 @@ public class Simulator{
             }
             System.out.println("Spectator "+i+" ended");
         }
+
+        try {
+            broker.join();
+        } catch (InterruptedException e) {
+            System.out.println("Broker InterruptedException: "+e);
+        }
+
+        System.out.println("Broker ended");
     }
 }
