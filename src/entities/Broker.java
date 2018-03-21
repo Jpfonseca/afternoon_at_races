@@ -77,9 +77,9 @@ public class Broker extends Thread{
         //K is the number of races
         //k is the current race
         //N competitors per race
-        System.out.println("TEST1");
+
         for(int k=0;k<K;k++) {
-            System.out.println("TEST2");
+            System.out.println("Race "+k+" Start");
 
             // HorseJockey Instantiation and start
             for (int j = 0; j < N; j++) {

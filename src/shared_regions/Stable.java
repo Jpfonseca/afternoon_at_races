@@ -5,21 +5,32 @@ import entities.*;
  * This class specifies the methods that will be executed on the Stable .
  */
 public class Stable{
-    /*Broker*/
 
-    public void summonHorsesToPaddock(int number_race){
+    private int raceNumber;
+    private boolean waitForNextRace=true;
+
+    public synchronized void summonHorsesToPaddock(int k){
         //this.raceNumber=number_race;
         //notifyAll();
         // é apenas isto
+        this.raceNumber = k;
+        this.waitForNextRace = false;
+        notifyAll();
     }
 
     /*Horse*/
-    public void proceedToStable(){
+    public synchronized void proceedToStable(){
         HorseJockey horse =((HorseJockey)Thread.currentThread());
-                horse.setHjState(HorseJockeyState.AT_THE_STABLE);
-        while(waitForNextRace){
+        horse.setHjState(HorseJockeyState.AT_THE_STABLE);
 
+        while(waitForNextRace){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                System.out.println("HorseJockey proceedToStable() InterruptedException: "+e);
+            }
         }
+
         //Muda de estado ->AT_THE_STABLE
         //Bloqueia o Horse/Jockey  em waitForNextRace
     }
@@ -33,8 +44,4 @@ public class Stable{
         //Muda de estado ->AT_THE_STABLE
         //mata o cavalo ???
     }
-
-    private int raceNumber;
-
-    private boolean waitForNextRace=true;
 }
