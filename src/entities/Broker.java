@@ -1,9 +1,6 @@
 package entities;
 
-import shared_regions.ControlCentre;
-import shared_regions.Stable;
-import shared_regions.BettingCentre;
-import entities.BrokerState;
+import shared_regions.*;
 
 /**
  * Broker Entity
@@ -39,6 +36,8 @@ public class Broker extends Thread{
      */
     private int N;
 
+    private HorseJockey[] horseJockeys;
+
     /**
      * Broker Constructor
      * @param K Total races
@@ -46,12 +45,14 @@ public class Broker extends Thread{
      * @param st Stable - Shared Region
      * @param bc Betting Centre - Shared Region
      */
-    public Broker(int K, int N, ControlCentre ccws, Stable st, BettingCentre bc) {
+    public Broker(int K, int N, ControlCentre ccws, Stable st, BettingCentre bc, Paddock pd, RacingTrack rt) {
         this.K = K;
         this.ccws = ccws;
         this.st = st;
         this.bc = bc;
         this.state=BrokerState.OPENING_THE_EVENT; // set current Broker state to the initial state
+
+        horseJockeys = new HorseJockey[N];
     }
 
     /**
@@ -64,15 +65,36 @@ public class Broker extends Thread{
         //k is the current race
         //N competitors per race
 
-        for(int k=0;k<K;k++){
+        for(int k=0;k<K;k++) {
+
+            // HorseJockey Instantiation and start
+            for (int j = 0; j < N; j++) {
+                horseJockeys[j] = new HorseJockey(k, j, ccws, st, pd, rt);
+                horseJockeys[j].start();
+            }
+
             st.summonHorsesToPaddock(k); // primeira parte é invocada no stable a segunda no ccws
             ccws.summonHorsesToPaddock(k);
             bc.acceptTheBets(k);
             ccws.startTheRace(k);
             ccws.reportResults(k);
-            if(bc.areThereAnyWinners(k))
+            if (bc.areThereAnyWinners(k))
                 bc.honourTheBets(k);
+
+            // Wait for HorseJockey threads to finish
+            for (int j = 0; j < N; j++) {
+                while (horseJockeys[j].isAlive()) {
+                    horseJockeys[j].interrupt();
+                    Thread.yield();
+                }
+                try {
+                    horseJockeys[j].join();
+                } catch (InterruptedException e) {
+                }
+                System.out.println("HorseJockey " + j + " ended");
+            }
         }
+
         ccws.entertainTheGuests();
     }
 
