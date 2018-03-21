@@ -3,13 +3,15 @@ package entities;
 import shared_regions.ControlCentre;
 import shared_regions.Stable;
 import shared_regions.BettingCentre;
-
+import entities.BrokerState;
 
 /**
  * Broker Entity
  */
 
 public class Broker extends Thread{
+
+    private BrokerState state;
 
     /**
      * Control Centre & Watching Stand - Shared Region
@@ -49,6 +51,7 @@ public class Broker extends Thread{
         this.ccws = ccws;
         this.st = st;
         this.bc = bc;
+        this.state=BrokerState.OPENING_THE_EVENT; // set current Broker state to the initial state
     }
 
     /**
@@ -73,4 +76,23 @@ public class Broker extends Thread{
         ccws.entertainTheGuests();
     }
 
+    /**
+     *
+     * @return true if the state changed and false if it is the same
+     */
+    public boolean setBrokerState(BrokerState state){
+        if(this.state!=state){
+            this.state=state;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @return current BrokerState
+     */
+    public BrokerState getBrokerState(){
+        return this.state;
+    }
 }
