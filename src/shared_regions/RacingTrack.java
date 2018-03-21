@@ -17,7 +17,7 @@ public class RacingTrack{
 
     public boolean hasFinishLineBeenCrossed(){
         // Verify line crossed
-        return false;
+        return true;
     }
 
 }
