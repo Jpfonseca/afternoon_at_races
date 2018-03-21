@@ -4,12 +4,13 @@ import shared_regions.ControlCentre;
 import shared_regions.Paddock;
 import shared_regions.RacingTrack;
 import shared_regions.Stable;
+import entities.HorseJockeyState;
 
 /**
  * HorseJockey entity
  */
 public class HorseJockey extends Thread{
-
+    private HorseJockeyState state;
     /**
      * Control Centre & Watching Stand - Shared Region
      * @serialField ccws
@@ -51,7 +52,7 @@ public class HorseJockey extends Thread{
         this.st = st;
         this.pd = pd;
         this.rt = rt;
-
+        this.state=HorseJockeyState.AT_THE_STABLE;
         /*
         each horse / jockey Cnk, with n = 0, 1, ... , N-1 and k = 0, 1, ... , K-1 carries out a single position
         increment per iteration by moving randomly 1 to Pnk length units along its path – the maximum
@@ -83,5 +84,23 @@ public class HorseJockey extends Thread{
         st.proceedToStable2(this.hj_number);
 
     }
+    /**
+     *
+     * @return true if the state changed and false if it is the same
+     */
+    public boolean setHjState(HorseJockeyState state){
+        if(this.state!= state) {
+            this.state = state;
+            return true;
+        }
+        return false;
+    }
 
+    /**
+     *
+     * @return current Horse/Jockey State
+     */
+    public HorseJockeyState getHjState(){
+        return this.state;
+    }
 }
