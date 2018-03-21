@@ -30,7 +30,7 @@ public class Simulator{
         Stable st = new Stable();
 
         Broker broker;
-        broker = new Broker(K, N, ccws, st, bc);
+        broker = new Broker(K, N, ccws, st, bc, pd, rt);
         System.out.println("Broker started");
 
         Spectator [] spectator = new Spectator[M];
