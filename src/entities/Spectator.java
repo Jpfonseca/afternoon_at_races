@@ -3,11 +3,13 @@ package entities;
 import shared_regions.BettingCentre;
 import shared_regions.ControlCentre;
 import shared_regions.Paddock;
-
+import entities.SpectatorState;
 /**
  * Spectator Entity
  */
 public class Spectator extends Thread{
+
+    private SpectatorState state;
 
     /**
      * Control Centre & Watching Stand - Shared Region
@@ -35,6 +37,7 @@ public class Spectator extends Thread{
         this.ccws = ccws;
         this.pd = pd;
         this.bc = bc;
+        this.state=SpectatorState.WAITING_FOR_A_RACE_TO_START;
     }
 
     /**
@@ -57,5 +60,22 @@ public class Spectator extends Thread{
         }
         ccws.relaxABit();
     }
-
+    /**
+     *
+     * @return true if the state changed and false if it is the same
+     */
+    public boolean setState(SpectatorState state){
+        if(this.state!=state){
+            this.state=state;
+            return true;
+        }
+        return false;
+    }
+    /**
+     *
+     * @return return Current Spectator State
+     */
+    public SpectatorState getBrokerState(){
+        return this.state;
+    }
 }
