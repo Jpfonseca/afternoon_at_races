@@ -26,6 +26,16 @@ public class Broker extends Thread{
      */
     private BettingCentre bc;
     /**
+     * Paddock - Shared Region
+     * @serialField pd
+     */
+    private Paddock pd;
+    /**
+     * Racing Track- Shared Region
+     * @serialField rt
+     */
+    private RacingTrack rt;
+    /**
      * Total races
      * @serialField K
      */
@@ -50,6 +60,8 @@ public class Broker extends Thread{
         this.ccws = ccws;
         this.st = st;
         this.bc = bc;
+        this.pd = pd;
+        this.rt = rt;
         this.state=BrokerState.OPENING_THE_EVENT; // set current Broker state to the initial state
 
         horseJockeys = new HorseJockey[N];
@@ -90,6 +102,7 @@ public class Broker extends Thread{
                 try {
                     horseJockeys[j].join();
                 } catch (InterruptedException e) {
+                    System.out.println("HorseJockey "+j+" InterruptedException: "+e);
                 }
                 System.out.println("HorseJockey " + j + " ended");
             }
