@@ -8,12 +8,12 @@ public class Paddock{
     /**
      * Horse_Jockey
      * */
-    public boolean proceedToPaddock1(int hj_number){
+    public boolean proceedToPaddock1(){
         //check if it’s the last horse
 
         return false;
     }
-    public void proceedToPaddock2(int hj_number){
+    public void proceedToPaddock2(){
         //Muda de estado ->AT_THE_PADDOCK
         // Bloqueia o Horse/Jockey  em waitBeingChecked
     }
