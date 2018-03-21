@@ -3,7 +3,6 @@ package entities;
 import shared_regions.BettingCentre;
 import shared_regions.ControlCentre;
 import shared_regions.Paddock;
-import entities.SpectatorState;
 /**
  * Spectator Entity
  */
@@ -75,7 +74,7 @@ public class Spectator extends Thread{
      *
      * @return return Current Spectator State
      */
-    public SpectatorState getBrokerState(){
+    public SpectatorState getSpectatorState(){
         return this.state;
     }
 }
