@@ -4,7 +4,6 @@ import shared_regions.ControlCentre;
 import shared_regions.Paddock;
 import shared_regions.RacingTrack;
 import shared_regions.Stable;
-import entities.HorseJockeyState;
 
 /**
  * HorseJockey entity
@@ -87,7 +86,6 @@ public class HorseJockey extends Thread{
 
         st.proceedToStable();
 
-        st.proceedToPaddock();           // Spectator à espera no st
         last = pd.proceedToPaddock1();     // Este método verifica o último.
         if (last)
             ccws.proceedToPaddock();    // Acorda spectator que está no ccws a espera de ser acordado
@@ -98,6 +96,7 @@ public class HorseJockey extends Thread{
         do{
             rt.makeAMove();
         }while(!rt.hasFinishLineBeenCrossed()); //devolve se terminou ou não. Em caso de témino devolve a posição
+
         st.proceedToStable2();
 
     }

@@ -47,6 +47,7 @@ public class Spectator extends Thread{
         boolean last;
 
         while(ccws.waitForNextRace()){
+
             last = pd.goCheckHorses1();     // Este método verifica o último.
             if (last)
                 ccws.goCheckHorses();    // Acorda o Broker , que dá inicio à corrida
@@ -57,6 +58,7 @@ public class Spectator extends Thread{
             if(bc.haveIWon())
                 bc.goCollectTheGains();
         }
+
         ccws.relaxABit();
     }
     /**

@@ -22,45 +22,51 @@ public class Simulator{
         int N = 4; // N competitors per race
         int M = 4; // M Spectators
 
-        BettingCentre bc = new BettingCentre();
-        ControlCentre ccws = new ControlCentre();
+        BettingCentre bc = new BettingCentre(M);
+        ControlCentre ccws = new ControlCentre(K);
         GeneralInformationRepository repo = new GeneralInformationRepository();
-        Paddock pd = new Paddock();
+        Paddock pd = new Paddock(N, M);
         RacingTrack rt = new RacingTrack();
-        Stable st = new Stable();
+        Stable st = new Stable(N);
 
         Broker broker;
-        broker = new Broker(K, N, ccws, st, bc);
+        broker = new Broker(K, N, ccws, st, bc, pd, rt);
 
         Spectator [] spectator = new Spectator[M];
         for (int i=0; i<M; i++)
             spectator[i] = new Spectator(ccws, pd, bc);
 
 
-
         // Simulation Start
-        for (int i=0; i<M; i++)
+        for (int i=0; i<M; i++){
             spectator[i].start();
-
-        try {
-            broker.join();
-        } catch (InterruptedException e) {
+            System.out.println("Spectator "+(i+1)+" started");
         }
 
-        System.out.println("Broker ended");
+        broker.start();
+        System.out.println("Broker started");
 
 
         /* Simulation End */
         for (int i=0; i<M; i++) {
-            while (spectator[i].isAlive()) {
-                spectator[i].interrupt();
-                Thread.yield();
-            }
+            //while (spectator[i].isAlive()) {
+            //    spectator[i].interrupt();
+            //    Thread.yield();
+            //}
             try {
                 spectator[i].join();
             } catch (InterruptedException e) {
+                System.out.println("Spectator "+i+" InterruptedException: "+e);
             }
-            System.out.println("Spectator " + i + " ended");
+            System.out.println("Spectator "+(i+1)+" ended");
         }
+
+        try {
+            broker.join();
+        } catch (InterruptedException e) {
+            System.out.println("Broker InterruptedException: "+e);
+        }
+
+        System.out.println("Broker ended");
     }
 }
