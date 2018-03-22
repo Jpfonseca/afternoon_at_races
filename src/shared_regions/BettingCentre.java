@@ -37,6 +37,7 @@ public class BettingCentre{
             } catch (InterruptedException e) {
                 System.out.println("Spectator bc.placeABet() InterruptedException: "+e);
             }
+        // TODO
 
         isBetDone = true;
         notifyAll();
@@ -45,6 +46,8 @@ public class BettingCentre{
     public boolean areThereAnyWinners(int k){
         // devolve a  existencia de winners
         // faz unlock ao Broker
+
+        // TODO
         return false;
     }
 
@@ -53,6 +56,8 @@ public class BettingCentre{
         //Muda o estado ->SETTLING_ACCOUNTS
         //bloqueia em waitForSpectactorCollectsMoney
         ((Broker) Thread.currentThread()).setBrokerState((BrokerState.SETTLING_ACCOUNTS));
+
+        // TODO
     }
 
 
@@ -62,6 +67,8 @@ public class BettingCentre{
 
         ((Spectator)Thread.currentThread()).setState((SpectatorState.PLACING_A_BET));
 
+        // TODO
+        // SPECTATOR BET
         bets++;
 
         notifyAll();
@@ -84,6 +91,9 @@ public class BettingCentre{
         //OR
         //        ->WAITING_FOR_A_RACE_TO_START(enquanto existirem corridas)
 		//	->CELEBRATING (final state)
+
+        // TODO
+
         return false;
     }
 
@@ -91,6 +101,8 @@ public class BettingCentre{
 
         // Muda o estado -> WAITING_FOR_A_RACE_TO_START(enquanto existirem corridas)
         ((Spectator) Thread.currentThread()).setState((SpectatorState.WAITING_FOR_A_RACE_TO_START));
+
+        // TODO
     }
 
 }

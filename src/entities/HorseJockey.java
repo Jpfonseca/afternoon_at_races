@@ -97,6 +97,10 @@ public class HorseJockey extends Thread{
             rt.makeAMove();
         }while(!rt.hasFinishLineBeenCrossed()); //devolve se terminou ou não. Em caso de témino devolve a posição
 
+        if(rt.hasLastHorseCrossed())
+            ccws.lastHorseCrossedLine();
+            // ULTIMO ACORDA BROKER NO CCWS
+
         st.proceedToStable2();
 
     }

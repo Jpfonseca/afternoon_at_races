@@ -1,4 +1,5 @@
 package shared_regions;
+import com.sun.xml.internal.bind.v2.TODO;
 import entities.*;
 
 /**
@@ -7,7 +8,7 @@ import entities.*;
 public class RacingTrack{
 
     private boolean waitForA=true;
-    private boolean waitForRaceToFinish=true;
+    private boolean lastHorseCrossed=true;
     /**
      *  Total HorseJockeys in RacingTrack (FIFO)
      *  @serialField queueHJ
@@ -15,8 +16,6 @@ public class RacingTrack{
     private int totalHJ=0;
 
     public synchronized void startTheRace(){
-        // MAKES SENSE ???!???!???
-
         // Mudar o estado -> SUPERVISING_THE_RACE
         // bloquear em waitForRaceToFinish
 
@@ -24,15 +23,6 @@ public class RacingTrack{
 
         waitForA=false;
         notifyAll();
-
-        while (waitForRaceToFinish)
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                System.out.println("Broker rt.startTheRace() InterruptedException: "+e);
-            }
-
-        waitForRaceToFinish=true; // variable reset
     }
 
     public synchronized void proceedToStartLine(){
@@ -70,6 +60,10 @@ public class RacingTrack{
             waitForA = false;
             notifyAll();
         }*/
+
+        // TODO
+        // MAKING MOVES
+
         try {
             Thread.sleep(10);   // Temporary makeAMove
         } catch (Exception e){
@@ -82,14 +76,21 @@ public class RacingTrack{
 
         // DID WE FORGET TO UPDATE STATE -> AT_THE_FINISH_LINE ???!???!???
 
+        // TODO
+        // VERIFY FINISH LINE CROSSED
+
         ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_FINNISH_LINE));
 
         totalHJ--;
-        waitForRaceToFinish=false;
-        if (totalHJ==0)
+        if (totalHJ==0) {
             waitForA = true; // variable reset
+
+        }
         notifyAll();
         return true;
     }
 
+    public boolean hasLastHorseCrossed() {
+        return lastHorseCrossed;
+    }
 }

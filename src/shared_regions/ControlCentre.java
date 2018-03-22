@@ -7,6 +7,7 @@ public class ControlCentre{
     private boolean waitForSpectatorEvaluation;
     private boolean waitForRaceToStart;
     private boolean waitForResults;
+    private boolean waitForRaceToFinish;
     private int currentRace;
     private int K;
     /**
@@ -21,6 +22,7 @@ public class ControlCentre{
         this.waitForSpectatorEvaluation=true;
         this.waitForRaceToStart=true;
         this.waitForResults=true;
+        this.waitForRaceToFinish=true;
 
         totalSpec=0;
     }
@@ -45,20 +47,29 @@ public class ControlCentre{
         waitForSpectatorEvaluation=true; // variable reset
     }
 
-    public void startTheRace(int k){
+    public synchronized void startTheRace(int k){
         // Mudar o estado -> SUPERVISING_THE_RACE
         // bloquear em waitForRaceToFinish
+
+        while (waitForRaceToFinish)
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                System.out.println("Broker rt.startTheRace() InterruptedException: "+e);
+            }
+
+        waitForRaceToFinish=true; // variable reset
     }
 
     public synchronized void reportResults(int k){
         // Reports results
-
         waitForResults=false;
         notifyAll();
     }
 
     public synchronized void entertainTheGuests(){
         // Waiting for childs to die
+        ((Broker)Thread.currentThread()).setBrokerState(BrokerState.PLAYING_HOST_AT_THE_BAR);
         waitForRaceToStart=true;
         currentRace++;
         notifyAll();
@@ -72,8 +83,6 @@ public class ControlCentre{
     public synchronized boolean waitForNextRace(){
         // Mudar o estado -> WAITING_FOR_A_RACE_TO_START
         // Block waitForRaceToStart (while(!raceStart && races<K-1))
-
-
 
         while(waitForRaceToStart && currentRace != K+1) {
             ((Spectator) Thread.currentThread()).setState((SpectatorState.WAITING_FOR_A_RACE_TO_START));
@@ -94,16 +103,12 @@ public class ControlCentre{
         return (currentRace <= K);
     }
 
-    public synchronized boolean goCheckHorses(){
+    public synchronized void goCheckHorses(){
         // Actualiza waitForSpectatorEvaluation
         // Acorda Broker
 
-
-        // DO WE NEED RETURN?
         waitForSpectatorEvaluation=false;
         notifyAll();
-
-        return false;
     }
 
     public synchronized void goWatchTheRace(){
@@ -124,5 +129,10 @@ public class ControlCentre{
         // muda o estado -> CELEBRATING
         // Preparar para terminar thread
         ((Spectator) Thread.currentThread()).setState((SpectatorState.CELEBRATING));
+    }
+
+    public synchronized void lastHorseCrossedLine(){
+        waitForRaceToFinish=false;
+        notifyAll();
     }
 }
