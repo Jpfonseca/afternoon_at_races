@@ -40,10 +40,12 @@ public class HorseJockey extends Thread{
     private RacingTrack rt;
 
     /**
-     * Index of HorseJockey
-     * @serialField n
+     * HorseJockey agility
+     * @serialField agility
      */
-    private int hj_number;
+    private int agility;
+
+    private double hj_number;
 
     public HorseJockeyState getHjState() {
         return hjState;
@@ -69,6 +71,7 @@ public class HorseJockey extends Thread{
         this.rt = rt;
         this.hjState=HorseJockeyState.AT_THE_STABLE;
         this.race_number=race_number;
+        this.agility = (int)(Math.random()*20+1);
         /*
         each horse / jockey Cnk, with n = 0, 1, ... , N-1 and k = 0, 1, ... , K-1 carries out a single position
         increment per iteration by moving randomly 1 to Pnk length units along its path – the maximum
@@ -97,7 +100,15 @@ public class HorseJockey extends Thread{
             rt.makeAMove();
         }while(!rt.hasFinishLineBeenCrossed()); //devolve se terminou ou não. Em caso de témino devolve a posição
 
+        if(rt.hasLastHorseCrossed())
+            ccws.lastHorseCrossedLine();
+            // ULTIMO ACORDA BROKER NO CCWS
+
         st.proceedToStable2();
 
+    }
+
+    public int getAgility() {
+        return agility;
     }
 }
