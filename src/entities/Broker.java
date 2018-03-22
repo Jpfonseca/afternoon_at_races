@@ -78,36 +78,41 @@ public class Broker extends Thread{
         //k is the current race
         //N competitors per race
 
-        for(int k=0;k<K;k++) {
-            System.out.println("Race "+k+" Start");
-
+        for(int k=1;k<=K;k++) {
             // HorseJockey Instantiation and start
             for (int j = 0; j < N; j++) {
                 horseJockeys[j] = new HorseJockey(k, j, ccws, st, pd, rt);
                 horseJockeys[j].start();
-                System.out.println("HorseJockey " + j + " started");
+                System.out.println("HorseJockey "+(j+1)+" started");
             }
 
+            System.out.println("Race "+k+" Start");
+
             st.summonHorsesToPaddock(k); // primeira parte é invocada no stable a segunda no ccws
+//System.out.println("B-1");
             ccws.summonHorsesToPaddock(k);
+//System.out.println("B-2");
             bc.acceptTheBets(k);
+//System.out.println("B-3");
             ccws.startTheRace(k);
+//System.out.println("B-4");
+            rt.startTheRace(); // TO CHECK IF MAKES SENSE
+//System.out.println("B-5");
             ccws.reportResults(k);
+//System.out.println("B-6");
             if (bc.areThereAnyWinners(k))
                 bc.honourTheBets(k);
 
+            System.out.println("Race "+k+" End");
+
             // Wait for HorseJockey threads to finish
             for (int j = 0; j < N; j++) {
-                while (horseJockeys[j].isAlive()) {
-                    horseJockeys[j].interrupt();
-                    Thread.yield();
-                }
                 try {
                     horseJockeys[j].join();
                 } catch (InterruptedException e) {
                     System.out.println("HorseJockey "+j+" InterruptedException: "+e);
                 }
-                System.out.println("HorseJockey " + j + " ended");
+                System.out.println("HorseJockey "+(j+1)+" ended");
             }
         }
 
