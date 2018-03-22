@@ -26,7 +26,7 @@ public class Simulator{
         ControlCentre ccws = new ControlCentre(K);
         GeneralInformationRepository repo = new GeneralInformationRepository();
         Paddock pd = new Paddock(N, M);
-        RacingTrack rt = new RacingTrack();
+        RacingTrack rt = new RacingTrack(K);
         Stable st = new Stable(N);
 
         Broker broker;

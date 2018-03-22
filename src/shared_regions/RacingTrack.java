@@ -14,6 +14,13 @@ public class RacingTrack{
      *  @serialField queueHJ
      */
     private int totalHJ=0;
+    private int[] D;
+
+    public RacingTrack(int K) {
+        this.D = new int[K];
+        for (int i=0; i<K; i++)
+            D[i] = (int)(Math.random()*50+50);
+    }
 
     public synchronized void startTheRace(){
         // Mudar o estado -> SUPERVISING_THE_RACE
