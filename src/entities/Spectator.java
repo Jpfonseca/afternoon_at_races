@@ -3,7 +3,6 @@ package entities;
 import shared_regions.BettingCentre;
 import shared_regions.ControlCentre;
 import shared_regions.Paddock;
-import entities.SpectatorState;
 /**
  * Spectator Entity
  */
@@ -48,6 +47,7 @@ public class Spectator extends Thread{
         boolean last;
 
         while(ccws.waitForNextRace()){
+
             last = pd.goCheckHorses1();     // Este método verifica o último.
             if (last)
                 ccws.goCheckHorses();    // Acorda o Broker , que dá inicio à corrida
@@ -58,6 +58,7 @@ public class Spectator extends Thread{
             if(bc.haveIWon())
                 bc.goCollectTheGains();
         }
+
         ccws.relaxABit();
     }
     /**
@@ -75,7 +76,7 @@ public class Spectator extends Thread{
      *
      * @return return Current Spectator State
      */
-    public SpectatorState getBrokerState(){
+    public SpectatorState getSpectatorState(){
         return this.state;
     }
 }

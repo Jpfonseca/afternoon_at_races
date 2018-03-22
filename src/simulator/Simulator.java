@@ -22,12 +22,12 @@ public class Simulator{
         int N = 4; // N competitors per race
         int M = 4; // M Spectators
 
-        BettingCentre bc = new BettingCentre();
-        ControlCentre ccws = new ControlCentre();
+        BettingCentre bc = new BettingCentre(M);
+        ControlCentre ccws = new ControlCentre(K);
         GeneralInformationRepository repo = new GeneralInformationRepository();
-        Paddock pd = new Paddock();
+        Paddock pd = new Paddock(N, M);
         RacingTrack rt = new RacingTrack();
-        Stable st = new Stable();
+        Stable st = new Stable(N);
 
         Broker broker;
         broker = new Broker(K, N, ccws, st, bc, pd, rt);
@@ -40,7 +40,7 @@ public class Simulator{
         // Simulation Start
         for (int i=0; i<M; i++){
             spectator[i].start();
-            System.out.println("Spectator "+i+" started");
+            System.out.println("Spectator "+(i+1)+" started");
         }
 
         broker.start();
@@ -49,16 +49,16 @@ public class Simulator{
 
         /* Simulation End */
         for (int i=0; i<M; i++) {
-            while (spectator[i].isAlive()) {
-                spectator[i].interrupt();
-                Thread.yield();
-            }
+            //while (spectator[i].isAlive()) {
+            //    spectator[i].interrupt();
+            //    Thread.yield();
+            //}
             try {
                 spectator[i].join();
             } catch (InterruptedException e) {
                 System.out.println("Spectator "+i+" InterruptedException: "+e);
             }
-            System.out.println("Spectator "+i+" ended");
+            System.out.println("Spectator "+(i+1)+" ended");
         }
 
         try {
