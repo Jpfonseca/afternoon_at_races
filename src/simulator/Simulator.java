@@ -21,8 +21,8 @@ public class Simulator{
         int K = 5; // K races
         int N = 4; // N competitors per race
         int M = 4; // M Spectators
-
-        BettingCentre bc = new BettingCentre(M);
+        int maxBet=100;
+        BettingCentre bc = new BettingCentre(M,maxBet);
         ControlCentre ccws = new ControlCentre(K);
         GeneralInformationRepository repo = new GeneralInformationRepository();
         Paddock pd = new Paddock(N, M);
@@ -34,7 +34,7 @@ public class Simulator{
 
         Spectator [] spectator = new Spectator[M];
         for (int i=0; i<M; i++)
-            spectator[i] = new Spectator(ccws, pd, bc);
+            spectator[i] = new Spectator(i,ccws, pd, bc);
 
 
         // Simulation Start

@@ -48,6 +48,8 @@ public class Broker extends Thread{
 
     private HorseJockey[] horseJockeys;
 
+    private int [] agility;
+
     /**
      * Broker Constructor
      * @param K Total races
@@ -65,7 +67,8 @@ public class Broker extends Thread{
         this.rt = rt;
         this.state=BrokerState.OPENING_THE_EVENT; // set current Broker state to the initial state
 
-        horseJockeys = new HorseJockey[N];
+        this.horseJockeys = new HorseJockey[N];
+        this.agility= new int[N];
     }
 
     /**
@@ -83,14 +86,16 @@ public class Broker extends Thread{
             for (int j = 0; j < N; j++) {
                 horseJockeys[j] = new HorseJockey(k, j, ccws, st, pd, rt);
                 horseJockeys[j].start();
+                agility[j]=horseJockeys[j].getAgility();
                 System.out.println("HorseJockey "+(j+1)+" started");
+
             }
 
             System.out.println("Race "+k+" Start");
 
             st.summonHorsesToPaddock(k); // primeira parte é invocada no stable a segunda no ccws
             ccws.summonHorsesToPaddock(k);
-            bc.acceptTheBets(k);
+            bc.acceptTheBets(k,agility);
 
             rt.startTheRace(k);
             ccws.startTheRace(k);

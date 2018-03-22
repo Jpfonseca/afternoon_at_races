@@ -26,13 +26,18 @@ public class Spectator extends Thread{
      */
     private BettingCentre bc;
 
+
+
+    private int specId;
+
     /**
      * Spectator constructor
      * @param ccws Control Centre & Watching Stand - Shared Region
      * @param pd Paddock - Shared Region
      * @param bc Betting Centre - Shared Region
      */
-    public Spectator(ControlCentre ccws, Paddock pd, BettingCentre bc) {
+    public Spectator(int specId,ControlCentre ccws, Paddock pd, BettingCentre bc) {
+        this.specId=specId;
         this.ccws = ccws;
         this.pd = pd;
         this.bc = bc;
@@ -44,6 +49,7 @@ public class Spectator extends Thread{
      */
     @Override
     public void run(){
+
         boolean last;
 
         while(ccws.waitForNextRace()){
@@ -78,5 +84,10 @@ public class Spectator extends Thread{
      */
     public SpectatorState getSpectatorState(){
         return this.state;
+    }
+
+
+    public int getspecId() {
+        return specId;
     }
 }
