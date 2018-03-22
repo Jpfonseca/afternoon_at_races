@@ -1,9 +1,6 @@
 package shared_regions;
 
-import entities.Broker;
-import entities.BrokerState;
-import entities.Spectator;
-import entities.SpectatorState;
+import entities.*;
 
 /**
  * This class specifies the Place where the spectators will make the bets.
@@ -17,19 +14,26 @@ public class BettingCentre{
     private int bets;
     private boolean isBetDone=false;
     private int totalSpectators;
+    private int maxBet;
+    private int [] agility;
+    private BetAmount[] betAmounts;
 
-    public BettingCentre(int M) {
+    public BettingCentre(int M, int maxBet) {
         this.totalSpectators = M;
+        this.maxBet=maxBet;
+        this.betAmounts=new BetAmount[totalSpectators];
     }
 
     /**
      *
-     * @param betAmount it should be an integer and it will range from 0 to Max_bet_value
+     * @param race_number Current race number
+     * @param agility Ids of the horses running in the race
      */
-    public synchronized void acceptTheBets(int betAmount){
+    public synchronized void acceptTheBets(int race_number,int [] agility){
         // DID WE FORGET TO UPDATE STATE -> WAITING_FOR_BETS ???!???!???
-
         ((Broker)Thread.currentThread()).setBrokerState((BrokerState.WAITING_FOR_BETS));
+        this.agility=new int[agility.length];
+        this.agility=agility;
 
         while (bets < totalSpectators)
             try {
@@ -62,16 +66,35 @@ public class BettingCentre{
 
 
     public synchronized void placeABet(){
+        System.out.print("PlaceABet\n");
         //Muda o  estado -> PLACING_A_BET
         //bloqueia em isBetDone (espera pelo acceptbets do broker cada bet é unica)
 
-        ((Spectator)Thread.currentThread()).setState((SpectatorState.PLACING_A_BET));
+        Spectator spec =((Spectator)Thread.currentThread());
+        spec.setState((SpectatorState.PLACING_A_BET));
 
         // TODO
         // SPECTATOR BET
-        bets++;
+        int temp,bet,spec_id,totalAgility=0;
+        spec_id=spec.getspecId();
 
+        temp=(int)(Math.random()*agility.length);
+        System.out.print("spec_id:"+spec_id+"\n");
+        System.out.print("BetAmounts: "+betAmounts.length+"\n");
+        betAmounts[spec_id]=new BetAmount();
+        betAmounts[spec_id].horse_id=temp;
+
+        for (int i=0; i<agility.length;i++){
+            totalAgility+=agility[i];
+        }
+
+        bet=betAmounts[spec_id].bet= ((agility[temp]*maxBet)/totalAgility);
+        betAmounts[spec_id].spectator_id=spec_id;
+
+        bets++;
+        System.out.print("Spectator: " + spec.getspecId()+ " betted [{horse:"+temp+"},{bet:"+bet+"}]\n");
         notifyAll();
+
 
         while (!isBetDone)
             try {
@@ -83,6 +106,7 @@ public class BettingCentre{
         bets--; // reset the variable
         if (bets==0)
             isBetDone=false; // variable reset
+
     }
 
 
@@ -104,5 +128,4 @@ public class BettingCentre{
 
         // TODO
     }
-
 }
