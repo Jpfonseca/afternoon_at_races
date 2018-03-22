@@ -45,7 +45,7 @@ public class HorseJockey extends Thread{
      */
     private int agility;
 
-    private double hj_number;
+    private int hj_number;
 
     public HorseJockeyState getHjState() {
         return hjState;
@@ -94,10 +94,10 @@ public class HorseJockey extends Thread{
             ccws.proceedToPaddock();    // Acorda spectator que está no ccws a espera de ser acordado
         pd.proceedToPaddock2();   //envia para o paddock
 
-        rt.proceedToStartLine();
+        rt.proceedToStartLine(hj_number);
 
         do{
-            rt.makeAMove();
+            rt.makeAMove(hj_number);
         }while(!rt.hasFinishLineBeenCrossed()); //devolve se terminou ou não. Em caso de témino devolve a posição
 
         if(rt.hasLastHorseCrossed())
