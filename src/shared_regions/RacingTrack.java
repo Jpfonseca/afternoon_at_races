@@ -9,6 +9,7 @@ public class RacingTrack{
 
     private boolean waitForA=true;
     private boolean lastHorseCrossed=true;
+    private int currentRace;
     /**
      *  Total HorseJockeys in RacingTrack (FIFO)
      *  @serialField queueHJ
@@ -17,16 +18,20 @@ public class RacingTrack{
     private int[] D;
 
     public RacingTrack(int K) {
+        this.currentRace = 0;
         this.D = new int[K];
+
         for (int i=0; i<K; i++)
             D[i] = (int)(Math.random()*50+50);
     }
 
-    public synchronized void startTheRace(){
+    public synchronized void startTheRace(int k){
         // Mudar o estado -> SUPERVISING_THE_RACE
         // bloquear em waitForRaceToFinish
 
         ((Broker)Thread.currentThread()).setBrokerState((BrokerState.SUPERVISING_THE_RACE));
+
+        this.currentRace = k;
 
         waitForA=false;
         notifyAll();

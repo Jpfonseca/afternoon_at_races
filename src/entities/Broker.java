@@ -92,7 +92,7 @@ public class Broker extends Thread{
             ccws.summonHorsesToPaddock(k);
             bc.acceptTheBets(k);
 
-            rt.startTheRace();
+            rt.startTheRace(k);
             ccws.startTheRace(k);
 
             ccws.reportResults(k);
