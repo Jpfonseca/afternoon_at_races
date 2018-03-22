@@ -123,5 +123,6 @@ public class ControlCentre{
     public void relaxABit(){
         // muda o estado -> CELEBRATING
         // Preparar para terminar thread
+        ((Spectator) Thread.currentThread()).setState((SpectatorState.CELEBRATING));
     }
 }

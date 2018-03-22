@@ -52,6 +52,7 @@ public class BettingCentre{
     public void honourTheBets(int k){
         //Muda o estado ->SETTLING_ACCOUNTS
         //bloqueia em waitForSpectactorCollectsMoney
+        ((Broker) Thread.currentThread()).setBrokerState((BrokerState.SETTLING_ACCOUNTS));
     }
 
 
@@ -89,6 +90,7 @@ public class BettingCentre{
     public void goCollectTheGains(){
 
         // Muda o estado -> WAITING_FOR_A_RACE_TO_START(enquanto existirem corridas)
+        ((Spectator) Thread.currentThread()).setState((SpectatorState.WAITING_FOR_A_RACE_TO_START));
     }
 
 }

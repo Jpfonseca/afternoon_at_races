@@ -12,7 +12,7 @@ public class RacingTrack{
      *  Total HorseJockeys in RacingTrack (FIFO)
      *  @serialField queueHJ
      */
-    private int queueHJ=0;
+    private int totalHJ=0;
 
     public synchronized void startTheRace(){
         // MAKES SENSE ???!???!???
@@ -45,7 +45,7 @@ public class RacingTrack{
 
         ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_START_LINE));
 
-        queueHJ++;
+        totalHJ++;
 
         while (waitForA)
             try {
@@ -84,9 +84,9 @@ public class RacingTrack{
 
         ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_FINNISH_LINE));
 
-        queueHJ--;
+        totalHJ--;
         waitForRaceToFinish=false;
-        if (queueHJ==0)
+        if (totalHJ==0)
             waitForA = true; // variable reset
         notifyAll();
         return true;

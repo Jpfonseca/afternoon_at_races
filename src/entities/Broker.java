@@ -89,17 +89,11 @@ public class Broker extends Thread{
             System.out.println("Race "+k+" Start");
 
             st.summonHorsesToPaddock(k); // primeira parte é invocada no stable a segunda no ccws
-//System.out.println("B-1");
             ccws.summonHorsesToPaddock(k);
-//System.out.println("B-2");
             bc.acceptTheBets(k);
-//System.out.println("B-3");
             ccws.startTheRace(k);
-//System.out.println("B-4");
             rt.startTheRace(); // TO CHECK IF MAKES SENSE
-//System.out.println("B-5");
             ccws.reportResults(k);
-//System.out.println("B-6");
             if (bc.areThereAnyWinners(k))
                 bc.honourTheBets(k);
 

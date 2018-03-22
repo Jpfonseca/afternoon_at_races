@@ -10,12 +10,12 @@ public class Paddock{
      *  Total HorseJockeys in paddock (FIFO)
      *  @serialField queueHJ
      */
-    private int queueHJ=0;
+    private int totalHJ=0;
     /**
      *  Total Spectators in paddock (FIFO)
      *  @serialField queueSpec
      */
-    private int queueSpec=0;
+    private int totalSpec=0;
     /**
      * Total competitors per race
      * @serialField N
@@ -40,9 +40,9 @@ public class Paddock{
      * */
     public synchronized boolean proceedToPaddock1(){
         //check if it’s the last horse
-        queueHJ++;
+        totalHJ++;
 
-        return (queueHJ == N);
+        return (totalHJ == N);
     }
     public synchronized void proceedToPaddock2(){
         //Muda de estado ->AT_THE_PADDOCK
@@ -60,12 +60,12 @@ public class Paddock{
                 System.out.println("HorseJockey pd.proceedToPaddock2() InterruptedException: "+e);
             }
 
-        queueHJ++;
+        totalHJ++;
 
-        if (queueHJ==N*2) {
+        if (totalHJ==N*2) {
             waitForLastHJ = false;
             waitBeingChecked=true; // variable reset
-            queueHJ=0;
+            totalHJ=0;
             notifyAll();
         }
     }
@@ -76,9 +76,9 @@ public class Paddock{
 
     public synchronized boolean goCheckHorses1(){
         //checks if the (horse)SPECTATOR is the last to enter the paddock
-        queueSpec++;
+        totalSpec++;
 
-        return (queueSpec == M);
+        return (totalSpec == M);
     }
 
     public synchronized void goCheckHorses2(boolean last){
@@ -104,8 +104,8 @@ public class Paddock{
             }
         }
 
-        queueSpec--;
-        if (queueSpec==0)
+        totalSpec--;
+        if (totalSpec==0)
             waitForLastHJ=true; // variable reset
     }
 
