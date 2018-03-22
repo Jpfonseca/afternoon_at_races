@@ -13,7 +13,7 @@ public class ControlCentre{
      *  Total Spectators in paddock (FIFO)
      *  @serialField queueSpec
      */
-    private int queueSpec;
+    private int totalSpec;
 
     public ControlCentre(int K) {
         this.K = K;
@@ -22,7 +22,7 @@ public class ControlCentre{
         this.waitForRaceToStart=true;
         this.waitForResults=true;
 
-        queueSpec=0;
+        totalSpec=0;
     }
 
     public synchronized void summonHorsesToPaddock(int k){
@@ -85,10 +85,10 @@ public class ControlCentre{
             }
         }
 
-        queueSpec++;
-        if (queueSpec==4) {
+        totalSpec++;
+        if (totalSpec==4) {
             this.waitForRaceToStart = true; // variable reset
-            queueSpec = 0;
+            totalSpec = 0;
         }
 
         return (currentRace <= K);
