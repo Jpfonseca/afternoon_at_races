@@ -43,7 +43,9 @@ public class HorseJockey extends Thread{
      * Index of HorseJockey
      * @serialField n
      */
-    private int hj_number;
+    private double agility;
+
+    private double hj_number;
 
     public HorseJockeyState getHjState() {
         return hjState;
@@ -69,6 +71,7 @@ public class HorseJockey extends Thread{
         this.rt = rt;
         this.hjState=HorseJockeyState.AT_THE_STABLE;
         this.race_number=race_number;
+        this.agility = Math.random()*100;
         /*
         each horse / jockey Cnk, with n = 0, 1, ... , N-1 and k = 0, 1, ... , K-1 carries out a single position
         increment per iteration by moving randomly 1 to Pnk length units along its path – the maximum
@@ -103,5 +106,9 @@ public class HorseJockey extends Thread{
 
         st.proceedToStable2();
 
+    }
+
+    public double getAgility() {
+        return agility;
     }
 }
