@@ -1,9 +1,6 @@
 package entities;
 
-import shared_regions.ControlCentre;
-import shared_regions.Stable;
-import shared_regions.BettingCentre;
-import entities.BrokerState;
+import shared_regions.*;
 
 /**
  * Broker Entity
@@ -29,6 +26,16 @@ public class Broker extends Thread{
      */
     private BettingCentre bc;
     /**
+     * Paddock - Shared Region
+     * @serialField pd
+     */
+    private Paddock pd;
+    /**
+     * Racing Track- Shared Region
+     * @serialField rt
+     */
+    private RacingTrack rt;
+    /**
      * Total races
      * @serialField K
      */
@@ -39,6 +46,8 @@ public class Broker extends Thread{
      */
     private int N;
 
+    private HorseJockey[] horseJockeys;
+
     /**
      * Broker Constructor
      * @param K Total races
@@ -46,12 +55,17 @@ public class Broker extends Thread{
      * @param st Stable - Shared Region
      * @param bc Betting Centre - Shared Region
      */
-    public Broker(int K, int N, ControlCentre ccws, Stable st, BettingCentre bc) {
+    public Broker(int K, int N, ControlCentre ccws, Stable st, BettingCentre bc, Paddock pd, RacingTrack rt) {
         this.K = K;
+        this.N = N;
         this.ccws = ccws;
         this.st = st;
         this.bc = bc;
+        this.pd = pd;
+        this.rt = rt;
         this.state=BrokerState.OPENING_THE_EVENT; // set current Broker state to the initial state
+
+        horseJockeys = new HorseJockey[N];
     }
 
     /**
@@ -64,15 +78,38 @@ public class Broker extends Thread{
         //k is the current race
         //N competitors per race
 
-        for(int k=0;k<K;k++){
+        for(int k=1;k<=K;k++) {
+            // HorseJockey Instantiation and start
+            for (int j = 0; j < N; j++) {
+                horseJockeys[j] = new HorseJockey(k, j, ccws, st, pd, rt);
+                horseJockeys[j].start();
+                System.out.println("HorseJockey "+(j+1)+" started");
+            }
+
+            System.out.println("Race "+k+" Start");
+
             st.summonHorsesToPaddock(k); // primeira parte é invocada no stable a segunda no ccws
             ccws.summonHorsesToPaddock(k);
             bc.acceptTheBets(k);
             ccws.startTheRace(k);
+            rt.startTheRace(); // TO CHECK IF MAKES SENSE
             ccws.reportResults(k);
-            if(bc.areThereAnyWinners(k))
+            if (bc.areThereAnyWinners(k))
                 bc.honourTheBets(k);
+
+            System.out.println("Race "+k+" End");
+
+            // Wait for HorseJockey threads to finish
+            for (int j = 0; j < N; j++) {
+                try {
+                    horseJockeys[j].join();
+                } catch (InterruptedException e) {
+                    System.out.println("HorseJockey "+j+" InterruptedException: "+e);
+                }
+                System.out.println("HorseJockey "+(j+1)+" ended");
+            }
         }
+
         ccws.entertainTheGuests();
     }
 
