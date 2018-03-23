@@ -18,16 +18,21 @@ public class RacingTrack{
     private int[] D;
     private int[] HJPos;
 
+    private Winners[] winners;
+
     public RacingTrack(int K) {
         this.currentRace = 0;
         this.D = new int[K];
         this.fifo = new int[4];
         this.HJPos = new int[4];
+        this.winners = new Winners[4];
 
         for (int i=0; i<K; i++)
             D[i] = (int) (Math.random() * 50 + 50);
-        for (int i=0; i<4; i++)
+        for (int i=0; i<4; i++) {
             HJPos[i] = 0;
+            winners[i]=new Winners();
+        }
     }
 
     public synchronized void startTheRace(int k){
@@ -99,25 +104,19 @@ System.out.println("Cavalo:" +hj_number+" Posição:"+HJPos[hj_number]);
                 System.out.println("HorseJockey rt.makeAMove() Exception: "+e);
             }
 
-        try {
-            Thread.sleep(10);   // Temporary makeAMove
-        } catch (Exception e){
-            System.out.println("HorseJockey rt.makeAMove() Exception: "+e);
-        }
+
     }
 
     public synchronized boolean hasFinishLineBeenCrossed(){
-        // Verify line crossed
-
-        // DID WE FORGET TO UPDATE STATE -> AT_THE_FINISH_LINE ???!???!???
-
-        // TODO
-        // VERIFY FINISH LINE CROSSED
 
         if (HJPos[fifo[0]] < D[currentRace-1])
             return false;
 
         ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_FINNISH_LINE));
+
+        winners[fifo[0]].position=HJPos[fifo[0]];
+        // TODO - Make iterations
+        winners[fifo[0]].iteration=0;
 
         if (fifo.length>1) {
             int[] temp = new int[fifo.length-1];
