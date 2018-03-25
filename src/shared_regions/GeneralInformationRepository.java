@@ -12,30 +12,92 @@ import genclass.GenericIO;
 public class GeneralInformationRepository{
     /**
      * Name of LogFile
-     * @serialField logName
+     * @serial logName
      */
     private String logName;
     /**
      * TextFile object to append text
-     * @serialField log
+     * @serial log
      */
     private TextFile log;
-
+    /**
+     * Broker current State
+     * @serial brokerState
+     */
     private BrokerState brokerState;
+    /**
+     * Spectators current states
+     * @serial spectatorState
+     */
     private SpectatorState[] spectatorState;
+    /**
+     * Spectators current amount of Money
+     * @serial spectatorMoney
+     */
     private int[] spectatorMoney;
+    /**
+     * Current race number
+     * @serial raceNumber
+     */
     private int raceNumber;
+    /**
+     * Every race's total track distance
+     * @serial D
+     */
     private int[] D;
+    /**
+     * Every spectator's Bet
+     * @serial bet
+     */
     private BetAmount[] bet;
+    /**
+     * Every HorseJockey's pair odds
+     * @serial odd
+     */
     private int[] odd;
+    /**
+     * Every HorseJockey's current iterationStep in the current race
+     * @serial iterationStep
+     */
     private int[] iterationStep;
+    /**
+     * Every HorseJockey's current position in racing track in the current race
+     * @serial currentPos
+     */
     private int[] currentPos;
+    /**
+     * Every HorseJockey's standing position after finish line cross in the current race
+     * @serial standingPos
+     */
     private int[] standingPos;
+    /**
+     * Every HorseJockey's current state
+     * @serial horseJockeyState
+     */
     private HorseJockeyState[] horseJockeyState;
+    /**
+     * Every HorseJockey's pair agility
+     * @serial hjAgility
+     */
     private int[] hjAgility;
+    /**
+     * Total amount of HorseJockeys
+     * @serial N
+     */
     private int N;
+    /**
+     * Total amount of Spectators
+     * @serial M
+     */
     private int M;
 
+    /**
+     * This entity will provide all the information about the current aspects of the program
+     * @param logName name of the log
+     * @param K distance of the race
+     * @param N Amount of Horses/Jockey pairs
+     * @param M Amount of Spectators
+     */
     public GeneralInformationRepository(String logName, int K, int N, int M) {
         log = new TextFile();
 
@@ -74,6 +136,9 @@ public class GeneralInformationRepository{
         reportInitial();
     }
 
+    /**
+     * This Method presents the Log Title
+     */
     private void reportInitial(){
 /*
          AFTERNOON AT THE RACE TRACK - Description of the internal state of the problem
@@ -121,6 +186,9 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
         //reportStatus();
     }
 
+    /**
+     * This method is used to print a pair of Log Lines into a file containing the current snapshot of the current simulation status
+     */
     public synchronized void reportStatus(){
 /*
          AFTERNOON AT THE RACE TRACK - Description of the internal state of the problem
@@ -318,65 +386,131 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
         }
     }
 
+    /**
+     * Used to set the Broker state
+     * @param brokerState Broker state
+     */
     public synchronized void setBrokerState(BrokerState brokerState) {
         this.brokerState = brokerState;
         reportStatus();
     }
 
+    /**
+     * Used to set the Spectator State
+     * @param state state to set
+     * @param index index of the Spectator
+     */
     public synchronized void setSpectatorState(SpectatorState state, int index) {
         this.spectatorState[index] = state;
         reportStatus();
     }
 
+    /**
+     * Used to set the Spectator amount of money in the wallet
+     * @param money amount of money
+     * @param index index of Spectator
+     */
     public synchronized void setSpectatorMoney(int money, int index) {
         this.spectatorMoney[index] = money;
     }
 
+    /**
+     * Used to set the current race number
+     * @param raceNumber race number
+     */
     public synchronized void setRaceNumber(int raceNumber) {
         this.raceNumber = raceNumber;
         //reportStatus();
     }
 
+    /**
+     * Used to set the HorseJockey state
+     * @param state state to set
+     * @param index HorseJockey's index
+     */
     public synchronized void setHorseJockeyState(HorseJockeyState state, int index) {
         this.horseJockeyState[index] = state;
         reportStatus();
     }
 
+    /**
+     * Used to set the HorseJockey agility
+     * @param agility magility to set
+     * @param index HorseJockey's index
+     */
     public synchronized void setHorseJockeyAgility(int agility, int index) {
         this.hjAgility[index] = agility;
     }
 
+    /**
+     * Used to set all the track distances
+     * @param d distance
+     */
     public synchronized void setTrackDistance(int[] d) {
         D = d;
     }
 
+    /**
+     * Used to set the spectators bets
+     * @param spectatorIndex Spectator's index
+     * @param betSelection bet selection index
+     * @param betAmount bet amount
+     */
     public synchronized void setSpectatorBet(int spectatorIndex, int betSelection, int betAmount) {
         this.bet[spectatorIndex].horse_id = betSelection;
         this.bet[spectatorIndex].bet = betAmount;
         //reportStatus();
     }
 
+    /**
+     * Used to the HorseJockey odd
+     * @param horse HorseJockey index
+     * @param odd odd
+     */
     public synchronized void setOdd(int horse, int odd) {
         this.odd[horse] = odd;
     }
 
+    /**
+     * Used to set the iteration step
+     * @param horse HorseJockey index
+     * @param iterationStep iteration number
+     */
     public synchronized void setIterationStep(int horse, int iterationStep) {
         this.iterationStep[horse] = iterationStep;
     }
 
+    /**
+     * Used to set the current HorseJockey position in the race
+     * @param horse HorseJockey index
+     * @param position position
+     */
     public void setCurrentPos(int horse, int position) {
         this.currentPos[horse] = position;
         //reportStatus();
     }
 
+    /**
+     * Used to set the current HorseJockey position to null
+     * @param horse HorseJockey index
+     */
     public synchronized void setCurrentPosNull(int horse) {
         this.currentPos[horse] = -1;
     }
 
+    /**
+     * Used to set the current HorseJockey position to zero
+     * @param horse HorseJockey index
+     */
     public synchronized void setCurrentPosZero(int horse) {
         this.currentPos[horse] = 0;
     }
 
+    /**
+     * Used to set the current HorseJockey standing position
+     * @param horse HorseJockey index
+     * @param standing standing position
+     */
     public synchronized void setStandingPos(int horse, int standing) {
         this.standingPos[horse] = standing;
     }

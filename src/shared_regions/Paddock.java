@@ -6,31 +6,48 @@ import entities.*;
  */
 public class Paddock{
 
+    /**
+     * General Repository
+     * @serial repo
+     */
     private GeneralInformationRepository repo;
     /**
      *  Total HorseJockeys in paddock (FIFO)
-     *  @serialField queueHJ
+     *  @serial queueHJ
      */
     private int totalHJ=0;
     /**
      *  Total Spectators in paddock (FIFO)
-     *  @serialField queueSpec
+     *  @serial queueSpec
      */
     private int totalSpec=0;
     /**
      * Total competitors per race
-     * @serialField N
+     * @serial N
      */
     private int N;
     /**
      * Total Spectators
-     * @serialField M
+     * @serial M
      */
     private int M;
-
+    /**
+     * Condition Statement to know when HorseJockeys will proceed to the start line
+     * @serial waitBeingChecked
+     */
     private boolean waitBeingChecked=true;
+    /**
+     * Condition Statement to know when the last HorseJockey has left the Paddock
+     * @serial waitForLastHJ
+     */
     private boolean waitForLastHJ=true;
 
+    /**
+     * Paddock Constructor
+     * @param N Number of HorseJockeys
+     * @param M Number of Spectators
+     * @param repo General Repository
+     */
     public Paddock(int N, int M, GeneralInformationRepository repo) {
         this.N = N;
         this.M = M;
@@ -38,7 +55,8 @@ public class Paddock{
     }
 
     /**
-     * Horse_Jockey
+     * Method used for HorseJockey to know if he is the last one to proceed to paddock
+     * @return <b>true</b> if he is the last or <b>false</b>, if he is not.
      * */
     public synchronized boolean proceedToPaddock1(){
         //check if it’s the last horse
@@ -46,6 +64,10 @@ public class Paddock{
 
         return (totalHJ == N);
     }
+
+    /**
+     * Method used for HorseJockey to wait in the Paddock
+     * */
     public synchronized void proceedToPaddock2(){
 
         while(waitBeingChecked)
@@ -65,8 +87,9 @@ public class Paddock{
         }
     }
 
-    /**Spectator
-     *
+    /**
+     * Method used by the Spectator to know if he is the last one to appraise the horses in the Paddock
+     * @return <b>true</b> if he is the last or <b>false</b>, if he is not.
      */
 
     public synchronized boolean goCheckHorses1(){
@@ -76,10 +99,14 @@ public class Paddock{
         return (totalSpec == M);
     }
 
+    /**
+     * Method used by the Spectator to wait while appraising the horses in the Paddock
+     * @param last last Spectator
+     */
     public synchronized void goCheckHorses2(boolean last){
 
         ((Spectator)Thread.currentThread()).setState((SpectatorState.APPRAISING_THE_HORSES));
-        repo.setSpectatorState(SpectatorState.WATCHING_A_RACE,((Spectator)Thread.currentThread()).getspecId());
+        repo.setSpectatorState(SpectatorState.WATCHING_A_RACE,((Spectator)Thread.currentThread()).getSpecId());
 
         if (last) {
             waitBeingChecked = false;

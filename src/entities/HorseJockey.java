@@ -3,50 +3,54 @@ package entities;
 import shared_regions.*;
 
 /**
- * HorseJockey entity
+ * HorseJockey entity.<br>
+ * The horse Jockey entity is the entity responsible for the horse life cycle.
  */
 public class HorseJockey extends Thread{
+
     /**
      * Current Horse Jockey State
      */
     private HorseJockeyState hjState;
-
     /**
-     * Control Centre & Watching Stand - Shared Region
-     * @serialField ccws
+     * Control Centre and Watching Stand - Shared Region
+     * @serial ccws
      */
     private ControlCentre ccws;
     /**
      * Stable - Shared Region
-     * @serialField st
+     * @serial st
      */
     private Stable st;
     /**
      * Paddock - Shared Region
-     * @serialField pd
+     * @serial pd
      */
     private Paddock pd;
     /**
      * Racing Track- Shared Region
-     * @serialField rt
+     * @serial rt
      */
     private RacingTrack rt;
-
     /**
      * HorseJockey agility
-     * @serialField agility
+     * @serial agility
      */
     private int agility;
-
+    /**
+     * Index of the current HorseJockey
+     * @serial hj_number
+     */
     private int hj_number;
 
     /**
      * HorseJockey Constructor
      * @param hj_number HorseJockey index
-     * @param ccws Control Centre & Watching Stand - Shared Region
+     * @param ccws Control Centre and Watching Stand - Shared Region
      * @param st Stable - Shared Region
      * @param pd Paddock - Shared Region
      * @param rt Racing Track- Shared Region
+     * @param repo General Repository
      */
     public HorseJockey(int hj_number, ControlCentre ccws, Stable st, Paddock pd, RacingTrack rt, GeneralInformationRepository repo) {
         this.hj_number = hj_number;
@@ -92,14 +96,26 @@ public class HorseJockey extends Thread{
         st.proceedToStable2();
     }
 
+    /**
+     * This method will be responsible for returning the agility of the horse
+     * @return agility Agility
+     */
     public int getAgility() {
         return agility;
     }
 
+    /**
+     * This method will return the horse jockey index number.
+     * @return hj_number Index number
+     */
     public synchronized int getHj_number() {
         return hj_number;
     }
 
+    /**
+     * This method changes the current HorseJockey state
+     * @param hjState State
+     */
     public void setHjState(HorseJockeyState hjState) {
         this.hjState = hjState;
     }

@@ -4,58 +4,79 @@ import shared_regions.*;
 
 /**
  * Broker Entity
+ * This Entity manages the simulation, and launches Horses/Jockey
  */
 
 public class Broker extends Thread{
 
+    /**
+     * General Repository
+     * @serial repo
+     */
     private GeneralInformationRepository repo;
+    /**
+     * Broker current State
+     * @serial state
+     */
     private BrokerState state;
     /**
-     * Control Centre & Watching Stand - Shared Region
-     * @serialField ccws
+     * Control Centre and Watching Stand - Shared Region
+     * @serial ccws
      */
     private ControlCentre ccws;
     /**
      * Stable - Shared Region
-     * @serialField st
+     * @serial st
      */
     private Stable st;
     /**
      * Betting Centre - Shared Region
-     * @serialField bc
+     * @serial bc
      */
     private BettingCentre bc;
     /**
      * Paddock - Shared Region
-     * @serialField pd
+     * @serial pd
      */
     private Paddock pd;
     /**
      * Racing Track- Shared Region
-     * @serialField rt
+     * @serial rt
      */
     private RacingTrack rt;
     /**
      * Total races
-     * @serialField K
+     * @serial K
      */
     private int K;
     /**
      * Total competitors per race
-     * @serialField N
+     * @serial N
      */
     private int N;
-
+    /**
+     * Array of Horse/Jockeys used to instantiate and launch the horses in the current simulation
+     * @serial horseJockeys
+     */
     private HorseJockey[] horseJockeys;
-
+    /**
+     * Array with the Horse/Jockey agility updated on a per-race basis
+     * @serial agility
+     */
     private int [] agility;
 
     /**
+     *
      * Broker Constructor
+     *
      * @param K Total races
-     * @param ccws Control Centre & Watching Stand - Shared Region
+     * @param N Number of Horses in each race
+     * @param ccws Control Centre and Watching Stand - Shared Region
      * @param st Stable - Shared Region
      * @param bc Betting Centre - Shared Region
+     * @param pd Paddock -Shared Region
+     * @param rt Racing Track -Shared Region
+     * @param repo General Repository - Shared Region
      */
     public Broker(int K, int N, ControlCentre ccws, Stable st, BettingCentre bc, Paddock pd, RacingTrack rt, GeneralInformationRepository repo) {
         this.K = K;
@@ -126,6 +147,10 @@ public class Broker extends Thread{
         ccws.entertainTheGuests();
     }
 
+    /**
+     * Method to change the current State of the Broker.
+     * @param state Broker state
+     */
     public void setBrokerState(BrokerState state) {
         this.state = state;
     }

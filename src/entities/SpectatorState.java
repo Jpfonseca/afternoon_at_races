@@ -1,7 +1,7 @@
 package entities;
 
 /**
- * This enum specifies the different Spectator States
+ * This enumerate specifies the Spectator states
  */
 public enum SpectatorState {
 

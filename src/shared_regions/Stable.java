@@ -8,23 +8,40 @@ public class Stable{
 
     /**
      * Total competitors per race
-     * @serialField N
+     * @serial N
      */
     private int N;
     /**
      *  Total HorseJockeys in Stable (FIFO)
-     *  @serialField queueHJ
+     *  @serial queueHJ
      */
     private int queueHJ;
+    /**
+     * Condition Statement used by the HorseJockey to know when the next race is starting
+     * @serial
+     */
     private boolean waitForNextRace=true;
+    /**
+     * General Repository
+     * @serial repo
+     */
     private GeneralInformationRepository repo;
 
+    /**
+     * Stable Constructor
+     * @param N Number of HorseJockeys
+     * @param repo General Repository
+     */
     public Stable(int N, GeneralInformationRepository repo) {
         this.N = N;
         this.queueHJ = 0;
         this.repo = repo;
     }
 
+    /**
+     * Method used by the Broker to summon the horses to Paddock
+     * @param k number of current race
+     */
     public synchronized void summonHorsesToPaddock(int k){
 
         ((Broker)Thread.currentThread()).setBrokerState(BrokerState.ANNOUNCING_NEXT_RACE);
@@ -35,6 +52,9 @@ public class Stable{
         notifyAll();
     }
 
+    /**
+     * Method used by the HorseJockeys to proceed to Stable and wait for the next race
+     */
     public synchronized void proceedToStable(){
 
         while(waitForNextRace)
@@ -55,6 +75,9 @@ public class Stable{
         repo.setHorseJockeyState(HorseJockeyState.AT_THE_PADDOCK,((HorseJockey)Thread.currentThread()).getHj_number());
     }
 
+    /**
+     * Method used by the HorseJockeys when they finished running to proceed back to the Stable
+     */
     public synchronized void proceedToStable2(){
         ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_STABLE));
         repo.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE,((HorseJockey)Thread.currentThread()).getHj_number());

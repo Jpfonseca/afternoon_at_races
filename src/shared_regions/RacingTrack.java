@@ -6,22 +6,67 @@ import entities.*;
  */
 public class RacingTrack{
 
+    /**
+     * General Repository
+     * @serial repo
+     */
     private GeneralInformationRepository repo;
+    /**
+     * Condition statement used know until when to wait in the start line
+     * @serial waitForA
+     */
     private boolean waitForA=true;
+    /**
+     * Variable used to keep track of the current race number
+     * @serial currentRace
+     */
     private int currentRace;
+    /**
+     * Number of HorseJockeys
+     * @serial N
+     */
     private int N;
+    /**
+     * Array that keeps Horses indexes by arrival order so that thy can run in order
+     * @serial fifo
+     */
     private int[] fifo;
     /**
      *  Total HorseJockeys in RacingTrack (FIFO)
-     *  @serialField queueHJ
+     *  @serial totalHJ
      */
     private int totalHJ=0;
+    /**
+     * Array used to know all the race's distances
+     * @serial D
+     */
     private int[] D;
+    /**
+     * Array to keep track of all the Horses current position in the RaceTrack
+     * @serial HJpos
+     */
     private int[] HJPos;
+    /**
+     * Array to keep track of the iterations done by each Spectator in the current race
+     * @serial iterations
+     */
     private int[] iterations;
+    /**
+     * Array to keep all the HorseJockey position, iteration and standing position at the end of the current race
+     */
     private Winners[] winners;
+    /**
+     * Variable to know what's the maximum standing position
+     * @serial maxStanding
+     */
     private int maxStanding;
 
+    /**
+     * RacingTrack Constructor
+     * @param K Total amount of Races
+     * @param N Total amount of HorseJockeys
+     * @param repo General Repository
+     */
     public RacingTrack(int K, int N, GeneralInformationRepository repo) {
         this.currentRace = 0;
         this.D = new int[K];
@@ -44,6 +89,11 @@ public class RacingTrack{
         }
     }
 
+    /**
+     * Method used by the Broker to start the race
+     * @param k current race number
+     */
+
     public synchronized void startTheRace(int k){
 
         ((Broker)Thread.currentThread()).setBrokerState((BrokerState.SUPERVISING_THE_RACE));
@@ -55,6 +105,10 @@ public class RacingTrack{
         notifyAll();
     }
 
+    /**
+     * Method used by the HorseJockeys to proceed to the start line
+     * @param hj_number HorseJockey index number
+     */
     public synchronized void proceedToStartLine(int hj_number){
 
         ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_START_LINE));
@@ -73,10 +127,11 @@ public class RacingTrack{
         repo.setHorseJockeyState(HorseJockeyState.RUNNING,hj_number);
     }
 
-
-
+    /**
+     * Method used by every HorseJockey to make a move in the Racing track while running
+     * @param hj_number HorseJockey index number
+     */
     public synchronized void makeAMove(int hj_number) {
-
 
         HJPos[hj_number] += (int)(Math.random()*((HorseJockey)Thread.currentThread()).getAgility()+1);
 
@@ -99,9 +154,12 @@ public class RacingTrack{
             } catch (Exception e) {
                 System.out.println("HorseJockey rt.makeAMove() Exception: "+e);
             }
-
     }
 
+    /**
+     * Method used by the HorseJockeys to know if they have crossed the finish line
+     * @return <b>true</b> if he has crossed or <b>false</b>, if he has not.
+     */
     public synchronized boolean hasFinishLineBeenCrossed(){
 
         if (HJPos[fifo[0]] < D[currentRace-1])
@@ -162,6 +220,9 @@ public class RacingTrack{
         return true;
     }
 
+    /**
+     * Method used to pop the first index and push into the last position
+     */
     private void fifoUpdate(){
         int temp = fifo[0];
         for (int i=0; i<fifo.length-1; i++) {
@@ -172,6 +233,10 @@ public class RacingTrack{
         //System.out.print(temp+"\n");
     }
 
+    /**
+     * Method used to return an array with all the winning Spectators information
+     * @return winners
+     */
     public Winners[] reportResults(){
         //Winners[] temp = winners;
         return winners;

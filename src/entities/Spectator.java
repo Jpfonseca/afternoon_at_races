@@ -9,33 +9,49 @@ import shared_regions.Paddock;
  */
 public class Spectator extends Thread{
 
-    private SpectatorState state;
-
     /**
-     * Control Centre & Watching Stand - Shared Region
-     * @serialField ccws
+     * Current Spectator State
+     * @serial state
+     */
+    private SpectatorState state;
+    /**
+     * Control Centre and Watching Stand - Shared Region
+     * @serial ccws
      */
     private ControlCentre ccws;
     /**
      * Paddock - Shared Region
-     * @serialField pd
+     * @serial pd
      */
     private Paddock pd;
     /**
      * Betting Centre - Shared Region
-     * @serialField bc
+     * @serial bc
      */
     private BettingCentre bc;
+    /**
+     * General Repository
+     * @serial repo
+     */
     private GeneralInformationRepository repo;
-
+    /**
+     * Current spectator Index
+     * @serial specId
+     */
     private int specId;
-
+    /**
+     * Sum of money own by the current Spectator
+     * @serial wallet
+     */
     private int wallet;
+
     /**
      * Spectator constructor
-     * @param ccws Control Centre & Watching Stand - Shared Region
+     * @param specId Spectator Id
+     * @param ccws Control Centre and Watching Stand - Shared Region
      * @param pd Paddock - Shared Region
      * @param bc Betting Centre - Shared Region
+     * @param repo General Repository -Shared Region
      */
     public Spectator(int specId, ControlCentre ccws, Paddock pd, BettingCentre bc, GeneralInformationRepository repo) {
         this.specId=specId;
@@ -76,19 +92,35 @@ public class Spectator extends Thread{
         ccws.relaxABit();
     }
 
+    /**
+     * This method sets a new Spectator's State.
+     * @param state Spectator State
+     */
     public void setState(SpectatorState state){
         this.state=state;
     }
 
-    public int getspecId() {
+    /**
+     * This method returns the ID of the current Spectator
+     * @return Current Spectator ID
+     */
+    public int getSpecId() {
         return specId;
     }
 
+    /**
+     * This method sets the total amount in wallet
+     * @param wallet sum of money in wallet
+     */
     public synchronized void setWallet(int wallet) {
         this.wallet = wallet;
         repo.setSpectatorMoney(wallet,specId);
     }
 
+    /**
+     * This method returns the total amount in wallet
+     * @return wallet
+     */
     public synchronized int getWallet() {
         return wallet;
     }
