@@ -2,6 +2,8 @@ package shared_regions;
 
 import entities.*;
 
+import java.util.Arrays;
+
 /**
  * This class specifies the Place where the spectators will make the bets.
  *
@@ -17,10 +19,12 @@ public class BettingCentre{
     private int maxBet;
     private int [] agility;
     private BetAmount[] betAmounts;
+    private GeneralInformationRepository repo;
 
-    public BettingCentre(int M, int maxBet) {
+    public BettingCentre(int M, int maxBet, GeneralInformationRepository repo) {
         this.totalSpectators = M;
         this.maxBet=maxBet;
+        this.repo = repo;
         this.betAmounts=new BetAmount[totalSpectators];
     }
 
@@ -32,6 +36,8 @@ public class BettingCentre{
     public synchronized void acceptTheBets(int race_number,int [] agility){
         // DID WE FORGET TO UPDATE STATE -> WAITING_FOR_BETS ???!???!???
         ((Broker)Thread.currentThread()).setBrokerState((BrokerState.WAITING_FOR_BETS));
+        repo.setBrokerState(BrokerState.WAITING_FOR_BETS);
+
         this.agility=new int[agility.length];
         this.agility=agility;
 
@@ -60,6 +66,7 @@ public class BettingCentre{
         //Muda o estado ->SETTLING_ACCOUNTS
         //bloqueia em waitForSpectactorCollectsMoney
         ((Broker) Thread.currentThread()).setBrokerState((BrokerState.SETTLING_ACCOUNTS));
+        repo.setBrokerState(BrokerState.SETTLING_ACCOUNTS);
 
         // TODO
     }
@@ -72,10 +79,11 @@ public class BettingCentre{
 
         Spectator spec =((Spectator)Thread.currentThread());
         spec.setState((SpectatorState.PLACING_A_BET));
+        repo.setSpectatorState(SpectatorState.PLACING_A_BET,spec.getspecId());
 
         // TODO
         // SPECTATOR BET
-        int temp,bet,spec_id,totalAgility=0;
+        int temp,bet,spec_id,totalAgility;
         spec_id=spec.getspecId();
 
         temp=(int)(Math.random()*agility.length);
@@ -84,9 +92,7 @@ public class BettingCentre{
         betAmounts[spec_id]=new BetAmount();
         betAmounts[spec_id].horse_id=temp;
 
-        for (int i=0; i<agility.length;i++){
-            totalAgility+=agility[i];
-        }
+        totalAgility = Arrays.stream(agility).sum();
 
         bet=betAmounts[spec_id].bet= ((agility[temp]*maxBet)/totalAgility);
         betAmounts[spec_id].spectator_id=spec_id;
@@ -125,6 +131,7 @@ public class BettingCentre{
 
         // Muda o estado -> WAITING_FOR_A_RACE_TO_START(enquanto existirem corridas)
         ((Spectator) Thread.currentThread()).setState((SpectatorState.WAITING_FOR_A_RACE_TO_START));
+        repo.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START,((Spectator)Thread.currentThread()).getspecId());
 
         // TODO
     }

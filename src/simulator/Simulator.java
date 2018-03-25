@@ -14,7 +14,6 @@ public class Simulator{
      * @param args Arguments
      */
     public static void main (String [] args) {
-
         /*
         Assume there are five races, each having four competitors and that the number of spectators is also four.
          */
@@ -22,19 +21,21 @@ public class Simulator{
         int N = 4; // N competitors per race
         int M = 4; // M Spectators
         int maxBet=100;
-        BettingCentre bc = new BettingCentre(M,maxBet);
-        ControlCentre ccws = new ControlCentre(K);
-        GeneralInformationRepository repo = new GeneralInformationRepository();
-        Paddock pd = new Paddock(N, M);
-        RacingTrack rt = new RacingTrack(K);
-        Stable st = new Stable(N);
+
+        GeneralInformationRepository repo = new GeneralInformationRepository("",K,N,M);
+
+        BettingCentre bc = new BettingCentre(M,maxBet, repo);
+        ControlCentre ccws = new ControlCentre(K, M, repo);
+        Paddock pd = new Paddock(N, M, repo);
+        RacingTrack rt = new RacingTrack(K, N, repo);
+        Stable st = new Stable(N, repo);
 
         Broker broker;
-        broker = new Broker(K, N, ccws, st, bc, pd, rt);
+        broker = new Broker(K, N, ccws, st, bc, pd, rt, repo);
 
         Spectator [] spectator = new Spectator[M];
         for (int i=0; i<M; i++)
-            spectator[i] = new Spectator(i,ccws, pd, bc);
+            spectator[i] = new Spectator(i,ccws, pd, bc, repo);
 
 
         // Simulation Start
@@ -59,6 +60,7 @@ public class Simulator{
                 System.out.println("Spectator "+i+" InterruptedException: "+e);
             }
             System.out.println("Spectator "+(i+1)+" ended");
+            repo.setSpectatorState(null, i);
         }
 
         try {

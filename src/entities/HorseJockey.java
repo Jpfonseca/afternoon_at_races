@@ -1,18 +1,11 @@
 package entities;
 
-import shared_regions.ControlCentre;
-import shared_regions.Paddock;
-import shared_regions.RacingTrack;
-import shared_regions.Stable;
+import shared_regions.*;
 
 /**
  * HorseJockey entity
  */
 public class HorseJockey extends Thread{
-    /**
-     * Current race number
-     */
-    private int race_number;
     /**
      * Current Horse Jockey State
      */
@@ -63,15 +56,19 @@ public class HorseJockey extends Thread{
      * @param pd Paddock - Shared Region
      * @param rt Racing Track- Shared Region
      */
-    public HorseJockey(int race_number,int hj_number, ControlCentre ccws, Stable st, Paddock pd, RacingTrack rt) {
+    public HorseJockey(int hj_number, ControlCentre ccws, Stable st, Paddock pd, RacingTrack rt, GeneralInformationRepository repo) {
         this.hj_number = hj_number;
         this.ccws = ccws;
         this.st = st;
         this.pd = pd;
         this.rt = rt;
-        this.hjState=HorseJockeyState.AT_THE_STABLE;
-        this.race_number=race_number;
         this.agility = (int)(Math.random()*20+1);
+        this.hjState=HorseJockeyState.AT_THE_STABLE;
+        repo.setIterationStep(hj_number,-1);
+        repo.setCurrentPosZero(hj_number);
+        repo.setHorseJockeyAgility(agility,hj_number);
+        repo.setHorseJockeyState(hjState,hj_number);
+
         /*
         each horse / jockey Cnk, with n = 0, 1, ... , N-1 and k = 0, 1, ... , K-1 carries out a single position
         increment per iteration by moving randomly 1 to Pnk length units along its path – the maximum
@@ -100,15 +97,18 @@ public class HorseJockey extends Thread{
             rt.makeAMove(hj_number);
         }while(!rt.hasFinishLineBeenCrossed()); //devolve se terminou ou não. Em caso de témino devolve a posição
 
-        if(rt.hasLastHorseCrossed())
-            ccws.lastHorseCrossedLine();
+        //if(rt.hasLastHorseCrossed())
+        ccws.lastHorseCrossedLine();
             // ULTIMO ACORDA BROKER NO CCWS
 
         st.proceedToStable2();
-
     }
 
     public int getAgility() {
         return agility;
+    }
+
+    public synchronized int getHj_number() {
+        return hj_number;
     }
 }

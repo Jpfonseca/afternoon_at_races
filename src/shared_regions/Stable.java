@@ -16,12 +16,15 @@ public class Stable{
      *  @serialField queueHJ
      */
     private int queueHJ;
-    private int raceNumber;
+    private int finishedHJ;
     private boolean waitForNextRace=true;
+    private GeneralInformationRepository repo;
 
-    public Stable(int N) {
+    public Stable(int N, GeneralInformationRepository repo) {
         this.N = N;
-        this.queueHJ=0;
+        this.queueHJ = 0;
+        this.finishedHJ = 0;
+        this.repo = repo;
     }
 
     public synchronized void summonHorsesToPaddock(int k){
@@ -29,16 +32,22 @@ public class Stable{
         //notifyAll();
         // é apenas isto
 
+        ((Broker)Thread.currentThread()).setBrokerState(BrokerState.ANNOUNCING_NEXT_RACE);
+        repo.setRaceNumber(k);
+        repo.setBrokerState(BrokerState.ANNOUNCING_NEXT_RACE);
+
+
+
         // DO WE NEED k ???!???!???
-        this.raceNumber = k;
         this.waitForNextRace = false;
         notifyAll();
     }
 
     /*Horse*/
     public synchronized void proceedToStable(){
-        HorseJockey horse =((HorseJockey)Thread.currentThread());
-        horse.setHjState(HorseJockeyState.AT_THE_STABLE);
+        // Set in constructor
+        //((HorseJockey)Thread.currentThread()).setHjState(HorseJockeyState.AT_THE_STABLE);
+        //repo.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE,((HorseJockey)Thread.currentThread()).getHj_number());
 
         while(waitForNextRace)
             try {
@@ -62,14 +71,21 @@ public class Stable{
         }
 
         ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_PADDOCK));
+        repo.setHorseJockeyState(HorseJockeyState.AT_THE_PADDOCK,((HorseJockey)Thread.currentThread()).getHj_number());
     }
 
-    public void proceedToStable2(){
+    public synchronized void proceedToStable2(){
         //Muda de estado ->AT_THE_STABLE
         //mata o cavalo ???
 
+        // THIS THREAD WILL IN FACT DIE TO GIVE ALLOW NEXT HORSE/JOCKEY PAIR
         ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_STABLE));
 
-        // THIS THREAD WILL IN FACT DIE TO GIVE ALLOW NEXT HORSE/JOCKEY PAIR
+
+        repo.setIterationStep(((HorseJockey)Thread.currentThread()).getHj_number(),-1);
+        repo.setCurrentPosNull(((HorseJockey)Thread.currentThread()).getHj_number());
+        repo.setStandingPos(((HorseJockey)Thread.currentThread()).getHj_number(),0);
+        repo.setHorseJockeyAgility(0,((HorseJockey)Thread.currentThread()).getHj_number());
+        repo.setHorseJockeyState(null,((HorseJockey)Thread.currentThread()).getHj_number());
     }
 }

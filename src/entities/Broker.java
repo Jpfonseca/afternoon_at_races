@@ -8,8 +8,8 @@ import shared_regions.*;
 
 public class Broker extends Thread{
 
+    private GeneralInformationRepository repo;
     private BrokerState state;
-
     /**
      * Control Centre & Watching Stand - Shared Region
      * @serialField ccws
@@ -57,7 +57,7 @@ public class Broker extends Thread{
      * @param st Stable - Shared Region
      * @param bc Betting Centre - Shared Region
      */
-    public Broker(int K, int N, ControlCentre ccws, Stable st, BettingCentre bc, Paddock pd, RacingTrack rt) {
+    public Broker(int K, int N, ControlCentre ccws, Stable st, BettingCentre bc, Paddock pd, RacingTrack rt, GeneralInformationRepository repo) {
         this.K = K;
         this.N = N;
         this.ccws = ccws;
@@ -65,10 +65,13 @@ public class Broker extends Thread{
         this.bc = bc;
         this.pd = pd;
         this.rt = rt;
-        this.state=BrokerState.OPENING_THE_EVENT; // set current Broker state to the initial state
+        this.repo = repo;
 
         this.horseJockeys = new HorseJockey[N];
         this.agility= new int[N];
+
+        this.state=BrokerState.OPENING_THE_EVENT; // set current Broker state to the initial state
+        repo.setBrokerState(this.state);
     }
 
     /**
@@ -84,22 +87,26 @@ public class Broker extends Thread{
         for(int k=1;k<=K;k++) {
             // HorseJockey Instantiation and start
             for (int j = 0; j < N; j++) {
-                horseJockeys[j] = new HorseJockey(k, j, ccws, st, pd, rt);
+                horseJockeys[j] = new HorseJockey(j, ccws, st, pd, rt, repo);
                 horseJockeys[j].start();
                 agility[j]=horseJockeys[j].getAgility();
                 System.out.println("HorseJockey "+(j+1)+" started");
-
             }
 
             System.out.println("Race "+k+" Start");
-
+System.out.println("B-1");
             st.summonHorsesToPaddock(k); // primeira parte é invocada no stable a segunda no ccws
+System.out.println("B-2");
             ccws.summonHorsesToPaddock(k);
+System.out.println("B-3");
             bc.acceptTheBets(k,agility);
 
+System.out.println("B-4");
             rt.startTheRace(k);
+System.out.println("B-5");
             ccws.startTheRace(k);
 
+System.out.println("B-6");
             ccws.reportResults(k);
             if (bc.areThereAnyWinners(k))
                 bc.honourTheBets(k);
@@ -130,13 +137,5 @@ public class Broker extends Thread{
             return true;
         }
         return false;
-    }
-
-    /**
-     *
-     * @return current BrokerState
-     */
-    public BrokerState getBrokerState(){
-        return this.state;
     }
 }

@@ -2,6 +2,7 @@ package entities;
 
 import shared_regions.BettingCentre;
 import shared_regions.ControlCentre;
+import shared_regions.GeneralInformationRepository;
 import shared_regions.Paddock;
 /**
  * Spectator Entity
@@ -25,7 +26,7 @@ public class Spectator extends Thread{
      * @serialField ccws
      */
     private BettingCentre bc;
-
+    private GeneralInformationRepository repo;
 
 
     private int specId;
@@ -36,12 +37,15 @@ public class Spectator extends Thread{
      * @param pd Paddock - Shared Region
      * @param bc Betting Centre - Shared Region
      */
-    public Spectator(int specId,ControlCentre ccws, Paddock pd, BettingCentre bc) {
+    public Spectator(int specId, ControlCentre ccws, Paddock pd, BettingCentre bc, GeneralInformationRepository repo) {
         this.specId=specId;
         this.ccws = ccws;
         this.pd = pd;
         this.bc = bc;
+        this.repo = repo;
+
         this.state=SpectatorState.WAITING_FOR_A_RACE_TO_START;
+        repo.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START,specId);
     }
 
     /**
@@ -53,16 +57,22 @@ public class Spectator extends Thread{
         boolean last;
 
         while(ccws.waitForNextRace()){
-
+System.out.println("S-1");
             last = pd.goCheckHorses1();     // Este método verifica o último.
+System.out.println("S-2");
             if (last)
                 ccws.goCheckHorses();    // Acorda o Broker , que dá inicio à corrida
+System.out.println("S-3");
             pd.goCheckHorses2(last);          //envia o spectator para o pd e diz se é o último
 
+System.out.println("S-4");
             bc.placeABet();
+System.out.println("S-5");
             ccws.goWatchTheRace();
+System.out.println("S-6");
             if(bc.haveIWon())
                 bc.goCollectTheGains();
+System.out.println("S-7");
         }
 
         ccws.relaxABit();

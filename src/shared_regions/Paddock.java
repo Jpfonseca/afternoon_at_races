@@ -6,6 +6,7 @@ import entities.*;
  */
 public class Paddock{
 
+    private GeneralInformationRepository repo;
     /**
      *  Total HorseJockeys in paddock (FIFO)
      *  @serialField queueHJ
@@ -30,9 +31,10 @@ public class Paddock{
     private boolean waitBeingChecked=true;
     private boolean waitForLastHJ=true;
 
-    public Paddock(int N, int M) {
+    public Paddock(int N, int M, GeneralInformationRepository repo) {
         this.N = N;
         this.M = M;
+        this.repo = repo;
     }
 
     /**
@@ -90,6 +92,7 @@ public class Paddock{
         // DID WE FORGET TO waitForLastHJ ???!???!???
 
         ((Spectator)Thread.currentThread()).setState((SpectatorState.APPRAISING_THE_HORSES));
+        repo.setSpectatorState(SpectatorState.WATCHING_A_RACE,((Spectator)Thread.currentThread()).getspecId());
 
         if (last) {
             waitBeingChecked = false;
