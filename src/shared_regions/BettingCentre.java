@@ -71,8 +71,10 @@ public class BettingCentre{
 
                 temp = spectatorWinners;
                 spectatorWinners = new int[winnersCount];
-                if (temp!=null)
+                if (temp!=null) {
+                    System.out.println("AAAAA"+temp.length);
                     System.arraycopy(temp, 0, spectatorWinners, 0, temp.length);
+                }
                 spectatorWinners[spectatorWinners.length-1] = i;
             }
         }
@@ -131,7 +133,7 @@ public class BettingCentre{
             totalAgility+=agility[i];
         }
         odd[spec_id]=totalAgility/agility[temp];
-        bet=betAmounts[spec_id].bet= 100/odd[spec_id];
+        bet=betAmounts[spec_id].bet= (int)(Math.random()*spec.getWallet())/odd[spec_id];
 
         spec.setWallet(spec.getWallet()-bet);
         betAmounts[spec_id].spectator_id=spec_id;
@@ -220,15 +222,16 @@ public class BettingCentre{
         for (int i=0;i<betAmounts.length;i++){
             if (betAmounts[i].spectator_id==spec.getspecId()){
                 money_won=betAmounts[i].bet*odd[i];
+//System.out.println("ZZZZZZ - "+betAmounts[i].bet+" "+odd[i] + " " + spec.getWallet() + " "+money_won + " "+spectatorWinners.length);
                 money_won=money_won/spectatorWinners.length;
             }
         }
-        spec.setWallet(money_won);
-        repo.setSpectatorMoney(spec.getWallet(),spec.getspecId());
+
+        spec.setWallet(spec.getWallet()+money_won);
         waitForSpectactorCollectsMoney=false;
         notifyAll();
 
         System.out.println("Spectator "+spec.getspecId()+" Wallet "+spec.getWallet());
-        // TODO
+
     }
 }

@@ -106,6 +106,7 @@ System.out.println("S-7");
 
     public synchronized void setWallet(int wallet) {
         this.wallet = wallet;
+        repo.setSpectatorMoney(wallet,specId);
     }
 
     public synchronized int getWallet() {
