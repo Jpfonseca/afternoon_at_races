@@ -23,7 +23,7 @@ public class Spectator extends Thread{
     private Paddock pd;
     /**
      * Betting Centre - Shared Region
-     * @serialField ccws
+     * @serialField bc
      */
     private BettingCentre bc;
     private GeneralInformationRepository repo;
@@ -75,16 +75,9 @@ public class Spectator extends Thread{
 
         ccws.relaxABit();
     }
-    /**
-     *
-     * @return true if the state changed and false if it is the same
-     */
-    public boolean setState(SpectatorState state){
-        if(this.state!=state){
-            this.state=state;
-            return true;
-        }
-        return false;
+
+    public void setState(SpectatorState state){
+        this.state=state;
     }
 
     public int getspecId() {

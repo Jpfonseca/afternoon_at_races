@@ -22,7 +22,7 @@ public class Broker extends Thread{
     private Stable st;
     /**
      * Betting Centre - Shared Region
-     * @serialField ccws
+     * @serialField bc
      */
     private BettingCentre bc;
     /**
@@ -105,7 +105,7 @@ public class Broker extends Thread{
 
             if (bc.areThereAnyWinners(rt.reportResults())) {
                 ccws.reportResults();
-                bc.honourTheBets(k);
+                bc.honourTheBets();
             }else
                 ccws.reportResults();
 
@@ -126,15 +126,7 @@ public class Broker extends Thread{
         ccws.entertainTheGuests();
     }
 
-    /**
-     *
-     * @return true if the state changed and false if it is the same
-     */
-    public boolean setBrokerState(BrokerState state){
-        if(this.state!=state){
-            this.state=state;
-            return true;
-        }
-        return false;
+    public void setBrokerState(BrokerState state) {
+        this.state = state;
     }
 }

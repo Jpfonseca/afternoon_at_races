@@ -25,7 +25,6 @@ public class GeneralInformationRepository{
     private SpectatorState[] spectatorState;
     private int[] spectatorMoney;
     private int raceNumber;
-    private int K;
     private int[] D;
     private BetAmount[] bet;
     private int[] odd;
@@ -46,7 +45,6 @@ public class GeneralInformationRepository{
         this.spectatorState = new SpectatorState[N];
         this.spectatorMoney = new int[N];
         raceNumber = 0;
-        this.K = K;
         this.D = new int[K];
         this.bet = new BetAmount[N];
         this.odd = new int[N];
@@ -77,7 +75,7 @@ public class GeneralInformationRepository{
     }
 
     private void reportInitial(){
-/**
+/*
          AFTERNOON AT THE RACE TRACK - Description of the internal state of the problem
 MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
   Stat  St0  Am0 St1  Am1 St2  Am2 St3  Am3 RN St0 Len0 St1 Len1 St2 Len2 St3 Len3
@@ -87,7 +85,7 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
   #  ##   #  ####  #  ####  #  ####  #  #### #### ##  ##  # #### ##  ##  # #### ##  ##  # #### ##  ##  #
 */
 
-/**
+/*
  Legend:
  Stat - manager/broker state
  St# - spectator/better state (# - 0 .. 3)
@@ -124,7 +122,7 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
     }
 
     public synchronized void reportStatus(){
-/**
+/*
          AFTERNOON AT THE RACE TRACK - Description of the internal state of the problem
 MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
   Stat  St0  Am0 St1  Am1 St2  Am2 St3  Am3 RN St0 Len0 St1 Len1 St2 Len2 St3 Len3
@@ -352,10 +350,10 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
         D = d;
     }
 
-    public synchronized void setSpectatorBet(int spectatorIndex, int betSelection, int betAmmount) {
+    public synchronized void setSpectatorBet(int spectatorIndex, int betSelection, int betAmount) {
         this.bet[spectatorIndex].horse_id = betSelection;
-        this.bet[spectatorIndex].bet = betAmmount;
-        reportStatus();
+        this.bet[spectatorIndex].bet = betAmount;
+        //reportStatus();
     }
 
     public synchronized void setOdd(int horse, int odd) {

@@ -76,7 +76,7 @@ public class BettingCentre{
     }
 
 
-    public synchronized void honourTheBets(int k){
+    public synchronized void honourTheBets(){
 
         ((Broker) Thread.currentThread()).setBrokerState((BrokerState.SETTLING_ACCOUNTS));
         repo.setBrokerState(BrokerState.SETTLING_ACCOUNTS);

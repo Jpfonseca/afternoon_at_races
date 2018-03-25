@@ -20,7 +20,6 @@ public class Simulator{
         int K = 5; // K races
         int N = 4; // N competitors per race
         int M = 4; // M Spectators
-        int maxBet=100;
 
         GeneralInformationRepository repo = new GeneralInformationRepository("",K,N,M);
 

@@ -40,14 +40,6 @@ public class HorseJockey extends Thread{
 
     private int hj_number;
 
-    public HorseJockeyState getHjState() {
-        return hjState;
-    }
-
-    public void setHjState(HorseJockeyState hjState) {
-        this.hjState = hjState;
-    }
-
     /**
      * HorseJockey Constructor
      * @param hj_number HorseJockey index
@@ -106,5 +98,9 @@ public class HorseJockey extends Thread{
 
     public synchronized int getHj_number() {
         return hj_number;
+    }
+
+    public void setHjState(HorseJockeyState hjState) {
+        this.hjState = hjState;
     }
 }

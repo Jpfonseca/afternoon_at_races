@@ -52,7 +52,7 @@ public class ControlCentre{
             try {
                 wait();
             } catch (InterruptedException e) {
-                System.out.println("Broker rt.startTheRace() InterruptedException: "+e);
+                System.out.println("Broker ccws.startTheRace() InterruptedException: "+e);
             }
 
         waitForRaceToFinish=true; // variable reset
@@ -86,20 +86,19 @@ public class ControlCentre{
 
         repo.setOdd(spec.getspecId(), -1);
         repo.setSpectatorBet(spec.getspecId(), -1, -1);
-        repo.reportStatus();
+        //repo.reportStatus();
 
-
-        while(waitForRaceToStart && currentRace != K+1) {
-            // Set in constructor
+        if (currentRace>1 && currentRace != K+1) {
             ((Spectator) Thread.currentThread()).setState((SpectatorState.WAITING_FOR_A_RACE_TO_START));
-            repo.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START,((Spectator) Thread.currentThread()).getspecId());
+            repo.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START, ((Spectator) Thread.currentThread()).getspecId());
+        }
 
+        while(waitForRaceToStart && currentRace != K+1)
             try {
                 wait();
             } catch (InterruptedException e) {
                 System.out.println("Spectator ccws.waitForNextRace() InterruptedException: " + e);
             }
-        }
 
         totalSpec++;
         if (totalSpec==M) {
