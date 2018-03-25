@@ -1,7 +1,7 @@
 package entities;
 
 /**
- * This enum specifies the different Broker States
+ * This enumerate specifies the different Broker states which a Broker can dwell into.
  */
 public enum BrokerState {
 

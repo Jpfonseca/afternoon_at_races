@@ -31,11 +31,14 @@ public class Spectator extends Thread{
 
     private int specId;
 
+
     /**
      * Spectator constructor
+     * @param specId Spectator Id
      * @param ccws Control Centre & Watching Stand - Shared Region
      * @param pd Paddock - Shared Region
      * @param bc Betting Centre - Shared Region
+     * @param repo General Repository -Shared Region
      */
     public Spectator(int specId, ControlCentre ccws, Paddock pd, BettingCentre bc, GeneralInformationRepository repo) {
         this.specId=specId;
@@ -78,9 +81,10 @@ System.out.println("S-7");
         ccws.relaxABit();
     }
     /**
-     *
-     * @return true if the state changed and false if it is the same
+     * This method returns a boolean value when the Spectator State Changes.
+     * @return <b>true</b> if the state changed and <b>false</b> if it is the same
      */
+
     public boolean setState(SpectatorState state){
         if(this.state!=state){
             this.state=state;
@@ -89,14 +93,17 @@ System.out.println("S-7");
         return false;
     }
     /**
-     *
-     * @return return Current Spectator State
+     *This method returns the current State of the Spectator
+     * @return  Current Spectator State
      */
     public SpectatorState getSpectatorState(){
         return this.state;
     }
 
-
+    /**
+     * This method returns the ID of the current Spectator
+     * @return Spectator ID
+     */
     public int getspecId() {
         return specId;
     }

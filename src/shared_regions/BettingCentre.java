@@ -9,18 +9,23 @@ import java.util.Arrays;
  *
  */
 public class BettingCentre{
-    /**
-     *  Total HorseJockeys in RacingTrack (FIFO)
-     *  @serialField queueHJ
-     */
+
+
     private int bets;
     private boolean isBetDone=false;
     private int totalSpectators;
     private int maxBet;
     private int [] agility;
     private BetAmount[] betAmounts;
+
     private GeneralInformationRepository repo;
 
+    /**
+     * This is the Betting Centre constructor. <br> It specifies the variables which will be essential to create this shared region.
+     * @param M number of spectators
+     * @param maxBet maximum bet allowed in the Betting Centre
+     * @param repo General Information Repository
+     */
     public BettingCentre(int M, int maxBet, GeneralInformationRepository repo) {
         this.totalSpectators = M;
         this.maxBet=maxBet;
@@ -53,6 +58,11 @@ public class BettingCentre{
         notifyAll();
     }
 
+    /**
+     * This method specifies the existence of winners in the current race.
+     * @param k number of the current race
+     * @return <b>true</b>,if there winners or <b>false</b>, if there aren't any. 
+     */
     public boolean areThereAnyWinners(int k){
         // devolve a  existencia de winners
         // faz unlock ao Broker
@@ -61,7 +71,10 @@ public class BettingCentre{
         return false;
     }
 
-
+    /**
+     * This method specifies the existence of winners in the current race.
+     * @param k number of the current race
+     */
     public void honourTheBets(int k){
         //Muda o estado ->SETTLING_ACCOUNTS
         //bloqueia em waitForSpectactorCollectsMoney
@@ -71,7 +84,9 @@ public class BettingCentre{
         // TODO
     }
 
-
+    /**
+     * This method is used by each spectator to place a bet.
+     */
     public synchronized void placeABet(){
         System.out.print("PlaceABet\n");
         //Muda o  estado -> PLACING_A_BET
@@ -115,7 +130,10 @@ public class BettingCentre{
 
     }
 
-
+    /**
+     * This method is used by the spectator to check if it has won something from the bet
+     * @return <b>true</b> or <b>false</b> whether the spectator won something or not. 
+     */
     public boolean haveIWon(){
         // Muda o estado->COLLECTING_THE_GAINS (se ganha alguma coisa)
         //OR
@@ -127,6 +145,9 @@ public class BettingCentre{
         return false;
     }
 
+    /**
+     * This method is used by the spectators to collect their gains, if they have won something.
+     */
     public void goCollectTheGains(){
 
         // Muda o estado -> WAITING_FOR_A_RACE_TO_START(enquanto existirem corridas)

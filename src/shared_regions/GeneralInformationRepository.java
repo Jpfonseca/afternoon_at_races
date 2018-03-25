@@ -37,6 +37,13 @@ public class GeneralInformationRepository{
     private int N;
     private int M;
 
+    /**
+     * This entity will provide all the information about the current aspects of the program
+     * @param logName name of the log
+     * @param K distance of the race
+     * @param N 
+     * @param M
+     */
     public GeneralInformationRepository(String logName, int K, int N, int M) {
         log = new TextFile();
 

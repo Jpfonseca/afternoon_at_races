@@ -3,7 +3,8 @@ package entities;
 import shared_regions.*;
 
 /**
- * HorseJockey entity
+ * HorseJockey entity.<br/>
+ * The horse Jockey entity is the entity responsible for the horse life cycle.
  */
 public class HorseJockey extends Thread{
     /**
@@ -40,6 +41,10 @@ public class HorseJockey extends Thread{
 
     private int hj_number;
 
+    /**
+     * method that only saves the current horse jockey state.
+     * @return
+     */
     public HorseJockeyState getHjState() {
         return hjState;
     }
@@ -78,7 +83,7 @@ public class HorseJockey extends Thread{
     }
 
     /**
-     * HorseJockey main life cycle
+     * HorseJockey entity main life cycle
      */
     @Override
     public void run(){
@@ -104,10 +109,18 @@ public class HorseJockey extends Thread{
         st.proceedToStable2();
     }
 
+    /**
+     * This method will be responsible for returning the agility of the horse
+     * @return
+     */
     public int getAgility() {
         return agility;
     }
 
+    /**
+     * This method will return the horse jockey number.
+     * @return
+     */
     public synchronized int getHj_number() {
         return hj_number;
     }

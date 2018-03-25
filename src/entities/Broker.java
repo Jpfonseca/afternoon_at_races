@@ -3,7 +3,7 @@ package entities;
 import shared_regions.*;
 
 /**
- * Broker Entity
+ * The Broker entity is responsible for managing all the activities within the hippic centre.
  */
 
 public class Broker extends Thread{
@@ -50,12 +50,19 @@ public class Broker extends Thread{
 
     private int [] agility;
 
+
     /**
+     *
      * Broker Constructor
+     *
      * @param K Total races
+     * @param N Number of Horses in each race
      * @param ccws Control Centre & Watching Stand - Shared Region
      * @param st Stable - Shared Region
      * @param bc Betting Centre - Shared Region
+     * @param pd Paddock -Shared Region
+     * @param rt Racing Track -Shared Region
+     * @param repo General Repository - Shared Region
      */
     public Broker(int K, int N, ControlCentre ccws, Stable st, BettingCentre bc, Paddock pd, RacingTrack rt, GeneralInformationRepository repo) {
         this.K = K;
@@ -128,8 +135,9 @@ System.out.println("B-6");
     }
 
     /**
-     *
-     * @return true if the state changed and false if it is the same
+     * Method to change the current State of the Broker.
+     * @return <b>true</b> if the state of the Broker changed <br/>
+     *         <b>false</b> if the state remains the same
      */
     public boolean setBrokerState(BrokerState state){
         if(this.state!=state){

@@ -1,7 +1,7 @@
 package entities;
 
 /**
- * This enum specifies the different HorseJockey States
+ * This enumerate specifies the different HorseJockey states.
  */
 public enum HorseJockeyState {
 
