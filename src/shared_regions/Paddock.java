@@ -47,13 +47,6 @@ public class Paddock{
         return (totalHJ == N);
     }
     public synchronized void proceedToPaddock2(){
-        //Muda de estado ->AT_THE_PADDOCK
-        // Bloqueia o Horse/Jockey  em waitBeingChecked
-
-
-        // SHOULD THIS STATE CHANGE BE IN proceedToPaddock1 ???!???!???
-        // SINCE IT IS ALREADY IN PADDOCK AND BROKER IS WAKEN UP...
-        // NEVERMIND! THIS CHANGE WENT TO st.proceedToStable()
 
         while(waitBeingChecked)
             try {
@@ -84,12 +77,6 @@ public class Paddock{
     }
 
     public synchronized void goCheckHorses2(boolean last){
-        //Sends spectator to paddock(sleeps ??)
-        //If last spectator :
-        // Acordar o Horse/Jockey que estão em waitBeingChecked (levando a que eles se movam para a rt)
-
-        // DID WE FORGET TO UPDATE STATE -> APPRAISING_THE_HORSES ???!???!???
-        // DID WE FORGET TO waitForLastHJ ???!???!???
 
         ((Spectator)Thread.currentThread()).setState((SpectatorState.APPRAISING_THE_HORSES));
         repo.setSpectatorState(SpectatorState.WATCHING_A_RACE,((Spectator)Thread.currentThread()).getspecId());
@@ -99,13 +86,12 @@ public class Paddock{
             notifyAll();
         }
 
-        while(waitForLastHJ){
+        while(waitForLastHJ)
             try {
                 wait();
             } catch (InterruptedException e) {
                 System.out.println("Spectator pd.goCheckHorses2() InterruptedException: "+e);
             }
-        }
 
         totalSpec--;
         if (totalSpec==0)

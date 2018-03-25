@@ -1,7 +1,7 @@
 package shared_regions;
 
 public class BetAmount {
-    int bet;
-    int horse_id;
-    int spectator_id;
+    int bet = -1;
+    int horse_id = -1;
+    int spectator_id = -1;
 }

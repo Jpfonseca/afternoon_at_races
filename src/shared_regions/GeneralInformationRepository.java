@@ -59,7 +59,7 @@ public class GeneralInformationRepository{
         for (int i=0; i<N; i++){
             spectatorMoney[i] = 0;
             bet[i] = new BetAmount();
-            odd[i] = 0;
+            odd[i] = -1;
             iterationStep[i] = -1;
             currentPos[i] = -1;
             standingPos[i] = 0;
@@ -255,9 +255,14 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
             textToAppend.append("  ").append(D[raceNumber - 1]).append(" ");
 
         for (int i=0; i<M; i++){
-            textToAppend.append("  ").append(bet[i].horse_id);
+            if (bet[i].horse_id < 0)
+                textToAppend.append("  -");
+            else
+                textToAppend.append("  ").append(bet[i].horse_id);
 
-            if (bet[i].bet < 10)
+            if (bet[i].bet < 0)
+                textToAppend.append("     -");
+            else if (bet[i].bet < 10)
                 textToAppend.append("     ").append(bet[i].bet);
             else if (bet[i].bet < 100)
                 textToAppend.append("    ").append(bet[i].bet);
@@ -276,7 +281,7 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
             " #### ##  ##  # #### ##  ##  # #### ##  ##  # #### ##  ##  #"
             */
 
-            if (odd[i]==0)
+            if (odd[i]<0)
                 textToAppend.append("    -");
             else if (odd[i]<10)
                 textToAppend.append("    ").append(odd[i]);

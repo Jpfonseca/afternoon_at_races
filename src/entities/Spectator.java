@@ -60,22 +60,17 @@ public class Spectator extends Thread{
         boolean last;
 
         while(ccws.waitForNextRace()){
-System.out.println("S-1");
+
             last = pd.goCheckHorses1();     // Este método verifica o último.
-System.out.println("S-2");
             if (last)
                 ccws.goCheckHorses();    // Acorda o Broker , que dá inicio à corrida
-System.out.println("S-3");
             pd.goCheckHorses2(last);          //envia o spectator para o pd e diz se é o último
 
-System.out.println("S-4");
             bc.placeABet();
-System.out.println("S-5");
             ccws.goWatchTheRace();
-System.out.println("S-6");
+
             if(bc.haveIWon())
                 bc.goCollectTheGains();
-System.out.println("S-7");
         }
 
         ccws.relaxABit();
@@ -91,14 +86,6 @@ System.out.println("S-7");
         }
         return false;
     }
-    /**
-     *
-     * @return return Current Spectator State
-     */
-    public SpectatorState getSpectatorState(){
-        return this.state;
-    }
-
 
     public int getspecId() {
         return specId;

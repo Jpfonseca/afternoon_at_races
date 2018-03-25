@@ -32,11 +32,8 @@ public class ControlCentre{
         totalSpec=0;
     }
 
-    public synchronized void summonHorsesToPaddock(int k){
-        // Mudar o estado -> ANNOUNCING_NEXT_RACE
-        // bloquear em waitForSpectatorEvaluation
+    public synchronized void summonHorsesToPaddock(){
 
-        // DO WE NEED k ???!???!???
         this.currentRace++;
 
         while(waitForSpectatorEvaluation)
@@ -49,9 +46,7 @@ public class ControlCentre{
         waitForSpectatorEvaluation=true; // variable reset
     }
 
-    public synchronized void startTheRace(int k){
-        // Mudar o estado -> SUPERVISING_THE_RACE
-        // bloquear em waitForRaceToFinish
+    public synchronized void startTheRace(){
 
         while (waitForRaceToFinish)
             try {
@@ -63,7 +58,7 @@ public class ControlCentre{
         waitForRaceToFinish=true; // variable reset
     }
 
-    public synchronized void reportResults(int k){
+    public synchronized void reportResults(){
 
         // Reports results
         waitForResults=false;
@@ -86,20 +81,18 @@ public class ControlCentre{
     }
 
     public synchronized boolean waitForNextRace(){
-        // Mudar o estado -> WAITING_FOR_A_RACE_TO_START
-        // Block waitForRaceToStart (while(!raceStart && races<K-1))
-        Spectator spec;
-        if (currentRace>0 && currentRace!=K+1) {
-            spec = ((Spectator) Thread.currentThread());
-            spec.setState((SpectatorState.COLLECTING_THE_GAINS));
-            repo.setSpectatorState(SpectatorState.COLLECTING_THE_GAINS, spec.getspecId());
-        }
+
+        Spectator spec = ((Spectator) Thread.currentThread());
+
+        repo.setOdd(spec.getspecId(), -1);
+        repo.setSpectatorBet(spec.getspecId(), -1, -1);
+        repo.reportStatus();
 
 
         while(waitForRaceToStart && currentRace != K+1) {
             // Set in constructor
-            //((Spectator) Thread.currentThread()).setState((SpectatorState.WAITING_FOR_A_RACE_TO_START));
-            //repo.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START,((Spectator) Thread.currentThread()).getspecId());
+            ((Spectator) Thread.currentThread()).setState((SpectatorState.WAITING_FOR_A_RACE_TO_START));
+            repo.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START,((Spectator) Thread.currentThread()).getspecId());
 
             try {
                 wait();
@@ -118,16 +111,12 @@ public class ControlCentre{
     }
 
     public synchronized void goCheckHorses(){
-        // Actualiza waitForSpectatorEvaluation
-        // Acorda Broker
 
         waitForSpectatorEvaluation=false;
         notifyAll();
     }
 
     public synchronized void goWatchTheRace(){
-        // Muda o estado -> WATCHING_A_RACE
-        // Bloquear em waitForResults
 
         ((Spectator) Thread.currentThread()).setState((SpectatorState.WATCHING_A_RACE));
         repo.setSpectatorState(SpectatorState.WATCHING_A_RACE,((Spectator)Thread.currentThread()).getspecId());
@@ -147,8 +136,7 @@ public class ControlCentre{
     }
 
     public void relaxABit(){
-        // muda o estado -> CELEBRATING
-        // Preparar para terminar thread
+
         ((Spectator) Thread.currentThread()).setState((SpectatorState.CELEBRATING));
         repo.setSpectatorState(SpectatorState.CELEBRATING,((Spectator)Thread.currentThread()).getspecId());
     }

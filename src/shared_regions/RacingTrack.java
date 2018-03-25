@@ -45,8 +45,6 @@ public class RacingTrack{
     }
 
     public synchronized void startTheRace(int k){
-        // Mudar o estado -> SUPERVISING_THE_RACE
-        // bloquear em waitForRaceToFinish
 
         ((Broker)Thread.currentThread()).setBrokerState((BrokerState.SUPERVISING_THE_RACE));
         repo.setBrokerState(BrokerState.SUPERVISING_THE_RACE);
@@ -58,12 +56,6 @@ public class RacingTrack{
     }
 
     public synchronized void proceedToStartLine(int hj_number){
-        // sends horse_jockey to the start_Line
-        // bloqueia em  waitForA
-
-        // DID WE FORGET TO UPDATE STATE -> AT_THE_START_LINE ???!???!???
-        // SHOULD THIS ALSO HAVE 1 METHOD IN PD DUE TO BROKER startTheRace ???!???!??? (Option 1)
-        // OR SHOULD BROKER COME HERE TO startTheRace ???!???!??? (* Using Option 2 *)
 
         ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_START_LINE));
         repo.setHorseJockeyState(HorseJockeyState.AT_THE_START_LINE,hj_number);
@@ -77,13 +69,6 @@ public class RacingTrack{
                 System.out.println("HorseJockey rt.proceedToStartLine() Exception: "+e);
             }
 
-        // SHOULD THIS LOOP ONLY ALLOW 1 HJ TO makeAMove ???!???!???
-        /*
-        the pair horse / jockey is waken up by the operation startTheRace of the
-        broker (the first) or by the operation makeAMove of another horse / jockey
-        pair
-         */
-
         ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.RUNNING));
         repo.setHorseJockeyState(HorseJockeyState.RUNNING,hj_number);
     }
@@ -91,12 +76,11 @@ public class RacingTrack{
 
 
     public synchronized void makeAMove(int hj_number) {
-        // makeAMove
-        //bloqueia a andar e acorda o seguinte se o mesmo não tiver passado linha de corrida
 
 
         HJPos[hj_number] += (int)(Math.random()*((HorseJockey)Thread.currentThread()).getAgility()+1);
-System.out.println("Cavalo:" +hj_number+" Posição:"+HJPos[hj_number]);
+
+        //System.out.println("Cavalo:" +hj_number+" Posição:"+HJPos[hj_number]);
 
         iterations[hj_number]++;
         repo.setIterationStep(hj_number,iterations[hj_number]);
@@ -189,20 +173,8 @@ System.out.println("Cavalo:" +hj_number+" Posição:"+HJPos[hj_number]);
     }
 
     public Winners[] reportResults(){
-        /*Winners[] temp = new Winners[winners.length];
-        for (int i=0; i<winners.length; i++){
-            if (winners[i].standing == 1)
-                temp[i] = winners[i];
-            System.out.println("BBBBBBB-"+i+" Stwanding"+winners[i].standing);
-            }
-        */
-
-        Winners[] temp = winners;
-
-/*        for (int i=0; i<N; i++)
-            winners[i] = new Winners();
-*/
-        return temp;
+        //Winners[] temp = winners;
+        return winners;
     }
 
 

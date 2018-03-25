@@ -92,14 +92,10 @@ public class HorseJockey extends Thread{
         pd.proceedToPaddock2();   //envia para o paddock
 
         rt.proceedToStartLine(hj_number);
-
         do{
             rt.makeAMove(hj_number);
         }while(!rt.hasFinishLineBeenCrossed()); //devolve se terminou ou não. Em caso de témino devolve a posição
-
-        //if(rt.hasLastHorseCrossed())
         ccws.lastHorseCrossedLine();
-            // ULTIMO ACORDA BROKER NO CCWS
 
         st.proceedToStable2();
     }

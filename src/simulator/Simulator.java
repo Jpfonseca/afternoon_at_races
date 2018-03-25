@@ -50,10 +50,6 @@ public class Simulator{
 
         /* Simulation End */
         for (int i=0; i<M; i++) {
-            //while (spectator[i].isAlive()) {
-            //    spectator[i].interrupt();
-            //    Thread.yield();
-            //}
             try {
                 spectator[i].join();
             } catch (InterruptedException e) {
