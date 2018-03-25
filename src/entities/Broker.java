@@ -107,9 +107,14 @@ System.out.println("B-5");
             ccws.startTheRace(k);
 
 System.out.println("B-6");
-            ccws.reportResults(k);
-            if (bc.areThereAnyWinners(k))
+            if (bc.areThereAnyWinners(rt.reportResults())) {
+                System.out.println("B-7");
+                ccws.reportResults(k);
+                System.out.println("B-8");
                 bc.honourTheBets(k);
+                System.out.println("B-9");
+            }else
+                ccws.reportResults(k);
 
             System.out.println("Race "+k+" End");
 

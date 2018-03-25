@@ -24,7 +24,7 @@ public class Simulator{
 
         GeneralInformationRepository repo = new GeneralInformationRepository("",K,N,M);
 
-        BettingCentre bc = new BettingCentre(M,maxBet, repo);
+        BettingCentre bc = new BettingCentre(M, repo);
         ControlCentre ccws = new ControlCentre(K, M, repo);
         Paddock pd = new Paddock(N, M, repo);
         RacingTrack rt = new RacingTrack(K, N, repo);

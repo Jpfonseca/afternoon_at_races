@@ -8,7 +8,6 @@ public class RacingTrack{
 
     private GeneralInformationRepository repo;
     private boolean waitForA=true;
-    private boolean lastHorseCrossed=false;
     private int currentRace;
     private int N;
     private int[] fifo;
@@ -53,7 +52,6 @@ public class RacingTrack{
         repo.setBrokerState(BrokerState.SUPERVISING_THE_RACE);
 
         this.currentRace = k;
-        this.lastHorseCrossed = false;
 
         waitForA=false;
         notifyAll();
@@ -158,13 +156,10 @@ System.out.println("Cavalo:" +hj_number+" Posição:"+HJPos[hj_number]);
 
         if (totalHJ==0) {
             waitForA = true; // variable reset
-            lastHorseCrossed=true;
             fifo = new int[N];
             HJPos = new int[N];
             iterations = new int[N];
             maxStanding=0;
-            for (int i=0; i<N; i++)
-                winners[i] = new Winners();
         } else {
             int[] temp = new int[totalHJ];
             System.arraycopy(fifo, 1, temp, 0, fifo.length - 1);
@@ -193,7 +188,22 @@ System.out.println("Cavalo:" +hj_number+" Posição:"+HJPos[hj_number]);
         System.out.print(temp+"\n");
     }
 
-    public boolean hasLastHorseCrossed() {
-        return lastHorseCrossed;
+    public Winners[] reportResults(){
+        /*Winners[] temp = new Winners[winners.length];
+        for (int i=0; i<winners.length; i++){
+            if (winners[i].standing == 1)
+                temp[i] = winners[i];
+            System.out.println("BBBBBBB-"+i+" Stwanding"+winners[i].standing);
+            }
+        */
+
+        Winners[] temp = winners;
+
+/*        for (int i=0; i<N; i++)
+            winners[i] = new Winners();
+*/
+        return temp;
     }
+
+
 }

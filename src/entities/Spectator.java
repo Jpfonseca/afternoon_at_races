@@ -28,9 +28,9 @@ public class Spectator extends Thread{
     private BettingCentre bc;
     private GeneralInformationRepository repo;
 
-
     private int specId;
 
+    private int wallet;
     /**
      * Spectator constructor
      * @param ccws Control Centre & Watching Stand - Shared Region
@@ -43,6 +43,9 @@ public class Spectator extends Thread{
         this.pd = pd;
         this.bc = bc;
         this.repo = repo;
+        this.wallet = 100;
+
+        repo.setSpectatorMoney(wallet, specId);
 
         this.state=SpectatorState.WAITING_FOR_A_RACE_TO_START;
         repo.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START,specId);
@@ -99,5 +102,13 @@ System.out.println("S-7");
 
     public int getspecId() {
         return specId;
+    }
+
+    public synchronized void setWallet(int wallet) {
+        this.wallet = wallet;
+    }
+
+    public synchronized int getWallet() {
+        return wallet;
     }
 }

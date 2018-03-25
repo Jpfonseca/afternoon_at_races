@@ -325,10 +325,8 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
         reportStatus();
     }
 
-    // TODO - setSpectatorMoney usages
     public synchronized void setSpectatorMoney(int money, int index) {
         this.spectatorMoney[index] = money;
-        reportStatus();
     }
 
     public synchronized void setRaceNumber(int raceNumber) {
@@ -349,14 +347,12 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
         D = d;
     }
 
-    // TODO - setSpectatorBet usages
     public synchronized void setSpectatorBet(int spectatorIndex, int betSelection, int betAmmount) {
         this.bet[spectatorIndex].horse_id = betSelection;
         this.bet[spectatorIndex].bet = betAmmount;
         reportStatus();
     }
 
-    // TODO - setOdd usages
     public synchronized void setOdd(int horse, int odd) {
         this.odd[horse] = odd;
     }

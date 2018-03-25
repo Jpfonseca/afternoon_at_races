@@ -64,11 +64,11 @@ public class HorseJockey extends Thread{
         this.rt = rt;
         this.agility = (int)(Math.random()*20+1);
         this.hjState=HorseJockeyState.AT_THE_STABLE;
+
         repo.setIterationStep(hj_number,-1);
         repo.setCurrentPosZero(hj_number);
         repo.setHorseJockeyAgility(agility,hj_number);
-        repo.setHorseJockeyState(hjState,hj_number);
-
+        repo.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE,hj_number);
         /*
         each horse / jockey Cnk, with n = 0, 1, ... , N-1 and k = 0, 1, ... , K-1 carries out a single position
         increment per iteration by moving randomly 1 to Pnk length units along its path – the maximum

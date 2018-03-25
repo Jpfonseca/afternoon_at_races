@@ -88,6 +88,14 @@ public class ControlCentre{
     public synchronized boolean waitForNextRace(){
         // Mudar o estado -> WAITING_FOR_A_RACE_TO_START
         // Block waitForRaceToStart (while(!raceStart && races<K-1))
+        Spectator spec;
+        if (currentRace>0 && currentRace!=K+1) {
+            spec = ((Spectator) Thread.currentThread());
+            spec.setState((SpectatorState.COLLECTING_THE_GAINS));
+            repo.setSpectatorState(SpectatorState.COLLECTING_THE_GAINS, spec.getspecId());
+        }
+
+
         while(waitForRaceToStart && currentRace != K+1) {
             // Set in constructor
             //((Spectator) Thread.currentThread()).setState((SpectatorState.WAITING_FOR_A_RACE_TO_START));
