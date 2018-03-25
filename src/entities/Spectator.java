@@ -26,7 +26,7 @@ public class Spectator extends Thread{
      */
     private BettingCentre bc;
 
-
+    private int wallet;
 
     private int specId;
 
@@ -36,12 +36,13 @@ public class Spectator extends Thread{
      * @param pd Paddock - Shared Region
      * @param bc Betting Centre - Shared Region
      */
-    public Spectator(int specId,ControlCentre ccws, Paddock pd, BettingCentre bc) {
+    public Spectator(int specId,ControlCentre ccws, Paddock pd, BettingCentre bc,int wallet) {
         this.specId=specId;
         this.ccws = ccws;
         this.pd = pd;
         this.bc = bc;
         this.state=SpectatorState.WAITING_FOR_A_RACE_TO_START;
+        this.wallet=wallet;
     }
 
     /**
@@ -89,5 +90,13 @@ public class Spectator extends Thread{
 
     public int getspecId() {
         return specId;
+    }
+
+    public int getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(int wallet) {
+        this.wallet = wallet;
     }
 }

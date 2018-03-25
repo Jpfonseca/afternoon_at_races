@@ -55,6 +55,7 @@ public class HorseJockey extends Thread{
         this.hjState = hjState;
     }
 
+
     /**
      * HorseJockey Constructor
      * @param hj_number HorseJockey index
@@ -110,5 +111,9 @@ public class HorseJockey extends Thread{
 
     public int getAgility() {
         return agility;
+    }
+
+    public int getHj_number() {
+        return hj_number;
     }
 }

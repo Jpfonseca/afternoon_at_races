@@ -112,11 +112,13 @@ System.out.println("Cavalo:" +hj_number+" Posição:"+HJPos[hj_number]);
         if (HJPos[fifo[0]] < D[currentRace-1])
             return false;
 
-        ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_FINNISH_LINE));
+        HorseJockey horseJockey=((HorseJockey)Thread.currentThread());
+        horseJockey.setHjState((HorseJockeyState.AT_THE_FINNISH_LINE));
 
         winners[fifo[0]].position=HJPos[fifo[0]];
         // TODO - Make iterations
         winners[fifo[0]].iteration=0;
+        winners[fifo[0]].hj_id=horseJockey.getHj_number();
 
         if (fifo.length>1) {
             int[] temp = new int[fifo.length-1];
@@ -135,7 +137,13 @@ System.out.println("Cavalo:" +hj_number+" Posição:"+HJPos[hj_number]);
         return true;
     }
 
+    public Winners[] reportResults(int currentRace){
+        return winners;
+    }
+
     public boolean hasLastHorseCrossed() {
         return lastHorseCrossed;
     }
+
+
 }

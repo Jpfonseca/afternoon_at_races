@@ -22,6 +22,7 @@ public class Simulator{
         int N = 4; // N competitors per race
         int M = 4; // M Spectators
         int maxBet=100;
+        int spectactor_Wallet=(maxBet*K)/2;
         BettingCentre bc = new BettingCentre(M,maxBet);
         ControlCentre ccws = new ControlCentre(K);
         GeneralInformationRepository repo = new GeneralInformationRepository();
@@ -34,7 +35,7 @@ public class Simulator{
 
         Spectator [] spectator = new Spectator[M];
         for (int i=0; i<M; i++)
-            spectator[i] = new Spectator(i,ccws, pd, bc);
+            spectator[i] = new Spectator(i,ccws, pd, bc,spectactor_Wallet);
 
 
         // Simulation Start
