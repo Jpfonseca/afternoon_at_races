@@ -166,10 +166,10 @@ public class RacingTrack{
         int temp = fifo[0];
         for (int i=0; i<fifo.length-1; i++) {
             fifo[i] = fifo[i + 1];
-            System.out.print(fifo[i]);
+            //System.out.print(fifo[i]);
         }
         fifo[fifo.length-1]=temp;
-        System.out.print(temp+"\n");
+        //System.out.print(temp+"\n");
     }
 
     public Winners[] reportResults(){

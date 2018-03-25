@@ -51,7 +51,7 @@ public class BettingCentre{
             try {
                 wait();
             } catch (InterruptedException e) {
-                System.out.println("Spectator bc.placeABet() InterruptedException: "+e);
+                System.out.println("Broker bt.acceptTheBets() InterruptedException: "+e);
             }
 
         isBetDone = true;

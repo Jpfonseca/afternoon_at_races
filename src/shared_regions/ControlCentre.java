@@ -125,7 +125,7 @@ public class ControlCentre{
             try {
                 wait();
             } catch (InterruptedException e) {
-                System.out.println("Spectator ccws.waitForNextRace() InterruptedException: " + e);
+                System.out.println("Spectator ccws.goWatchTheRace() InterruptedException: " + e);
             }
 
         totalWatched++;
