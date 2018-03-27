@@ -1,6 +1,7 @@
 package entities;
 
 import shared_regions.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * HorseJockey entity.<br>
@@ -58,7 +59,7 @@ public class HorseJockey extends Thread{
         this.st = st;
         this.pd = pd;
         this.rt = rt;
-        this.agility = (int)(Math.random()*20+1);
+        this.agility = ThreadLocalRandom.current().nextInt(1, 20+1);
         this.hjState=HorseJockeyState.AT_THE_STABLE;
 
         repo.setIterationStep(hj_number,-1);

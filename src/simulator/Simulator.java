@@ -17,7 +17,7 @@ public class Simulator{
         /*
         Assume there are five races, each having four competitors and that the number of spectators is also four.
          */
-        int K = 5; // K races
+        int K = 200; // K races
         int N = 4; // N competitors per race
         int M = 4; // M Spectators
 

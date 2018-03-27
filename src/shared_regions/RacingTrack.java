@@ -194,7 +194,7 @@ public class RacingTrack{
         repo.setHorseJockeyState(HorseJockeyState.AT_THE_FINNISH_LINE,fifo[0]);
 
         totalHJ--;
-        notifyAll();
+        //notifyAll();
 
         if (totalHJ==0) {
             waitForA = true; // variable reset

@@ -2,6 +2,8 @@ package shared_regions;
 
 import entities.*;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * This class specifies the Place where the spectators will make the bets.
  */
@@ -164,7 +166,7 @@ public class BettingCentre{
         int temp,bet,spec_id,totalAgility=0;
         spec_id=spec.getSpecId();
 
-        temp=(int)(Math.random()*agility.length);
+        temp= ThreadLocalRandom.current().nextInt(0,agility.length);
         betAmounts[spec_id]=new BetAmount();
         betAmounts[spec_id].horse_id=temp;
 
@@ -172,7 +174,7 @@ public class BettingCentre{
             totalAgility+=agility[i];
         }
         odd[spec_id]=totalAgility/agility[temp];
-        bet=betAmounts[spec_id].bet= (int)(Math.random()*spec.getWallet())/odd[spec_id];
+        bet = betAmounts[spec_id].bet= ThreadLocalRandom.current().nextInt(0, spec.getWallet())/odd[spec_id];
 
         spec.setWallet(spec.getWallet()-bet);
         betAmounts[spec_id].spectator_id=spec_id;
