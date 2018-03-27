@@ -194,7 +194,6 @@ public class RacingTrack{
         repo.setHorseJockeyState(HorseJockeyState.AT_THE_FINNISH_LINE,fifo[0]);
 
         totalHJ--;
-        notifyAll();
 
         if (totalHJ==0) {
             waitForA = true; // variable reset
@@ -204,7 +203,7 @@ public class RacingTrack{
             maxStanding=0;
         } else {
             int[] temp = new int[totalHJ];
-            System.arraycopy(fifo, 1, temp, 0, fifo.length - 1);
+            System.arraycopy(fifo, 1, temp, 0, fifo.length - 1); //TODO
             fifo = temp;
         }
 
