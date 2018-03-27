@@ -101,6 +101,13 @@ public class RacingTrack{
 
         this.currentRace = k;
 
+        while (totalHJ != N)
+            try {
+                wait();
+            } catch (Exception e) {
+                System.out.println("Broker rt.startTheRace() Exception: "+e);
+            }
+
         waitForA=false;
         notifyAll();
     }
@@ -115,6 +122,7 @@ public class RacingTrack{
         repo.setHorseJockeyState(HorseJockeyState.AT_THE_START_LINE,hj_number);
 
         fifo[totalHJ++] = hj_number;
+        notifyAll();
 
         while (waitForA || fifo[0]!=hj_number)
             try {

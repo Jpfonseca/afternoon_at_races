@@ -89,6 +89,7 @@ public class ControlCentre{
             }
 
         waitForSpectatorEvaluation=true; // variable reset
+        waitForRaceToFinish=true;
     }
 
     /**
