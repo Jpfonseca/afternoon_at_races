@@ -106,7 +106,7 @@ public class Paddock{
     public synchronized void goCheckHorses2(boolean last){
 
         ((Spectator)Thread.currentThread()).setState((SpectatorState.APPRAISING_THE_HORSES));
-        repo.setSpectatorState(SpectatorState.WATCHING_A_RACE,((Spectator)Thread.currentThread()).getSpecId());
+        repo.setSpectatorState(SpectatorState.APPRAISING_THE_HORSES,((Spectator)Thread.currentThread()).getSpecId());
 
         if (last) {
             waitBeingChecked = false;
