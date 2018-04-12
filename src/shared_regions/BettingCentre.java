@@ -118,15 +118,17 @@ public class BettingCentre{
 
         int winnersCount=0;
         int[] temp;
-        for (int i=0; i<winners.length; i++)
-            if (winners[i].standing == 1) {
-                winnersCount++;
 
-                temp = spectatorWinners;
-                spectatorWinners = new int[winnersCount];
-                System.arraycopy(temp, 0, spectatorWinners, 0, temp.length);
-                spectatorWinners[spectatorWinners.length-1] = i;
-            }
+        for (int i=0; i<winners.length; i++)
+            for (int j=0; j<betAmounts.length; j++)
+                if (winners[i].standing == 1 && betAmounts[j].horse_id==i) {
+                    winnersCount++;
+
+                    temp = spectatorWinners;
+                    spectatorWinners = new int[winnersCount];
+                    System.arraycopy(temp, 0, spectatorWinners, 0, temp.length);
+                    spectatorWinners[spectatorWinners.length-1] = j;
+                }
 
         return (winnersCount != 0);
     }
@@ -173,11 +175,12 @@ public class BettingCentre{
         for (int i=0; i<agility.length;i++){
             totalAgility+=agility[i];
         }
+
+        // TODO - odd should be horses' not spectators'
         odd[spec_id]=totalAgility/agility[temp];
         bet = betAmounts[spec_id].bet= ThreadLocalRandom.current().nextInt(0, spec.getWallet())/odd[spec_id];
 
         spec.setWallet(spec.getWallet()-bet);
-        betAmounts[spec_id].spectator_id=spec_id;
 
         bets++;
 
@@ -248,9 +251,9 @@ public class BettingCentre{
         totalWaiting--;
         int money_won=0;
         for (int i=0;i<betAmounts.length;i++){
-            if (betAmounts[i].spectator_id==spec.getSpecId()){
-                money_won=betAmounts[i].bet*odd[i];
-                money_won=money_won/spectatorWinners.length;
+            if (i == spec.getSpecId()){
+                money_won = betAmounts[i].bet*odd[betAmounts[i].horse_id];
+                money_won = money_won/spectatorWinners.length;
             }
         }
 
