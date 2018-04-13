@@ -85,7 +85,7 @@ public class RacingTrack{
         for (int i=0; i<N; i++) {
             HJPos[i] = 0;
             iterations[i] = 0;
-            winners[i]=new Winners();
+            //winners[i]=new Winners();
         }
     }
 
@@ -109,6 +109,9 @@ public class RacingTrack{
             }
 
         waitForA=false;
+        for (int i=0; i<N; i++)
+            winners[i] = new Winners();
+
         notifyAll();
     }
 

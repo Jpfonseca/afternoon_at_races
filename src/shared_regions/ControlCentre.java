@@ -152,7 +152,7 @@ public class ControlCentre{
         repo.setSpectatorBet(spec.getSpecId(), -1, -1);
         //repo.reportStatus();
 
-        if (currentRace>1 && currentRace != K+1) {
+        if (currentRace>0 && currentRace != K+1) {
             ((Spectator) Thread.currentThread()).setState((SpectatorState.WAITING_FOR_A_RACE_TO_START));
             repo.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START, ((Spectator) Thread.currentThread()).getSpecId());
         }
