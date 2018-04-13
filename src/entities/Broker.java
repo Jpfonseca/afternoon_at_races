@@ -108,7 +108,7 @@ public class Broker extends Thread{
         for(int k=1;k<=K;k++) {
             // HorseJockey Instantiation and start
             for (int j = 0; j < N; j++) {
-                horseJockeys[j] = new HorseJockey(j, ccws, st, pd, rt, repo);
+                horseJockeys[j] = new HorseJockey(j, ccws, st, pd, rt, bc, repo);
                 horseJockeys[j].start();
                 agility[j]=horseJockeys[j].getAgility();
                 System.out.println("HorseJockey "+(j+1)+" started");
@@ -117,10 +117,9 @@ public class Broker extends Thread{
             System.out.println("Race "+k+" Start");
 
 
-            st.summonHorsesToPaddock(k); // primeira parte é invocada no stable a segunda no ccws
+            st.summonHorsesToPaddock(k,agility); // primeira parte é invocada no stable a segunda no ccws
             ccws.summonHorsesToPaddock();
-
-            bc.acceptTheBets(agility);
+            bc.acceptTheBets();
             rt.startTheRace(k);
             ccws.startTheRace();
 

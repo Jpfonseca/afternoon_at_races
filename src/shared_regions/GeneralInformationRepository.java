@@ -122,7 +122,7 @@ public class GeneralInformationRepository{
             odd[i] = -1;
             iterationStep[i] = -1;
             currentPos[i] = -1;
-            standingPos[i] = 0;
+            standingPos[i] = -1;
             hjAgility[i]=0;
         }
         for (int i=0; i<K; i++) {
@@ -175,7 +175,7 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
                 + "MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN\n"
                 + "  Stat  St0  Am0 St1  Am1 St2  Am2 St3  Am3 RN St0 Len0 St1 Len1 St2 Len2 St3 Len3\n"
                 + "                                        Race RN Status\n"
-                + " RN Dist BS0  BA0 BS1  BA1 BS2  BA2 BS3  BA3  Od0 N0 Ps0 SD0 Od1 N1 Ps1 Sd1 Od2 N2 Ps2 Sd2 Od3 N3 Ps3 St3\n\n"
+                + " RN Dist BS0  BA0 BS1  BA1 BS2  BA2 BS3  BA3  Od0 N0 Ps0 St0 Od1 N1 Ps1 St1 Od2 N2 Ps2 St2 Od3 N3 Ps3 St3\n\n"
         );
 
         if (!log.close()) {
@@ -374,8 +374,12 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
             else if(currentPos[i]<1000)
                 textToAppend.append(" ").append(currentPos[i]);
 
-
-            textToAppend.append("  ").append(standingPos[i]);
+            if (standingPos[i]==-1){
+                textToAppend.append("  -");
+            }
+            else{
+                textToAppend.append("  ").append(standingPos[i]);
+            }
         }
 
         log.writelnString(textToAppend.toString());

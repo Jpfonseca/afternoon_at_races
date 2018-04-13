@@ -25,11 +25,6 @@ public class BettingCentre{
      */
     private int totalSpectators;
     /**
-     * Array with every HorseJockey's agility
-     * @serial agility
-     */
-    private int[] agility;
-    /**
      * Array with HorseJockey's odd used to calculate the gains
      * @serial odd
      */
@@ -86,15 +81,11 @@ public class BettingCentre{
 
     /**
      * Method used by the broker to announce he can collect Spectator's bets
-     * @param agility Ids of the horses running in the race
      */
-    public synchronized void acceptTheBets(int [] agility){
+    public synchronized void acceptTheBets(){
 
         ((Broker)Thread.currentThread()).setBrokerState((BrokerState.WAITING_FOR_BETS));
         repo.setBrokerState(BrokerState.WAITING_FOR_BETS);
-
-        this.agility=new int[agility.length];
-        this.agility=agility;
 
         spectatorWinners = new int[0];
 
@@ -166,15 +157,11 @@ public class BettingCentre{
         int temp,bet,spec_id,totalAgility=0;
         spec_id=spec.getSpecId();
 
-        temp= ThreadLocalRandom.current().nextInt(0,agility.length);
+        temp= ThreadLocalRandom.current().nextInt(0,odd.length);
         betAmounts[spec_id]=new BetAmount();
         betAmounts[spec_id].horse_id=temp;
 
-        for (int i=0; i<agility.length;i++){
-            totalAgility+=agility[i];
-        }
-        odd[spec_id]=totalAgility/agility[temp];
-        bet = betAmounts[spec_id].bet= ThreadLocalRandom.current().nextInt(0, spec.getWallet())/odd[spec_id];
+        bet = betAmounts[spec_id].bet= ThreadLocalRandom.current().nextInt(0, spec.getWallet())/odd[temp];
 
         spec.setWallet(spec.getWallet()-bet);
         betAmounts[spec_id].spectator_id=spec_id;
@@ -182,7 +169,6 @@ public class BettingCentre{
         bets++;
 
         //System.out.print("Spectator: " + spec.getSpecId()+ " betted [{horse:"+temp+"},{bet:"+bet+"}]\n");
-        repo.setOdd(spec_id, odd[spec_id]);
         repo.setSpectatorBet(spec.getSpecId(), temp, bet);
         notifyAll();
 
@@ -258,5 +244,13 @@ public class BettingCentre{
 
         waitForSpectatorCollectsMoney =false;
         notifyAll();
+    }
+
+    public void setHorseJockeyOdd() {
+        HorseJockey horseJockey = ((HorseJockey)Thread.currentThread());
+        int tmp[];
+        tmp=odd;
+        tmp[horseJockey.getHj_number()]=horseJockey.getOdd();
+        this.odd=tmp;
     }
 }

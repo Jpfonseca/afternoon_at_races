@@ -33,9 +33,12 @@ public class HorseJockey extends Thread{
      * @serial rt
      */
     private RacingTrack rt;
+
+    private BettingCentre bc;
     /**
      * HorseJockey agility
      * @serial agility
+
      */
     private int agility;
     /**
@@ -44,6 +47,7 @@ public class HorseJockey extends Thread{
      */
     private int hj_number;
 
+    private int odd;
     /**
      * HorseJockey Constructor
      * @param hj_number HorseJockey index
@@ -53,14 +57,17 @@ public class HorseJockey extends Thread{
      * @param rt Racing Track- Shared Region
      * @param repo General Repository
      */
-    public HorseJockey(int hj_number, ControlCentre ccws, Stable st, Paddock pd, RacingTrack rt, GeneralInformationRepository repo) {
+
+    public HorseJockey(int hj_number, ControlCentre ccws, Stable st, Paddock pd, RacingTrack rt,BettingCentre bc, GeneralInformationRepository repo) {
         this.hj_number = hj_number;
         this.ccws = ccws;
         this.st = st;
         this.pd = pd;
         this.rt = rt;
+        this.bc= bc;
         this.agility = ThreadLocalRandom.current().nextInt(1, 20+1);
         this.hjState=HorseJockeyState.AT_THE_STABLE;
+        this.odd=0;
 
         repo.setIterationStep(hj_number,-1);
         repo.setCurrentPosZero(hj_number);
@@ -82,7 +89,7 @@ public class HorseJockey extends Thread{
         boolean last;
 
         st.proceedToStable();
-
+        bc.setHorseJockeyOdd();
         last = pd.proceedToPaddock1();     // Este método verifica o último.
         if (last)
             ccws.proceedToPaddock();    // Acorda spectator que está no ccws a espera de ser acordado
@@ -104,7 +111,6 @@ public class HorseJockey extends Thread{
     public int getAgility() {
         return agility;
     }
-
     /**
      * This method will return the horse jockey index number.
      * @return hj_number Index number
@@ -119,5 +125,13 @@ public class HorseJockey extends Thread{
      */
     public void setHjState(HorseJockeyState hjState) {
         this.hjState = hjState;
+    }
+
+    public int getOdd() {
+        return odd;
+    }
+
+    public void setOdd(int odd) {
+        this.odd = odd;
     }
 }
