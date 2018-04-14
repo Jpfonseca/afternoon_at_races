@@ -157,7 +157,7 @@ public class ControlCentre{
         if (currentRace>0 && currentRace != K+1) {
             ((Spectator) Thread.currentThread()).setState((SpectatorState.WAITING_FOR_A_RACE_TO_START));
             repo.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START, ((Spectator) Thread.currentThread()).getSpecId());
-            repo.reportStatus();
+            //repo.reportStatus();
         }
 
         while(waitForRaceToStart && currentRace != K+1)

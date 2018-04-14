@@ -101,7 +101,7 @@ public class Stable{
     public synchronized void proceedToStable2(){
         ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_STABLE));
         repo.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE,((HorseJockey)Thread.currentThread()).getHj_number());
-        repo.reportStatus();
+        //repo.reportStatus();
 
         repo.setIterationStep(((HorseJockey)Thread.currentThread()).getHj_number(),-1);
         repo.setCurrentPosNull(((HorseJockey)Thread.currentThread()).getHj_number());
