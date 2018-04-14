@@ -69,8 +69,6 @@ public class HorseJockey extends Thread{
         this.hjState=HorseJockeyState.AT_THE_STABLE;
         this.odd=0;
 
-        repo.setIterationStep(hj_number,-1);
-        repo.setCurrentPosZero(hj_number);
         repo.setHorseJockeyAgility(agility,hj_number);
         repo.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE,hj_number);
         /*

@@ -136,6 +136,8 @@ public class ControlCentre{
      */
     public synchronized void proceedToPaddock(){
         // Wakes up Spectator that is in CCWS
+        repo.reportStatus();
+
         this.waitForRaceToStart=false;
         notifyAll();
     }
@@ -148,13 +150,14 @@ public class ControlCentre{
 
         Spectator spec = ((Spectator) Thread.currentThread());
 
-        repo.setOdd(spec.getSpecId(), -1);
+        //repo.setOdd(spec.getSpecId(), -1);
         repo.setSpectatorBet(spec.getSpecId(), -1, -1);
         //repo.reportStatus();
 
         if (currentRace>0 && currentRace != K+1) {
             ((Spectator) Thread.currentThread()).setState((SpectatorState.WAITING_FOR_A_RACE_TO_START));
             repo.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START, ((Spectator) Thread.currentThread()).getSpecId());
+            repo.reportStatus();
         }
 
         while(waitForRaceToStart && currentRace != K+1)
@@ -189,6 +192,7 @@ public class ControlCentre{
 
         ((Spectator) Thread.currentThread()).setState((SpectatorState.WATCHING_A_RACE));
         repo.setSpectatorState(SpectatorState.WATCHING_A_RACE,((Spectator)Thread.currentThread()).getSpecId());
+        repo.reportStatus();
 
         while(waitForResults)
             try {
@@ -211,6 +215,7 @@ public class ControlCentre{
 
         ((Spectator) Thread.currentThread()).setState((SpectatorState.CELEBRATING));
         repo.setSpectatorState(SpectatorState.CELEBRATING,((Spectator)Thread.currentThread()).getSpecId());
+        repo.reportStatus();
     }
 
     /**

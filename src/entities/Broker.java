@@ -60,10 +60,10 @@ public class Broker extends Thread{
      */
     private HorseJockey[] horseJockeys;
     /**
-     * Array with the Horse/Jockey agility updated on a per-race basis
-     * @serial agility
+     * Total Agility of the horses. Used to calculate the odd.
+     * @serial totalAgility
      */
-    private int [] agility;
+    private int totalAgility;
 
     /**
      *
@@ -89,7 +89,6 @@ public class Broker extends Thread{
         this.repo = repo;
 
         this.horseJockeys = new HorseJockey[N];
-        this.agility= new int[N];
 
         this.state=BrokerState.OPENING_THE_EVENT; // set current Broker state to the initial state
         repo.setBrokerState(this.state);
@@ -107,17 +106,18 @@ public class Broker extends Thread{
 
         for(int k=1;k<=K;k++) {
             // HorseJockey Instantiation and start
+            totalAgility = 0;
             for (int j = 0; j < N; j++) {
                 horseJockeys[j] = new HorseJockey(j, ccws, st, pd, rt, bc, repo);
                 horseJockeys[j].start();
-                agility[j]=horseJockeys[j].getAgility();
+                totalAgility += horseJockeys[j].getAgility();
                 System.out.println("HorseJockey "+(j+1)+" started");
             }
 
             System.out.println("Race "+k+" Start");
 
 
-            st.summonHorsesToPaddock(k,agility); // primeira parte é invocada no stable a segunda no ccws
+            st.summonHorsesToPaddock(k,totalAgility); // primeira parte é invocada no stable a segunda no ccws
             ccws.summonHorsesToPaddock();
             bc.acceptTheBets();
             rt.startTheRace(k);

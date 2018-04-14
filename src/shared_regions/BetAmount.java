@@ -14,9 +14,4 @@ public class BetAmount {
      * @serial horse_id
      */
     int horse_id = -1;
-    /**
-     * Index of Spectator that bet
-     * @serial spectator_id
-     */
-    int spectator_id = -1;
 }

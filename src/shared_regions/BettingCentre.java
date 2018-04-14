@@ -152,11 +152,9 @@ public class BettingCentre{
     public synchronized void placeABet(){
 
         Spectator spec =((Spectator)Thread.currentThread());
-        spec.setState((SpectatorState.PLACING_A_BET));
-        repo.setSpectatorState(SpectatorState.PLACING_A_BET,spec.getSpecId());
 
         // SPECTATOR BET
-        int temp,bet,spec_id,totalAgility=0;
+        int temp,bet,spec_id;
         spec_id=spec.getSpecId();
 
         temp= ThreadLocalRandom.current().nextInt(0,odd.length);
@@ -170,7 +168,10 @@ public class BettingCentre{
         bets++;
 
         //System.out.print("Spectator: " + spec.getSpecId()+ " betted [{horse:"+temp+"},{bet:"+bet+"}]\n");
+        spec.setState((SpectatorState.PLACING_A_BET));
+        repo.setSpectatorState(SpectatorState.PLACING_A_BET,spec.getSpecId());
         repo.setSpectatorBet(spec.getSpecId(), temp, bet);
+        repo.reportStatus();
         notifyAll();
 
         while (!isBetDone)
@@ -211,6 +212,7 @@ public class BettingCentre{
         Spectator spec=((Spectator) Thread.currentThread());
         spec.setState((SpectatorState.COLLECTING_THE_GAINS));
         repo.setSpectatorState(SpectatorState.COLLECTING_THE_GAINS,spec.getSpecId());
+        repo.reportStatus();
 
         fifo[totalWaiting++]=spec.getSpecId();
         if (totalWaiting == spectatorWinners.length) {
@@ -236,7 +238,7 @@ public class BettingCentre{
         int money_won=0;
         for (int i=0;i<betAmounts.length;i++){
             if (i == spec.getSpecId()){
-                money_won = betAmounts[i].bet*odd[betAmounts[i].horse_id];
+                money_won = betAmounts[i].bet * odd[betAmounts[i].horse_id];
                 money_won = money_won/spectatorWinners.length;
             }
         }
@@ -249,9 +251,6 @@ public class BettingCentre{
 
     public void setHorseJockeyOdd() {
         HorseJockey horseJockey = ((HorseJockey)Thread.currentThread());
-        int tmp[];
-        tmp=odd;
-        tmp[horseJockey.getHj_number()]=horseJockey.getOdd();
-        this.odd=tmp;
+        this.odd[horseJockey.getHj_number()] = horseJockey.getOdd();
     }
 }

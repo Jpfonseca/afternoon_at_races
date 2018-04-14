@@ -117,7 +117,7 @@ public class GeneralInformationRepository{
         this.hjAgility = new int[N];
 
         for (int i=0; i<N; i++){
-            spectatorMoney[i] = 0;
+            spectatorMoney[i] = -1;
             bet[i] = new BetAmount();
             odd[i] = -1;
             iterationStep[i] = -1;
@@ -260,15 +260,16 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
             else
                 textToAppend.append(" ---");
 
-            if(spectatorMoney[i]<10)
-                textToAppend.append("    ");
+            if(spectatorMoney[i]<0)
+                textToAppend.append("    -");
+            else if(spectatorMoney[i]<10)
+                textToAppend.append("    ").append(spectatorMoney[i]);
             else if(spectatorMoney[i]<100)
-                textToAppend.append("   ");
+                textToAppend.append("   ").append(spectatorMoney[i]);
             else if(spectatorMoney[i]<1000)
-                textToAppend.append("  ");
+                textToAppend.append("  ").append(spectatorMoney[i]);
             else
-                textToAppend.append(" ");
-            textToAppend.append(spectatorMoney[i]);
+                textToAppend.append(" ").append(spectatorMoney[i]);
         }
 
         textToAppend.append("  ").append(raceNumber);
@@ -406,7 +407,6 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
      */
     public synchronized void setSpectatorState(SpectatorState state, int index) {
         this.spectatorState[index] = state;
-        reportStatus();
     }
 
     /**
@@ -434,7 +434,7 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
      */
     public synchronized void setHorseJockeyState(HorseJockeyState state, int index) {
         this.horseJockeyState[index] = state;
-        reportStatus();
+        //reportStatus();
     }
 
     /**
@@ -500,14 +500,6 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
      */
     public synchronized void setCurrentPosNull(int horse) {
         this.currentPos[horse] = -1;
-    }
-
-    /**
-     * Used to set the current HorseJockey position to zero
-     * @param horse HorseJockey index
-     */
-    public synchronized void setCurrentPosZero(int horse) {
-        this.currentPos[horse] = 0;
     }
 
     /**

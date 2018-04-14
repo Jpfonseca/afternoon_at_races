@@ -18,11 +18,13 @@ public class Stable{
     private int queueHJ;
     /**
      * Condition Statement used by the HorseJockey to know when the next race is starting
-     * @serial
+     * @serial waitForNextRace
      */
     private boolean waitForNextRace=true;
-
-    private int agility [];
+    /**
+     * Total Agility of the horses. Used to calculate the odd.
+     * @serial totalAgility
+     */
     private int totalAgility;
 
     /**
@@ -41,7 +43,6 @@ public class Stable{
         this.N = N;
         this.queueHJ = 0;
         this.repo = repo;
-        this.agility= new int[N];
         this.totalAgility=0;
     }
 
@@ -49,25 +50,28 @@ public class Stable{
      * Method used by the Broker to summon the horses to Paddock
      * @param k number of current race
      */
-    public synchronized void summonHorsesToPaddock(int k,int [] agility){
+    public synchronized void summonHorsesToPaddock(int k,int totalAgility){
 
         ((Broker)Thread.currentThread()).setBrokerState(BrokerState.ANNOUNCING_NEXT_RACE);
         repo.setRaceNumber(k);
         repo.setBrokerState(BrokerState.ANNOUNCING_NEXT_RACE);
 
+        this.totalAgility = totalAgility;
+
         this.waitForNextRace = false;
         notifyAll();
-        this.agility=agility;
-
-        for (int i=0; i<agility.length;i++){
-            totalAgility+=agility[i];
-        }
     }
 
     /**
      * Method used by the HorseJockeys to proceed to Stable and wait for the next race
      */
-    public synchronized void  proceedToStable(){
+    public synchronized void proceedToStable(){
+        HorseJockey horse = ((HorseJockey)Thread.currentThread());
+        //repo.setIterationStep(horse.getHj_number(),-1);
+        //repo.setCurrentPosZero(horse.getHj_number());
+        repo.setHorseJockeyAgility(horse.getAgility(),horse.getHj_number());
+        repo.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE,horse.getHj_number());
+
             while(waitForNextRace)
             try {
                 wait();
@@ -81,9 +85,8 @@ public class Stable{
             waitForNextRace = true; // variable reset
             queueHJ=0; // variable reset
         }
-        int odd;
-        HorseJockey horse= ((HorseJockey)Thread.currentThread());
 
+        int odd;
         odd=totalAgility/horse.getAgility();
         horse.setOdd(odd);
         repo.setOdd(horse.getHj_number(),odd);
@@ -98,12 +101,13 @@ public class Stable{
     public synchronized void proceedToStable2(){
         ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_STABLE));
         repo.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE,((HorseJockey)Thread.currentThread()).getHj_number());
-
+        repo.reportStatus();
 
         repo.setIterationStep(((HorseJockey)Thread.currentThread()).getHj_number(),-1);
         repo.setCurrentPosNull(((HorseJockey)Thread.currentThread()).getHj_number());
         repo.setStandingPos(((HorseJockey)Thread.currentThread()).getHj_number(),-1);
         repo.setHorseJockeyAgility(0,((HorseJockey)Thread.currentThread()).getHj_number());
+        repo.setOdd(((HorseJockey)Thread.currentThread()).getHj_number(), -1);
         repo.setHorseJockeyState(null,((HorseJockey)Thread.currentThread()).getHj_number());
     }
 

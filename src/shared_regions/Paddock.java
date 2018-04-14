@@ -107,6 +107,7 @@ public class Paddock{
 
         ((Spectator)Thread.currentThread()).setState((SpectatorState.APPRAISING_THE_HORSES));
         repo.setSpectatorState(SpectatorState.APPRAISING_THE_HORSES,((Spectator)Thread.currentThread()).getSpecId());
+        repo.reportStatus();
 
         if (last) {
             waitBeingChecked = false;

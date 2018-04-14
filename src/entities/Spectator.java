@@ -65,6 +65,7 @@ public class Spectator extends Thread{
 
         this.state=SpectatorState.WAITING_FOR_A_RACE_TO_START;
         repo.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START,specId);
+        repo.reportStatus();
     }
 
     /**

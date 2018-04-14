@@ -83,8 +83,8 @@ public class RacingTrack{
         repo.setTrackDistance(D);
 
         for (int i=0; i<N; i++) {
-            HJPos[i] = 0;
-            iterations[i] = 0;
+            HJPos[i] = -1;
+            iterations[i] = -1;
             //winners[i]=new Winners();
         }
     }
@@ -123,6 +123,12 @@ public class RacingTrack{
 
         ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_START_LINE));
         repo.setHorseJockeyState(HorseJockeyState.AT_THE_START_LINE,hj_number);
+
+        iterations[hj_number] = 0;
+        HJPos[hj_number] = 0;
+        repo.setIterationStep(hj_number,iterations[hj_number]);
+        repo.setCurrentPos(hj_number, HJPos[hj_number]);
+        repo.reportStatus();
 
         fifo[totalHJ++] = hj_number;
         notifyAll();
@@ -183,7 +189,7 @@ public class RacingTrack{
             if (winners[i].iteration == iterations[fifo[0]])
                 if (winners[i].position < HJPos[fifo[0]]) {
                     winners[i].standing++;
-                    repo.setStandingPos(i,winners[i].standing);
+                    //repo.setStandingPos(i,winners[i].standing);
                     if (winners[i].standing > maxStanding)
                         maxStanding = winners[i].standing;
                     standingCalc--;
@@ -201,8 +207,8 @@ public class RacingTrack{
 
 
         ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_FINNISH_LINE));
-        repo.setStandingPos(fifo[0],standingCalc);
         repo.setHorseJockeyState(HorseJockeyState.AT_THE_FINNISH_LINE,fifo[0]);
+        repo.reportStatus();
 
         totalHJ--;
 
@@ -212,6 +218,11 @@ public class RacingTrack{
             HJPos = new int[N];
             iterations = new int[N];
             maxStanding=0;
+
+            for (int i=0; i<N; i++)
+                repo.setStandingPos(i,winners[i].standing);
+            repo.reportStatus();
+
         } else {
             int[] temp = new int[totalHJ];
             System.arraycopy(fifo, 1, temp, 0, fifo.length - 1);
@@ -235,10 +246,8 @@ public class RacingTrack{
      */
     private void fifoUpdate(){
         int temp = fifo[0];
-        for (int i=0; i<fifo.length-1; i++) {
-            fifo[i] = fifo[i + 1];
-            //System.out.print(fifo[i]);
-        }
+        //System.out.print(fifo[i]);
+        System.arraycopy(fifo, 1, fifo, 0, fifo.length - 1);
         fifo[fifo.length-1]=temp;
         //System.out.print(temp+"\n");
     }
