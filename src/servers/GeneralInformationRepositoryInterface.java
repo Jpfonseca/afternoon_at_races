@@ -39,6 +39,54 @@ public class GeneralInformationRepositoryInterface implements InterfaceServers{
                 repo.reportStatus();
                 reply = new Message(Message.OK);
                 break;
+            case Message.SET_BROKER_STATE:
+                repo.setBrokerState(message.getBrokerState());
+                reply = new Message(Message.OK);
+                break;
+            case Message.SET_SPECTATOR_STATE:
+                repo.setSpectatorState(message.getSpectatorState(), message.getIndex());
+                reply = new Message(Message.OK);
+                break;
+            case Message.SET_SPECTATOR_MONEY:
+                repo.setSpectatorMoney(message.getSpectatorMoney(), message.getIndex());
+                reply = new Message(Message.OK);
+                break;
+            case Message.SET_RACE_NUMBER:
+                repo.setRaceNumber(message.getRaceNumber());
+                reply = new Message(Message.OK);
+                break;
+            case Message.SET_HORSEJOCKEY_STATE:
+                repo.setHorseJockeyState(message.getHorseJockeyState(), message.getIndex());
+                reply = new Message(Message.OK);
+                break;
+            case Message.SET_HORSEJOCKEY_AGILITY:
+                repo.setHorseJockeyAgility(message.getHorseJockeyAgility(), message.getIndex());
+                reply = new Message(Message.OK);
+                break;
+            case Message.SET_TRACK_DISTANCE:
+                repo.setTrackDistance(message.getTrackDistance());
+                reply = new Message(Message.OK);
+                break;
+            case Message.SET_SPECTATOR_BET:
+                repo.setSpectatorBet(message.getIndex(), message.getBetSelection() ,message.getBetAmount());
+                reply = new Message(Message.OK);
+                break;
+            case Message.SET_ODD:
+                repo.setOdd(message.getIndex(), message.getOdd());
+                reply = new Message(Message.OK);
+                break;
+            case Message.SET_ITERATION_STEP:
+                repo.setIterationStep(message.getIndex(), message.getIterationStep());
+                reply = new Message(Message.OK);
+                break;
+            case Message.SET_CURRENT_POS:
+                repo.setCurrentPos(message.getIndex(), message.getPosition());
+                reply = new Message(Message.OK);
+                break;
+            case Message.SET_STANDING_POS:
+                repo.setStandingPos(message.getIndex(), message.getStandingPos());
+                reply = new Message(Message.OK);
+                break;
             default:
                 break;
         }
