@@ -58,14 +58,14 @@ public class HorseJockey extends Thread{
      * @param repo General Repository
      */
 
-    public HorseJockey(int hj_number, ControlCentre ccws, Stable st, Paddock pd, RacingTrack rt,BettingCentre bc, GeneralInformationRepository repo) {
+    public HorseJockey(int hj_number, ControlCentre ccws, Stable st, Paddock pd, RacingTrack rt,BettingCentre bc, GeneralInformationRepository repo, int maxAgil) {
         this.hj_number = hj_number;
         this.ccws = ccws;
         this.st = st;
         this.pd = pd;
         this.rt = rt;
         this.bc= bc;
-        this.agility = ThreadLocalRandom.current().nextInt(1, 20+1);
+        this.agility = ThreadLocalRandom.current().nextInt(1, maxAgil+1);
         this.hjState=HorseJockeyState.AT_THE_STABLE;
         this.odd=0;
 

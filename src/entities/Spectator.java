@@ -53,13 +53,13 @@ public class Spectator extends Thread{
      * @param bc Betting Centre - Shared Region
      * @param repo General Repository -Shared Region
      */
-    public Spectator(int specId, ControlCentre ccws, Paddock pd, BettingCentre bc, GeneralInformationRepository repo) {
+    public Spectator(int specId, ControlCentre ccws, Paddock pd, BettingCentre bc, GeneralInformationRepository repo, int wallet) {
         this.specId=specId;
         this.ccws = ccws;
         this.pd = pd;
         this.bc = bc;
         this.repo = repo;
-        this.wallet = 100;
+        this.wallet = wallet;
 
         repo.setSpectatorMoney(wallet, specId);
 

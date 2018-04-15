@@ -108,6 +108,7 @@ public class Stable{
         repo.setStandingPos(((HorseJockey)Thread.currentThread()).getHj_number(),-1);
         repo.setHorseJockeyAgility(0,((HorseJockey)Thread.currentThread()).getHj_number());
         repo.setOdd(((HorseJockey)Thread.currentThread()).getHj_number(), -1);
+        repo.reportStatus();
         repo.setHorseJockeyState(null,((HorseJockey)Thread.currentThread()).getHj_number());
     }
 

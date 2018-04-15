@@ -67,7 +67,7 @@ public class RacingTrack{
      * @param N Total amount of HorseJockeys
      * @param repo General Repository
      */
-    public RacingTrack(int K, int N, GeneralInformationRepository repo) {
+    public RacingTrack(int K, int N, GeneralInformationRepository repo, int DMin, int DMax) {
         this.currentRace = 0;
         this.D = new int[K];
         this.N = N;
@@ -79,7 +79,7 @@ public class RacingTrack{
         this.maxStanding = 0;
 
         for (int i=0; i<K; i++)
-            D[i] = (int) (Math.random() * 50 + 50);
+            D[i] = DMax - (int) (Math.random() * DMin);
         repo.setTrackDistance(D);
 
         for (int i=0; i<N; i++) {

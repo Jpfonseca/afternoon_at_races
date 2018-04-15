@@ -129,7 +129,6 @@ public class GeneralInformationRepository{
             D[i] = 0;
         }
 
-        this.logName = "Afternoon_At_Races.log";
         if (!logName.equals(""))
             this.logName = logName;
 

@@ -1,7 +1,10 @@
 package simulator;
 
+//import extras.config;
 import shared_regions.*;
 import entities.*;
+
+import static extras.config.*;
 
 
 /**
@@ -17,24 +20,21 @@ public class Simulator{
         /*
         Assume there are five races, each having four competitors and that the number of spectators is also four.
          */
-        int K = 5; // K races
-        int N = 4; // N competitors per race
-        int M = 4; // M Spectators
 
-        GeneralInformationRepository repo = new GeneralInformationRepository("",K,N,M);
+        GeneralInformationRepository repo = new GeneralInformationRepository(logName,K,N,M);
 
         BettingCentre bc = new BettingCentre(M, repo);
         ControlCentre ccws = new ControlCentre(K, M, repo);
         Paddock pd = new Paddock(N, M, repo);
-        RacingTrack rt = new RacingTrack(K, N, repo);
+        RacingTrack rt = new RacingTrack(K, N, repo, DMin, DMax);
         Stable st = new Stable(N, repo);
 
         Broker broker;
-        broker = new Broker(K, N, ccws, st, bc, pd, rt, repo);
+        broker = new Broker(K, N, ccws, st, bc, pd, rt, repo, maxAgility);
 
         Spectator [] spectator = new Spectator[M];
         for (int i=0; i<M; i++)
-            spectator[i] = new Spectator(i,ccws, pd, bc, repo);
+            spectator[i] = new Spectator(i,ccws, pd, bc, repo, wallet);
 
 
         // Simulation Start

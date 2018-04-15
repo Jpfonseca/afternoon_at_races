@@ -60,6 +60,11 @@ public class Broker extends Thread{
      */
     private HorseJockey[] horseJockeys;
     /**
+     * Maximum Agility of the horses. Used to instantiate the horses.
+     * @serial maxAgil
+     */
+    private int maxAgil;
+    /**
      * Total Agility of the horses. Used to calculate the odd.
      * @serial totalAgility
      */
@@ -77,8 +82,9 @@ public class Broker extends Thread{
      * @param pd Paddock -Shared Region
      * @param rt Racing Track -Shared Region
      * @param repo General Repository - Shared Region
+     * @param maxAgil maximum Agility of each HorseJockey
      */
-    public Broker(int K, int N, ControlCentre ccws, Stable st, BettingCentre bc, Paddock pd, RacingTrack rt, GeneralInformationRepository repo) {
+    public Broker(int K, int N, ControlCentre ccws, Stable st, BettingCentre bc, Paddock pd, RacingTrack rt, GeneralInformationRepository repo, int maxAgil) {
         this.K = K;
         this.N = N;
         this.ccws = ccws;
@@ -87,7 +93,7 @@ public class Broker extends Thread{
         this.pd = pd;
         this.rt = rt;
         this.repo = repo;
-
+        this.maxAgil = maxAgil;
         this.horseJockeys = new HorseJockey[N];
 
         this.state=BrokerState.OPENING_THE_EVENT; // set current Broker state to the initial state
@@ -108,7 +114,7 @@ public class Broker extends Thread{
             // HorseJockey Instantiation and start
             totalAgility = 0;
             for (int j = 0; j < N; j++) {
-                horseJockeys[j] = new HorseJockey(j, ccws, st, pd, rt, bc, repo);
+                horseJockeys[j] = new HorseJockey(j, ccws, st, pd, rt, bc, repo, maxAgil);
                 horseJockeys[j].start();
                 totalAgility += horseJockeys[j].getAgility();
                 System.out.println("HorseJockey "+(j+1)+" started");
