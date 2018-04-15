@@ -1,4 +1,5 @@
 package shared_regions;
+import clients.GeneralInformationRepositoryStub;
 import entities.*;
 
 /**
@@ -10,7 +11,8 @@ public class RacingTrack implements RacingTrackInterface {
      * General Repository
      * @serial repo
      */
-    private GeneralInformationRepository repo;
+    //private GeneralInformationRepository repo;
+    private GeneralInformationRepositoryStub repo;
     /**
      * Condition statement used know until when to wait in the start line
      * @serial waitForA
@@ -65,9 +67,8 @@ public class RacingTrack implements RacingTrackInterface {
      * RacingTrack Constructor
      * @param K Total amount of Races
      * @param N Total amount of HorseJockeys
-     * @param repo General Repository
      */
-    public RacingTrack(int K, int N, GeneralInformationRepository repo, int DMin, int DMax) {
+    public RacingTrack(int K, int N, int DMin, int DMax) {
         this.currentRace = 0;
         this.D = new int[K];
         this.N = N;
@@ -75,7 +76,7 @@ public class RacingTrack implements RacingTrackInterface {
         this.HJPos = new int[N];
         this.iterations = new int[N];
         this.winners = new Winners[N];
-        this.repo = repo;
+        this.repo = new GeneralInformationRepositoryStub();
         this.maxStanding = 0;
 
         for (int i=0; i<K; i++)

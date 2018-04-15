@@ -1,6 +1,7 @@
 package shared_regions;
 
 import entities.*;
+import clients.*;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -63,18 +64,18 @@ public class BettingCentre implements BettingCentreInterface {
      * General Repository
      * @serial repo
      */
-    private GeneralInformationRepository repo;
+    //private GeneralInformationRepository repo;
+    private GeneralInformationRepositoryStub repo;
 
     /**
      * This is the Betting Centre constructor. <br> It specifies the variables which will be essential to create this shared region.
      * @param M number of spectators
-     * @param repo General Information Repository
      */
-    public BettingCentre(int M, GeneralInformationRepository repo) {
+    public BettingCentre(int M) {
         this.totalSpectators = M;
         this.betAmounts=new BetAmount[totalSpectators];
         this.odd=new int[totalSpectators];
-        this.repo = repo;
+        this.repo = new GeneralInformationRepositoryStub();
         for(int i=0; i<M; i++)
             fifo = new int[totalSpectators];
     }

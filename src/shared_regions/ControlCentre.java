@@ -1,4 +1,5 @@
 package shared_regions;
+import clients.GeneralInformationRepositoryStub;
 import entities.*;
 /**
  * This class specifies the methods that will be executed on the Control Centre and the Watching Stand .
@@ -48,7 +49,8 @@ public class ControlCentre implements ControlCentreInterface {
      * General Repository
      * @serial repo
      */
-    private GeneralInformationRepository repo;
+    //private GeneralInformationRepository repo;
+    private GeneralInformationRepositoryStub repo;
     /**
      *  Total Spectators in paddock (FIFO)
      *  @serial totalSpec
@@ -59,9 +61,8 @@ public class ControlCentre implements ControlCentreInterface {
      * This constructor specifies the initialization of the Control Centre shared Region.
      * @param K  current race number
      * @param M current number spectators
-     * @param repo General Information Repository -Shared Region
      */
-    public ControlCentre(int K, int M, GeneralInformationRepository repo) {
+    public ControlCentre(int K, int M) {
         this.K = K;
         this.M = M;
         this.currentRace=0;
@@ -69,7 +70,7 @@ public class ControlCentre implements ControlCentreInterface {
         this.waitForRaceToStart=true;
         this.waitForResults=true;
         this.waitForRaceToFinish=true;
-        this.repo = repo;
+        this.repo = new GeneralInformationRepositoryStub();
 
         totalSpec=0;
     }

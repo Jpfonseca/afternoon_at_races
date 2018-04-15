@@ -1,4 +1,5 @@
 package shared_regions;
+import clients.GeneralInformationRepositoryStub;
 import entities.*;
 
 /**
@@ -31,18 +32,18 @@ public class Stable implements StableInterface {
      * General Repository
      * @serial repo
      */
-    private GeneralInformationRepository repo;
+    //private GeneralInformationRepository repo;
+    private GeneralInformationRepositoryStub repo;
 
     /**
      * Stable Constructor
      * @param N Number of HorseJockeys
-     * @param repo General Repository
      */
 
-    public Stable(int N, GeneralInformationRepository repo) {
+    public Stable(int N) {
         this.N = N;
         this.queueHJ = 0;
-        this.repo = repo;
+        this.repo = new GeneralInformationRepositoryStub();
         this.totalAgility=0;
     }
 

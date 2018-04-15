@@ -84,7 +84,7 @@ public class ServerCom {
     {
         try
         //{ listeningSocket = new ServerSocket (serverPortNumb, 1);     // Crash on macOSX | Not Crash on Debian
-        { listeningSocket = new ServerSocket (serverPortNumb, 1);      // fila de ligações em espera de comprimento um
+        { listeningSocket = new ServerSocket (serverPortNumb, 10);      // fila de ligações em espera de comprimento um
         }
         catch (BindException e)                         // erro fatal --- port já em uso
         { System.out.println (Thread.currentThread ().getName () +

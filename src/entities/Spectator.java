@@ -1,5 +1,6 @@
 package entities;
 
+import clients.GeneralInformationRepositoryStub;
 import shared_regions.BettingCentre;
 import shared_regions.ControlCentre;
 import shared_regions.GeneralInformationRepository;
@@ -33,7 +34,8 @@ public class Spectator extends Thread{
      * General Repository
      * @serial repo
      */
-    private GeneralInformationRepository repo;
+    //private GeneralInformationRepository repo;
+    private GeneralInformationRepositoryStub repo;
     /**
      * Current spectator Index
      * @serial specId
@@ -51,14 +53,13 @@ public class Spectator extends Thread{
      * @param ccws Control Centre and Watching Stand - Shared Region
      * @param pd Paddock - Shared Region
      * @param bc Betting Centre - Shared Region
-     * @param repo General Repository -Shared Region
      */
-    public Spectator(int specId, ControlCentre ccws, Paddock pd, BettingCentre bc, GeneralInformationRepository repo, int wallet) {
+    public Spectator(int specId, ControlCentre ccws, Paddock pd, BettingCentre bc, int wallet) {
         this.specId=specId;
         this.ccws = ccws;
         this.pd = pd;
         this.bc = bc;
-        this.repo = repo;
+        this.repo = new GeneralInformationRepositoryStub();
         this.wallet = wallet;
 
         repo.setSpectatorMoney(wallet, specId);

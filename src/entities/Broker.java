@@ -1,5 +1,6 @@
 package entities;
 
+import clients.GeneralInformationRepositoryStub;
 import shared_regions.*;
 
 /**
@@ -13,7 +14,8 @@ public class Broker extends Thread{
      * General Repository
      * @serial repo
      */
-    private GeneralInformationRepository repo;
+    //private GeneralInformationRepository repo;
+    private GeneralInformationRepositoryStub repo;
     /**
      * Broker current State
      * @serial state
@@ -81,10 +83,9 @@ public class Broker extends Thread{
      * @param bc Betting Centre - Shared Region
      * @param pd Paddock -Shared Region
      * @param rt Racing Track -Shared Region
-     * @param repo General Repository - Shared Region
      * @param maxAgil maximum Agility of each HorseJockey
      */
-    public Broker(int K, int N, ControlCentre ccws, Stable st, BettingCentre bc, Paddock pd, RacingTrack rt, GeneralInformationRepository repo, int maxAgil) {
+    public Broker(int K, int N, ControlCentre ccws, Stable st, BettingCentre bc, Paddock pd, RacingTrack rt, int maxAgil) {
         this.K = K;
         this.N = N;
         this.ccws = ccws;
@@ -92,7 +93,7 @@ public class Broker extends Thread{
         this.bc = bc;
         this.pd = pd;
         this.rt = rt;
-        this.repo = repo;
+        this.repo = new GeneralInformationRepositoryStub();
         this.maxAgil = maxAgil;
         this.horseJockeys = new HorseJockey[N];
 
@@ -114,7 +115,7 @@ public class Broker extends Thread{
             // HorseJockey Instantiation and start
             totalAgility = 0;
             for (int j = 0; j < N; j++) {
-                horseJockeys[j] = new HorseJockey(j, ccws, st, pd, rt, bc, repo, maxAgil);
+                horseJockeys[j] = new HorseJockey(j, ccws, st, pd, rt, bc, maxAgil);
                 horseJockeys[j].start();
                 totalAgility += horseJockeys[j].getAgility();
                 System.out.println("HorseJockey "+(j+1)+" started");

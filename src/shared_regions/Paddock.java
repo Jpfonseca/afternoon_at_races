@@ -1,4 +1,5 @@
 package shared_regions;
+import clients.GeneralInformationRepositoryStub;
 import entities.*;
 
 /**
@@ -10,7 +11,8 @@ public class Paddock implements PaddockInterface {
      * General Repository
      * @serial repo
      */
-    private GeneralInformationRepository repo;
+    //private GeneralInformationRepository repo;
+    private GeneralInformationRepositoryStub repo;
     /**
      *  Total HorseJockeys in paddock (FIFO)
      *  @serial queueHJ
@@ -46,12 +48,11 @@ public class Paddock implements PaddockInterface {
      * Paddock Constructor
      * @param N Number of HorseJockeys
      * @param M Number of Spectators
-     * @param repo General Repository
      */
-    public Paddock(int N, int M, GeneralInformationRepository repo) {
+    public Paddock(int N, int M) {
         this.N = N;
         this.M = M;
-        this.repo = repo;
+        this.repo = new GeneralInformationRepositoryStub();
     }
 
     /**
