@@ -3,6 +3,7 @@ package shared_regions;
 import entities.BrokerState;
 import entities.HorseJockeyState;
 import entities.SpectatorState;
+import extras.config;
 import genclass.TextFile;
 import genclass.GenericIO;
 
@@ -90,6 +91,8 @@ public class GeneralInformationRepository implements GeneralInformationRepositor
      * @serial M
      */
     private int M;
+
+    private static GeneralInformationRepository instance;
 
     /**
      * This entity will provide all the information about the current aspects of the program
@@ -522,5 +525,12 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
     @Override
     public synchronized void setStandingPos(int horse, int standing) {
         this.standingPos[horse] = standing;
+    }
+
+    public static GeneralInformationRepository getInstance(){
+        if (instance==null)
+            instance = new GeneralInformationRepository(config.logName, config.K, config.N, config.M);
+
+        return instance;
     }
 }
