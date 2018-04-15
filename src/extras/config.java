@@ -44,4 +44,17 @@ public class config {
      * @serial maxAgility
      */
     public static final int maxAgility = 20;
+
+    /* Part 2 - Distributed Solution (Socket based communication */
+    /**
+     * Constant that defines the lower port to be used for Listening Sockets.
+     * @serial baseListenPort
+     */
+    public static final int baseListenPort = 22220;
+    public static final int stableServerPort = baseListenPort+0;
+    public static final int controlCentreServerPort = baseListenPort+1;
+    public static final int paddockServerPort = baseListenPort+2;
+    public static final int racingTrackServerPort = baseListenPort+3;
+    public static final int bettingCentreServerPort = baseListenPort+4;
+    public static final int repoServerPort = baseListenPort+5;
 }
