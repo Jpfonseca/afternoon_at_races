@@ -509,15 +509,6 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
     }
 
     /**
-     * Used to set the current HorseJockey position to null
-     * @param horse HorseJockey index
-     */
-    @Override
-    public synchronized void setCurrentPosNull(int horse) {
-        this.currentPos[horse] = -1;
-    }
-
-    /**
      * Used to set the current HorseJockey standing position
      * @param horse HorseJockey index
      * @param standing standing position

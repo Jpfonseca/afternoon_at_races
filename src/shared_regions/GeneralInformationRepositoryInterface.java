@@ -29,7 +29,5 @@ public interface GeneralInformationRepositoryInterface {
 
     void setCurrentPos(int horse, int position);
 
-    void setCurrentPosNull(int horse);
-
     void setStandingPos(int horse, int standing);
 }

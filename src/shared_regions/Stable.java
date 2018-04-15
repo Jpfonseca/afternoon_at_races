@@ -107,7 +107,7 @@ public class Stable implements StableInterface {
         //repo.reportStatus();
 
         repo.setIterationStep(((HorseJockey)Thread.currentThread()).getHj_number(),-1);
-        repo.setCurrentPosNull(((HorseJockey)Thread.currentThread()).getHj_number());
+        repo.setCurrentPos(((HorseJockey)Thread.currentThread()).getHj_number(),-1);
         repo.setStandingPos(((HorseJockey)Thread.currentThread()).getHj_number(),-1);
         repo.setHorseJockeyAgility(0,((HorseJockey)Thread.currentThread()).getHj_number());
         repo.setOdd(((HorseJockey)Thread.currentThread()).getHj_number(), -1);
