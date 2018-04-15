@@ -4,7 +4,7 @@ import entities.*;
 /**
  *This class specifies the methods that will be executed on the Racing Track .
  */
-public class RacingTrack{
+public class RacingTrack implements RacingTrackInterface {
 
     /**
      * General Repository
@@ -94,6 +94,7 @@ public class RacingTrack{
      * @param k current race number
      */
 
+    @Override
     public synchronized void startTheRace(int k){
 
         ((Broker)Thread.currentThread()).setBrokerState((BrokerState.SUPERVISING_THE_RACE));
@@ -119,6 +120,7 @@ public class RacingTrack{
      * Method used by the HorseJockeys to proceed to the start line
      * @param hj_number HorseJockey index number
      */
+    @Override
     public synchronized void proceedToStartLine(int hj_number){
 
         ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_START_LINE));
@@ -148,6 +150,7 @@ public class RacingTrack{
      * Method used by every HorseJockey to make a move in the Racing track while running
      * @param hj_number HorseJockey index number
      */
+    @Override
     public synchronized void makeAMove(int hj_number) {
 
         HJPos[hj_number] += (int)(Math.random()*((HorseJockey)Thread.currentThread()).getAgility()+1);
@@ -177,6 +180,7 @@ public class RacingTrack{
      * Method used by the HorseJockeys to know if they have crossed the finish line
      * @return <b>true</b> if he has crossed or <b>false</b>, if he has not.
      */
+    @Override
     public synchronized boolean hasFinishLineBeenCrossed(){
 
         if (HJPos[fifo[0]] < D[currentRace-1])
@@ -256,6 +260,7 @@ public class RacingTrack{
      * Method used to return an array with all the winning Spectators information
      * @return winners
      */
+    @Override
     public Winners[] reportResults(){
         //Winners[] temp = winners;
         return winners;

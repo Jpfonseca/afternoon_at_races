@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * This class specifies the Place where the spectators will make the bets.
  */
-public class BettingCentre{
+public class BettingCentre implements BettingCentreInterface {
 
     /**
      * Total spectators that already bet
@@ -82,6 +82,7 @@ public class BettingCentre{
     /**
      * Method used by the broker to announce he can collect Spectator's bets
      */
+    @Override
     public synchronized void acceptTheBets(){
 
         ((Broker)Thread.currentThread()).setBrokerState((BrokerState.WAITING_FOR_BETS));
@@ -105,6 +106,7 @@ public class BettingCentre{
      * @param winners winners array
      * @return <b>true</b>,if there winners or <b>false</b>, if there aren't any.
      */
+    @Override
     public synchronized boolean areThereAnyWinners(Winners[] winners){
 
         int winnersCount=0;
@@ -127,6 +129,7 @@ public class BettingCentre{
     /**
      * This method specifies the existence of winners in the current race.
      */
+    @Override
     public synchronized void honourTheBets(){
 
         ((Broker) Thread.currentThread()).setBrokerState((BrokerState.SETTLING_ACCOUNTS));
@@ -149,6 +152,7 @@ public class BettingCentre{
     /**
      * This method is used by each spectator to place a bet.
      */
+    @Override
     public synchronized void placeABet(){
 
         Spectator spec =((Spectator)Thread.currentThread());
@@ -191,6 +195,7 @@ public class BettingCentre{
      * This method is used by the spectator to check if it has won something from the bet
      * @return <b>true</b> or <b>false</b> whether the spectator won something or not.
      */
+    @Override
     public synchronized boolean haveIWon(){
 
         Spectator spec =((Spectator)Thread.currentThread());
@@ -207,6 +212,7 @@ public class BettingCentre{
     /**
      * This method is used by the spectators to collect their gains, if they have won something.
      */
+    @Override
     public synchronized void goCollectTheGains(){
 
         Spectator spec=((Spectator) Thread.currentThread());
@@ -249,6 +255,7 @@ public class BettingCentre{
         notifyAll();
     }
 
+    @Override
     public void setHorseJockeyOdd() {
         HorseJockey horseJockey = ((HorseJockey)Thread.currentThread());
         this.odd[horseJockey.getHj_number()] = horseJockey.getOdd();

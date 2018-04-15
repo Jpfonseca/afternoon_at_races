@@ -4,7 +4,7 @@ import entities.*;
 /**
  * This class specifies the methods that will be executed on the Paddock .
  */
-public class Paddock{
+public class Paddock implements PaddockInterface {
 
     /**
      * General Repository
@@ -58,6 +58,7 @@ public class Paddock{
      * Method used for HorseJockey to know if he is the last one to proceed to paddock
      * @return <b>true</b> if he is the last or <b>false</b>, if he is not.
      * */
+    @Override
     public synchronized boolean proceedToPaddock1(){
         //check if it’s the last horse
         totalHJ++;
@@ -68,6 +69,7 @@ public class Paddock{
     /**
      * Method used for HorseJockey to wait in the Paddock
      * */
+    @Override
     public synchronized void proceedToPaddock2(){
 
         while(waitBeingChecked)
@@ -92,6 +94,7 @@ public class Paddock{
      * @return <b>true</b> if he is the last or <b>false</b>, if he is not.
      */
 
+    @Override
     public synchronized boolean goCheckHorses1(){
         //checks if the (horse)SPECTATOR is the last to enter the paddock
         totalSpec++;
@@ -103,6 +106,7 @@ public class Paddock{
      * Method used by the Spectator to wait while appraising the horses in the Paddock
      * @param last last Spectator
      */
+    @Override
     public synchronized void goCheckHorses2(boolean last){
 
         ((Spectator)Thread.currentThread()).setState((SpectatorState.APPRAISING_THE_HORSES));

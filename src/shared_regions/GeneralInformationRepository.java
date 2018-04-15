@@ -9,7 +9,7 @@ import genclass.GenericIO;
 /**
  * General Repository
  */
-public class GeneralInformationRepository{
+public class GeneralInformationRepository implements GeneralInformationRepositoryInterface {
     /**
      * Name of LogFile
      * @serial logName
@@ -188,6 +188,7 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
     /**
      * This method is used to print a pair of Log Lines into a file containing the current snapshot of the current simulation status
      */
+    @Override
     public synchronized void reportStatus(){
 /*
          AFTERNOON AT THE RACE TRACK - Description of the internal state of the problem
@@ -394,6 +395,7 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
      * Used to set the Broker state
      * @param brokerState Broker state
      */
+    @Override
     public synchronized void setBrokerState(BrokerState brokerState) {
         this.brokerState = brokerState;
         reportStatus();
@@ -404,6 +406,7 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
      * @param state state to set
      * @param index index of the Spectator
      */
+    @Override
     public synchronized void setSpectatorState(SpectatorState state, int index) {
         this.spectatorState[index] = state;
     }
@@ -413,6 +416,7 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
      * @param money amount of money
      * @param index index of Spectator
      */
+    @Override
     public synchronized void setSpectatorMoney(int money, int index) {
         this.spectatorMoney[index] = money;
     }
@@ -421,6 +425,7 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
      * Used to set the current race number
      * @param raceNumber race number
      */
+    @Override
     public synchronized void setRaceNumber(int raceNumber) {
         this.raceNumber = raceNumber;
         //reportStatus();
@@ -431,6 +436,7 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
      * @param state state to set
      * @param index HorseJockey's index
      */
+    @Override
     public synchronized void setHorseJockeyState(HorseJockeyState state, int index) {
         this.horseJockeyState[index] = state;
         //reportStatus();
@@ -441,6 +447,7 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
      * @param agility magility to set
      * @param index HorseJockey's index
      */
+    @Override
     public synchronized void setHorseJockeyAgility(int agility, int index) {
         this.hjAgility[index] = agility;
     }
@@ -449,6 +456,7 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
      * Used to set all the track distances
      * @param d distance
      */
+    @Override
     public synchronized void setTrackDistance(int[] d) {
         D = d;
     }
@@ -459,6 +467,7 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
      * @param betSelection bet selection index
      * @param betAmount bet amount
      */
+    @Override
     public synchronized void setSpectatorBet(int spectatorIndex, int betSelection, int betAmount) {
         this.bet[spectatorIndex].horse_id = betSelection;
         this.bet[spectatorIndex].bet = betAmount;
@@ -470,6 +479,7 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
      * @param horse HorseJockey index
      * @param odd odd
      */
+    @Override
     public synchronized void setOdd(int horse, int odd) {
         this.odd[horse] = odd;
     }
@@ -479,6 +489,7 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
      * @param horse HorseJockey index
      * @param iterationStep iteration number
      */
+    @Override
     public synchronized void setIterationStep(int horse, int iterationStep) {
         this.iterationStep[horse] = iterationStep;
     }
@@ -488,6 +499,7 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
      * @param horse HorseJockey index
      * @param position position
      */
+    @Override
     public void setCurrentPos(int horse, int position) {
         this.currentPos[horse] = position;
         //reportStatus();
@@ -497,6 +509,7 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
      * Used to set the current HorseJockey position to null
      * @param horse HorseJockey index
      */
+    @Override
     public synchronized void setCurrentPosNull(int horse) {
         this.currentPos[horse] = -1;
     }
@@ -506,6 +519,7 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
      * @param horse HorseJockey index
      * @param standing standing position
      */
+    @Override
     public synchronized void setStandingPos(int horse, int standing) {
         this.standingPos[horse] = standing;
     }
