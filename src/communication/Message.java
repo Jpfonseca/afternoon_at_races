@@ -80,12 +80,108 @@ public class Message implements Serializable {
     public Message(int type, int val) {
         this.type = type;
 
-        switch (type) {
-
+        switch (type){
+            case SET_RACE_NUMBER:
+                this.raceNumber = val;
             default:
                 break;
         }
     }
+
+    public Message(int type, int val1, int val2) {
+        this.type = type;
+
+        switch (type){
+            case SET_SPECTATOR_MONEY:
+                this.spectatorMoney = val1;
+                this.index = val2;
+                break;
+            case SET_HORSEJOCKEY_AGILITY:
+                this.horseJockeyAgility = val1;
+                this.index = val2;
+                break;
+            case SET_ODD:
+                this.index = val1;
+                this.odd = val2;
+                break;
+            case SET_ITERATION_STEP:
+                this.index = val1;
+                this.iterationStep = val2;
+                break;
+            case SET_CURRENT_POS:
+                this.index = val1;
+                this.position = val2;
+                break;
+            case SET_STANDING_POS:
+                this.index = val1;
+                this.standingPos = val2;
+            default:
+                break;
+        }
+    }
+
+    public Message(int type, int spectatorIndex, int betSelection, int betAmount) {
+        this.type = type;
+
+        switch(type){
+            case SET_SPECTATOR_BET:
+                this.index = spectatorIndex;
+                this.betSelection = betSelection;
+                this.betAmount = betAmount;
+        }
+    }
+
+    public Message(int type, BrokerState brokerState) {
+        this.type = type;
+
+        switch (type){
+            case SET_BROKER_STATE:
+                this.brokerState = brokerState;
+                break;
+            default:
+                break;
+        }
+    }
+
+    public Message(int type, int index, SpectatorState state) {
+        this.type = type;
+
+        switch (type){
+            case SET_SPECTATOR_STATE:
+                this.index = index;
+                this.spectatorState = state;
+                break;
+            default:
+                break;
+        }
+    }
+
+    public Message(int type, int index, HorseJockeyState state) {
+        this.type = type;
+
+        switch (type){
+            case SET_HORSEJOCKEY_STATE:
+                this.index = index;
+                this.horseJockeyState = state;
+                break;
+            default:
+                break;
+        }
+    }
+
+    public Message(int type, int[] d) {
+        this.type = type;
+
+        switch(type){
+            case SET_TRACK_DISTANCE:
+                this.trackDistance = d;
+                break;
+            default:
+                break;
+        }
+    }
+
+
 
     public int getType() {
         return type;
@@ -96,114 +192,58 @@ public class Message implements Serializable {
         return brokerState;
     }
 
-    public void setBrokerState(BrokerState brokerState) {
-        this.brokerState = brokerState;
-    }
-
     public SpectatorState getSpectatorState() {
         return spectatorState;
     }
 
-    public void setSpectatorState(SpectatorState spectatorState) {
-        this.spectatorState = spectatorState;
-    }
-
-
     public int getIndex() {
         return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
     }
 
     public int getSpectatorMoney() {
         return spectatorMoney;
     }
 
-    public void setSpectatorMoney(int spectatorMoney) {
-        this.spectatorMoney = spectatorMoney;
-    }
-
     public int getRaceNumber() {
         return raceNumber;
-    }
-
-    public void setRaceNumber(int raceNumber) {
-        this.raceNumber = raceNumber;
     }
 
     public HorseJockeyState getHorseJockeyState() {
         return horseJockeyState;
     }
 
-    public void setHorseJockeyState(HorseJockeyState horseJockeyState) {
-        this.horseJockeyState = horseJockeyState;
-    }
-
     public int getHorseJockeyAgility() {
         return horseJockeyAgility;
-    }
-
-    public void setHorseJockeyAgility(int horseJockeyAgility) {
-        this.horseJockeyAgility = horseJockeyAgility;
     }
 
     public int[] getTrackDistance() {
         return trackDistance;
     }
 
-    public void setTrackDistance(int[] trackDistance) {
-        this.trackDistance = trackDistance;
-    }
-
     public int getBetSelection() {
         return betSelection;
-    }
-
-    public void setBetSelection(int betSelection) {
-        this.betSelection = betSelection;
     }
 
     public int getBetAmount() {
         return betAmount;
     }
 
-    public void setBetAmount(int betAmount) {
-        this.betAmount = betAmount;
-    }
-
     public int getOdd() {
         return odd;
-    }
-
-    public void setOdd(int odd) {
-        this.odd = odd;
     }
 
     public int getIterationStep() {
         return iterationStep;
     }
 
-    public void setIterationStep(int iterationStep) {
-        this.iterationStep = iterationStep;
-    }
-
     public int getPosition() {
         return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
     }
 
     public int getStandingPos() {
         return standingPos;
     }
 
-    public void setStandingPos(int standingPos) {
-        this.standingPos = standingPos;
-    }
 }
 
 
