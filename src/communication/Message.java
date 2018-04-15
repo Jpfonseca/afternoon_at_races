@@ -115,6 +115,7 @@ public class Message implements Serializable {
             case SET_STANDING_POS:
                 this.index = val1;
                 this.standingPos = val2;
+                break;
             default:
                 break;
         }
@@ -128,6 +129,9 @@ public class Message implements Serializable {
                 this.index = spectatorIndex;
                 this.betSelection = betSelection;
                 this.betAmount = betAmount;
+                break;
+            default:
+                break;
         }
     }
 
