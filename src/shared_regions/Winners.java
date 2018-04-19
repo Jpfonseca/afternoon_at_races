@@ -1,9 +1,11 @@
 package shared_regions;
 
+import java.io.Serializable;
+
 /**
  * This class specified all the attributes related to the HorseJockey Winners of the current race
  */
-public class Winners {
+public class Winners implements Serializable {
     /**
      * Standing position after finishing the race
      * @serial standing

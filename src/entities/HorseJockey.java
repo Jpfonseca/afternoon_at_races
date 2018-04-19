@@ -1,6 +1,7 @@
 package entities;
 
 import clients.GeneralInformationRepositoryStub;
+import clients.RacingTrackStub;
 import shared_regions.*;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -33,7 +34,8 @@ public class HorseJockey extends Thread{
      * Racing Track- Shared Region
      * @serial rt
      */
-    private RacingTrack rt;
+    //private RacingTrack rt;
+    private RacingTrackStub rt;
 
     private BettingCentre bc;
     /**
@@ -55,15 +57,16 @@ public class HorseJockey extends Thread{
      * @param ccws Control Centre and Watching Stand - Shared Region
      * @param st Stable - Shared Region
      * @param pd Paddock - Shared Region
-     * @param rt Racing Track- Shared Region
      */
 
-    public HorseJockey(int hj_number, ControlCentre ccws, Stable st, Paddock pd, RacingTrack rt,BettingCentre bc, int maxAgil) {
+    public HorseJockey(int hj_number, ControlCentre ccws, Stable st, Paddock pd, BettingCentre bc, int maxAgil) {
+    //public HorseJockey(int hj_number, ControlCentre ccws, Stable st, Paddock pd, BettingCentre bc, int maxAgil, RacingTrack rt) {
         this.hj_number = hj_number;
         this.ccws = ccws;
         this.st = st;
         this.pd = pd;
-        this.rt = rt;
+        //this.rt = rt;
+        this.rt = new RacingTrackStub();
         this.bc= bc;
         this.agility = ThreadLocalRandom.current().nextInt(1, maxAgil+1);
         this.hjState=HorseJockeyState.AT_THE_STABLE;

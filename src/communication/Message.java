@@ -3,6 +3,7 @@ package communication;
 import entities.BrokerState;
 import entities.HorseJockeyState;
 import entities.SpectatorState;
+import shared_regions.Winners;
 
 import java.io.Serializable;
 
@@ -34,6 +35,17 @@ public class Message implements Serializable {
     public static final int SET_ITERATION_STEP = 12;
     public static final int SET_CURRENT_POS = 13;
     public static final int SET_STANDING_POS = 14;
+    // Racing Track
+    public static final int START_THE_RACE = 15;
+    public static final int PROCEED_TO_START_LINE = 16;
+    public static final int MAKE_A_MOVE = 17;
+    public static final int HAS_FINISH_LINE_BEEN_CROSSED = 18;
+    public static final int REPORT_RESULTS = 19;
+    public static final int REPLY_START_THE_RACE = 20;
+    public static final int REPLY_PROCEED_TO_START_LINE = 21;
+    public static final int REPLY_MAKE_A_MOVE = 22;
+    public static final int REPLY_HAS_FINISH_LINE_BEEN_CROSSED = 23;
+    public static final int REPLY_REPORT_RESULTS = 24;
 
     /**
      * @serialField type int Message Type
@@ -53,6 +65,11 @@ public class Message implements Serializable {
     private int iterationStep;
     private int position;
     private int standingPos;
+
+    private int currentRace;
+    private int horseJockeyNumber;
+    private boolean finishLineCrossed;
+    private Winners[] winners;
 
 
     /**
@@ -83,6 +100,16 @@ public class Message implements Serializable {
         switch (type){
             case SET_RACE_NUMBER:
                 this.raceNumber = val;
+                break;
+            case START_THE_RACE:
+                this.currentRace = val;
+                break;
+            case PROCEED_TO_START_LINE:
+                this.horseJockeyNumber = val;
+                break;
+            case MAKE_A_MOVE:
+                this.horseJockeyNumber = val;
+                break;
             default:
                 break;
         }
@@ -185,12 +212,33 @@ public class Message implements Serializable {
         }
     }
 
+    public Message(int type, boolean val){
+        this.type = type;
 
+        switch(type){
+            case REPLY_HAS_FINISH_LINE_BEEN_CROSSED:
+                this.finishLineCrossed = val;
+                break;
+            default:
+                break;
+        }
+    }
+
+    public Message(int type, Winners[] winners){
+        this.type = type;
+
+        switch(type){
+            case REPLY_REPORT_RESULTS:
+                this.winners = winners;
+                break;
+            default:
+                break;
+        }
+    }
 
     public int getType() {
         return type;
     }
-
 
     public BrokerState getBrokerState() {
         return brokerState;
@@ -248,6 +296,33 @@ public class Message implements Serializable {
         return standingPos;
     }
 
+    public int getCurrentRace() {
+        return currentRace;
+    }
+
+    public int getHorseJockeyNumber() {
+        return horseJockeyNumber;
+    }
+
+    public boolean getFinishLineCrossed() {
+        return finishLineCrossed;
+    }
+
+    public Winners[] getWinners() {
+        return winners;
+    }
+
+    public void setBrokerState(BrokerState state){
+        this.brokerState = state;
+    }
+
+    public void setHjState(HorseJockeyState state) {
+        horseJockeyState = state;
+    }
+
+    public void setHorsejockeyAgility(int agility){
+        horseJockeyAgility = agility;
+    }
 }
 
 

@@ -1,6 +1,8 @@
 package shared_regions;
 import clients.GeneralInformationRepositoryStub;
 import entities.*;
+import extras.config;
+import servers.Aps;
 
 /**
  *This class specifies the methods that will be executed on the Racing Track .
@@ -63,6 +65,8 @@ public class RacingTrack implements RacingTrackInterface {
      */
     private int maxStanding;
 
+    private static RacingTrack instance;
+
     /**
      * RacingTrack Constructor
      * @param K Total amount of Races
@@ -98,7 +102,7 @@ public class RacingTrack implements RacingTrackInterface {
     @Override
     public synchronized void startTheRace(int k){
 
-        ((Broker)Thread.currentThread()).setBrokerState((BrokerState.SUPERVISING_THE_RACE));
+        ((Aps)Thread.currentThread()).setBrokerState((BrokerState.SUPERVISING_THE_RACE));
         repo.setBrokerState(BrokerState.SUPERVISING_THE_RACE);
 
         this.currentRace = k;
@@ -124,7 +128,7 @@ public class RacingTrack implements RacingTrackInterface {
     @Override
     public synchronized void proceedToStartLine(int hj_number){
 
-        ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_START_LINE));
+        ((Aps)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_START_LINE));
         repo.setHorseJockeyState(HorseJockeyState.AT_THE_START_LINE,hj_number);
 
         iterations[hj_number] = 0;
@@ -143,7 +147,7 @@ public class RacingTrack implements RacingTrackInterface {
                 System.out.println("HorseJockey rt.proceedToStartLine() Exception: "+e);
             }
 
-        ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.RUNNING));
+        ((Aps)Thread.currentThread()).setHjState((HorseJockeyState.RUNNING));
         repo.setHorseJockeyState(HorseJockeyState.RUNNING,hj_number);
     }
 
@@ -154,7 +158,7 @@ public class RacingTrack implements RacingTrackInterface {
     @Override
     public synchronized void makeAMove(int hj_number) {
 
-        HJPos[hj_number] += (int)(Math.random()*((HorseJockey)Thread.currentThread()).getAgility()+1);
+        HJPos[hj_number] += (int)(Math.random()*((Aps)Thread.currentThread()).getAgility()+1);
 
         //System.out.println("Cavalo:" +hj_number+" Posição:"+HJPos[hj_number]);
 
@@ -211,7 +215,7 @@ public class RacingTrack implements RacingTrackInterface {
         winners[fifo[0]].standing = standingCalc;
 
 
-        ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_FINNISH_LINE));
+        ((Aps)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_FINNISH_LINE));
         repo.setHorseJockeyState(HorseJockeyState.AT_THE_FINNISH_LINE,fifo[0]);
         repo.reportStatus();
 
@@ -267,5 +271,10 @@ public class RacingTrack implements RacingTrackInterface {
         return winners;
     }
 
+    public static RacingTrack getInstance(){
+        if (instance==null)
+            instance = new RacingTrack(config.K, config.N, config.DMin, config.DMax);
 
+        return instance;
+    }
 }

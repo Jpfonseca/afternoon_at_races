@@ -100,6 +100,7 @@ public class ServerCom {
             e.printStackTrace ();
             System.exit (1);
         }
+        // TODO: SET TIMEOUT
     }
 
     /**

@@ -36,10 +36,9 @@ public class ServerMain {
         int port = -1;
 
 
-        //if (args.length == 1) {
+        if (args.length == 1) {
 
-            //int service = Integer.parseInt(args[0]);
-            int service = 5;
+            int service = Integer.parseInt(args[0]);
 
             if (service >= 0 && service < 6)
                 port = portNumb + service;
@@ -79,14 +78,19 @@ public class ServerMain {
             scon.start();
             /* Requests Processing */
             while (true) {
+            // while(!serviceEnd)
                 sconi = scon.accept();
                 aps = new Aps(sconi, server);
                 aps.start();
 
-                //try {
-                //    aps.join();
-                //}catch (InterruptedException ex) {}
+
+                // try
+                // sconi = scon.accept();
+                // catch (TimeOutException){
+                // aps = new Aps(sconi, server);
+                // aps.start();
+
             }
-        //}
+        }
     }
 }

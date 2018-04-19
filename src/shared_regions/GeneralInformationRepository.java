@@ -368,6 +368,8 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
                 textToAppend.append("  ").append(iterationStep[i]);
             else if (iterationStep[i]<100)
                 textToAppend.append(" ").append(iterationStep[i]);
+            else if (iterationStep[i]<100)
+                textToAppend.append(iterationStep[i]);
 
             if (currentPos[i]==-1)
                 textToAppend.append("   -");

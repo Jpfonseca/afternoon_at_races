@@ -233,7 +233,7 @@ public class GeneralInformationRepositoryStub implements GeneralInformationRepos
     }
 
     /**
-     * Communication with Repository Server running in port 22220 (default)
+     * Communication with Repository Server running in port 22225 (default)
      * @return ClientCom object
      */
     private ClientCom clientConn(){
@@ -243,7 +243,7 @@ public class GeneralInformationRepositoryStub implements GeneralInformationRepos
         while (!conn.open()){
             System.out.println("Issue with (REPOSITORY) in \"localhost:"+config.repoServerPort+"\"");
             try{
-                Thread.sleep((long) (10));
+                Thread.sleep((long) (1));
             }catch (InterruptedException ex) {}
         }
         //if (!conn.open())

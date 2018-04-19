@@ -26,11 +26,11 @@ public class Simulator{
         BettingCentre bc = new BettingCentre(M);
         ControlCentre ccws = new ControlCentre(K, M);
         Paddock pd = new Paddock(N, M);
-        RacingTrack rt = new RacingTrack(K, N, DMin, DMax);
+        //RacingTrack rt = new RacingTrack(K, N, DMin, DMax);
         Stable st = new Stable(N);
 
         Broker broker;
-        broker = new Broker(K, N, ccws, st, bc, pd, rt, maxAgility);
+        broker = new Broker(K, N, ccws, st, bc, pd, maxAgility);
 
         Spectator [] spectator = new Spectator[M];
         for (int i=0; i<M; i++)

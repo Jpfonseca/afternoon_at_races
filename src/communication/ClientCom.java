@@ -76,7 +76,7 @@ public class ClientCom {
     
         try
         { commSocket = new Socket();
-            commSocket.connect (serverAddress, 1);             // estabelecimento de um time out de 1 ms
+            commSocket.connect (serverAddress, 1000);             // estabelecimento de um time out de 1000 ms
         }
         catch (UnknownHostException e)
         { System.out.println (Thread.currentThread ().getName () +
