@@ -27,10 +27,10 @@ public class Simulator{
         ControlCentre ccws = new ControlCentre(K, M);
         Paddock pd = new Paddock(N, M);
         //RacingTrack rt = new RacingTrack(K, N, DMin, DMax);
-        Stable st = new Stable(N);
+        //Stable st = new Stable(N);
 
         Broker broker;
-        broker = new Broker(K, N, ccws, st, bc, pd, maxAgility);
+        broker = new Broker(K, N, ccws, bc, pd, maxAgility);
 
         Spectator [] spectator = new Spectator[M];
         for (int i=0; i<M; i++)

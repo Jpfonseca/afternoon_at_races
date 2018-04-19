@@ -1,6 +1,8 @@
 package shared_regions;
 import clients.GeneralInformationRepositoryStub;
 import entities.*;
+import extras.config;
+import servers.Aps;
 
 /**
  * This class specifies the methods that will be executed on the Stable .
@@ -35,6 +37,8 @@ public class Stable implements StableInterface {
     //private GeneralInformationRepository repo;
     private GeneralInformationRepositoryStub repo;
 
+    private static Stable instance;
+
     /**
      * Stable Constructor
      * @param N Number of HorseJockeys
@@ -53,8 +57,7 @@ public class Stable implements StableInterface {
      */
     @Override
     public synchronized void summonHorsesToPaddock(int k, int totalAgility){
-
-        ((Broker)Thread.currentThread()).setBrokerState(BrokerState.ANNOUNCING_NEXT_RACE);
+        ((Aps)Thread.currentThread()).setBrokerState(BrokerState.ANNOUNCING_NEXT_RACE);
         repo.setRaceNumber(k);
         repo.setBrokerState(BrokerState.ANNOUNCING_NEXT_RACE);
 
@@ -69,7 +72,7 @@ public class Stable implements StableInterface {
      */
     @Override
     public synchronized void proceedToStable(){
-        HorseJockey horse = ((HorseJockey)Thread.currentThread());
+        Aps horse = ((Aps)Thread.currentThread());
         //repo.setIterationStep(horse.getHj_number(),-1);
         //repo.setCurrentPosZero(horse.getHj_number());
         repo.setHorseJockeyAgility(horse.getAgility(),horse.getHj_number());
@@ -103,17 +106,24 @@ public class Stable implements StableInterface {
      */
     @Override
     public synchronized void proceedToStable2(){
-        ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_STABLE));
-        repo.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE,((HorseJockey)Thread.currentThread()).getHj_number());
+        ((Aps)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_STABLE));
+        repo.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE,((Aps)Thread.currentThread()).getHj_number());
         //repo.reportStatus();
 
-        repo.setIterationStep(((HorseJockey)Thread.currentThread()).getHj_number(),-1);
-        repo.setCurrentPos(((HorseJockey)Thread.currentThread()).getHj_number(),-1);
-        repo.setStandingPos(((HorseJockey)Thread.currentThread()).getHj_number(),-1);
-        repo.setHorseJockeyAgility(0,((HorseJockey)Thread.currentThread()).getHj_number());
-        repo.setOdd(((HorseJockey)Thread.currentThread()).getHj_number(), -1);
+        repo.setIterationStep(((Aps)Thread.currentThread()).getHj_number(),-1);
+        repo.setCurrentPos(((Aps)Thread.currentThread()).getHj_number(),-1);
+        repo.setStandingPos(((Aps)Thread.currentThread()).getHj_number(),-1);
+        repo.setHorseJockeyAgility(0,((Aps)Thread.currentThread()).getHj_number());
+        repo.setOdd(((Aps)Thread.currentThread()).getHj_number(), -1);
         repo.reportStatus();
-        repo.setHorseJockeyState(null,((HorseJockey)Thread.currentThread()).getHj_number());
+        repo.setHorseJockeyState(null,((Aps)Thread.currentThread()).getHj_number());
+    }
+
+    public static Stable getInstance(){
+        if (instance==null)
+            instance = new Stable(config.N);
+
+        return instance;
     }
 
 }

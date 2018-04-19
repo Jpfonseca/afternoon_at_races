@@ -28,6 +28,8 @@ public class Aps extends Thread{
     private BrokerState brokerState;
     private HorseJockeyState horseJockeyState;
     private int horseJockeyAgility;
+    private int horseJockeyNumber;
+    private int odd;
 
     public Aps(ServerCom sconi, InterfaceServers server) {
         this.sconi = sconi;
@@ -49,6 +51,13 @@ System.out.println("Message = "+ message.getType());
             case Message.MAKE_A_MOVE:
                 horseJockeyAgility = message.getHorseJockeyAgility();
                 break;
+            case Message.PROCEED_TO_STABLE:
+                horseJockeyAgility = message.getHorseJockeyAgility();
+                horseJockeyNumber = message.getHorseJockeyNumber();
+                break;
+            case Message.PROCEED_TO_STABLE2:
+                horseJockeyNumber = message.getHorseJockeyNumber();
+                break;
             default:
                 break;
         }
@@ -58,13 +67,19 @@ System.out.println("Message Reply = "+ reply.getType());
 
         switch (reply.getType()){
             case Message.REPLY_START_THE_RACE:
+            case Message.REPLY_SUMMON_HORSES_TO_PADDOCK:
                 reply.setBrokerState(brokerState);
                 break;
             case Message.REPLY_PROCEED_TO_START_LINE:
                 reply.setHjState(horseJockeyState);
                 break;
             case Message.REPLY_HAS_FINISH_LINE_BEEN_CROSSED:
+            case Message.REPLY_PROCEED_TO_STABLE2:
                 reply.setHjState(horseJockeyState);
+                break;
+            case Message.REPLY_PROCEED_TO_STABLE:
+                reply.setHjState(horseJockeyState);
+                reply.setOdd(odd);
                 break;
             default:
                 break;
@@ -84,5 +99,13 @@ System.out.println("Message Reply = "+ reply.getType());
 
     public int getAgility(){
         return horseJockeyAgility;
+    }
+
+    public int getHj_number() {
+        return horseJockeyNumber;
+    }
+
+    public void setOdd(int odd) {
+        this.odd = odd;
     }
 }

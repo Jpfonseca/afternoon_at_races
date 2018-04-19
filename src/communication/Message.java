@@ -46,6 +46,13 @@ public class Message implements Serializable {
     public static final int REPLY_MAKE_A_MOVE = 22;
     public static final int REPLY_HAS_FINISH_LINE_BEEN_CROSSED = 23;
     public static final int REPLY_REPORT_RESULTS = 24;
+    // Stable
+    public static final int SUMMON_HORSES_TO_PADDOCK = 25;
+    public static final int PROCEED_TO_STABLE = 26;
+    public static final int PROCEED_TO_STABLE2 = 27;
+    public static final int REPLY_SUMMON_HORSES_TO_PADDOCK = 28;
+    public static final int REPLY_PROCEED_TO_STABLE = 29;
+    public static final int REPLY_PROCEED_TO_STABLE2 = 30;
 
     /**
      * @serialField type int Message Type
@@ -70,6 +77,8 @@ public class Message implements Serializable {
     private int horseJockeyNumber;
     private boolean finishLineCrossed;
     private Winners[] winners;
+
+    private int totalAgility;
 
 
     /**
@@ -142,6 +151,10 @@ public class Message implements Serializable {
             case SET_STANDING_POS:
                 this.index = val1;
                 this.standingPos = val2;
+                break;
+            case SUMMON_HORSES_TO_PADDOCK:
+                this.currentRace = val1;
+                this.totalAgility = val2;
                 break;
             default:
                 break;
@@ -322,6 +335,18 @@ public class Message implements Serializable {
 
     public void setHorsejockeyAgility(int agility){
         horseJockeyAgility = agility;
+    }
+
+    public void setHorsejockeyNumber(int index){
+        horseJockeyNumber = index;
+    }
+
+    public int getTotalAgility() {
+        return totalAgility;
+    }
+
+    public void setOdd(int odd) {
+        this.odd = odd;
     }
 }
 
