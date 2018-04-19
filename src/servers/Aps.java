@@ -5,6 +5,7 @@ import communication.ServerCom;
 import entities.BrokerState;
 import entities.HorseJockey;
 import entities.HorseJockeyState;
+import entities.SpectatorState;
 
 /**
  * Aps
@@ -27,9 +28,11 @@ public class Aps extends Thread{
 
     private BrokerState brokerState;
     private HorseJockeyState horseJockeyState;
+    private SpectatorState spectatorState;
     private int horseJockeyAgility;
     private int horseJockeyNumber;
     private int odd;
+    private int spectatorIndex;
 
     public Aps(ServerCom sconi, InterfaceServers server) {
         this.sconi = sconi;
@@ -58,6 +61,11 @@ System.out.println("Message = "+ message.getType());
             case Message.PROCEED_TO_STABLE2:
                 horseJockeyNumber = message.getHorseJockeyNumber();
                 break;
+            case Message.WAIT_FOR_NEXT_RACE:
+            case Message.GO_WATCH_THE_RACE:
+            case Message.RELAX_A_BIT:
+                spectatorIndex = message.getIndex();
+                break;
             default:
                 break;
         }
@@ -68,6 +76,7 @@ System.out.println("Message Reply = "+ reply.getType());
         switch (reply.getType()){
             case Message.REPLY_START_THE_RACE:
             case Message.REPLY_SUMMON_HORSES_TO_PADDOCK:
+            case Message.REPLY_ENTERTAIN_THE_GUESTS:
                 reply.setBrokerState(brokerState);
                 break;
             case Message.REPLY_PROCEED_TO_START_LINE:
@@ -80,6 +89,11 @@ System.out.println("Message Reply = "+ reply.getType());
             case Message.REPLY_PROCEED_TO_STABLE:
                 reply.setHjState(horseJockeyState);
                 reply.setOdd(odd);
+                break;
+            case Message.REPLY_WAIT_FOR_NEXT_RACE:
+            case Message.REPLY_GO_WATCH_THE_RACE:
+            case Message.REPLY_RELAX_A_BIT:
+                reply.setSpectatorState(spectatorState);
                 break;
             default:
                 break;
@@ -107,5 +121,13 @@ System.out.println("Message Reply = "+ reply.getType());
 
     public void setOdd(int odd) {
         this.odd = odd;
+    }
+
+    public void setState(SpectatorState state) {
+        this.spectatorState = state;
+    }
+
+    public int getSpecId() {
+        return spectatorIndex;
     }
 }

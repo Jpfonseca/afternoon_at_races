@@ -53,6 +53,27 @@ public class Message implements Serializable {
     public static final int REPLY_SUMMON_HORSES_TO_PADDOCK = 28;
     public static final int REPLY_PROCEED_TO_STABLE = 29;
     public static final int REPLY_PROCEED_TO_STABLE2 = 30;
+    // ControlCentre
+    public static final int CCWS_SUMMON_HORSES_TO_PADDOCK = 31;
+    public static final int CCWS_START_THE_RACE = 32;
+    public static final int CCWS_REPORT_RESULTS = 33;
+    public static final int ENTERTAIN_THE_GUESTS = 34;
+    public static final int PROCEED_TO_PADDOCK = 35;
+    public static final int WAIT_FOR_NEXT_RACE = 36;
+    public static final int GO_CHECK_HORSES = 37;
+    public static final int GO_WATCH_THE_RACE = 38;
+    public static final int RELAX_A_BIT = 39;
+    public static final int LAST_HORSE_CROSSED_LINE = 40;
+    public static final int REPLY_CCWS_SUMMON_HORSES_TO_PADDOCK = 41;
+    public static final int REPLY_CCWS_START_THE_RACE = 42;
+    public static final int REPLY_CCWS_REPORT_RESULTS = 43;
+    public static final int REPLY_ENTERTAIN_THE_GUESTS = 44;
+    public static final int REPLY_PROCEED_TO_PADDOCK = 45;
+    public static final int REPLY_WAIT_FOR_NEXT_RACE = 46;
+    public static final int REPLY_GO_CHECK_HORSES = 47;
+    public static final int REPLY_GO_WATCH_THE_RACE = 48;
+    public static final int REPLY_RELAX_A_BIT = 49;
+    public static final int REPLY_LAST_HORSE_CROSSED_LINE = 50;
 
     /**
      * @serialField type int Message Type
@@ -79,6 +100,8 @@ public class Message implements Serializable {
     private Winners[] winners;
 
     private int totalAgility;
+
+    private boolean waitForNextRace;
 
 
     /**
@@ -232,6 +255,9 @@ public class Message implements Serializable {
             case REPLY_HAS_FINISH_LINE_BEEN_CROSSED:
                 this.finishLineCrossed = val;
                 break;
+            case REPLY_WAIT_FOR_NEXT_RACE:
+                this.waitForNextRace = val;
+                break;
             default:
                 break;
         }
@@ -347,6 +373,18 @@ public class Message implements Serializable {
 
     public void setOdd(int odd) {
         this.odd = odd;
+    }
+
+    public boolean getWaitForNextRace() {
+        return waitForNextRace;
+    }
+
+    public void setSpectatorState(SpectatorState state) {
+        this.spectatorState = state;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }
 

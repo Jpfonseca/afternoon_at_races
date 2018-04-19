@@ -1,5 +1,6 @@
 package entities;
 
+import clients.ControlCentreStub;
 import clients.GeneralInformationRepositoryStub;
 import shared_regions.BettingCentre;
 import shared_regions.ControlCentre;
@@ -19,7 +20,8 @@ public class Spectator extends Thread{
      * Control Centre and Watching Stand - Shared Region
      * @serial ccws
      */
-    private ControlCentre ccws;
+    //private ControlCentre ccws;
+    private ControlCentreStub ccws;
     /**
      * Paddock - Shared Region
      * @serial pd
@@ -50,13 +52,13 @@ public class Spectator extends Thread{
     /**
      * Spectator constructor
      * @param specId Spectator Id
-     * @param ccws Control Centre and Watching Stand - Shared Region
      * @param pd Paddock - Shared Region
      * @param bc Betting Centre - Shared Region
      */
-    public Spectator(int specId, ControlCentre ccws, Paddock pd, BettingCentre bc, int wallet) {
+    public Spectator(int specId, Paddock pd, BettingCentre bc, int wallet) {
         this.specId=specId;
-        this.ccws = ccws;
+        //this.ccws = ccws;
+        this.ccws = new ControlCentreStub();
         this.pd = pd;
         this.bc = bc;
         this.repo = new GeneralInformationRepositoryStub();

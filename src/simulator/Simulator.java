@@ -24,17 +24,17 @@ public class Simulator{
         //GeneralInformationRepository repo = new GeneralInformationRepository(logName,K,N,M);
 
         BettingCentre bc = new BettingCentre(M);
-        ControlCentre ccws = new ControlCentre(K, M);
+        //ControlCentre ccws = new ControlCentre(K, M);
         Paddock pd = new Paddock(N, M);
         //RacingTrack rt = new RacingTrack(K, N, DMin, DMax);
         //Stable st = new Stable(N);
 
         Broker broker;
-        broker = new Broker(K, N, ccws, bc, pd, maxAgility);
+        broker = new Broker(K, N, bc, pd, maxAgility);
 
         Spectator [] spectator = new Spectator[M];
         for (int i=0; i<M; i++)
-            spectator[i] = new Spectator(i,ccws, pd, bc, wallet);
+            spectator[i] = new Spectator(i, pd, bc, wallet);
 
 
         // Simulation Start

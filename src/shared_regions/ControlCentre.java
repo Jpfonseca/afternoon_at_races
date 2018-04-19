@@ -1,6 +1,11 @@
 package shared_regions;
 import clients.GeneralInformationRepositoryStub;
 import entities.*;
+import extras.config;
+import servers.Aps;
+
+import javax.naming.ldap.Control;
+
 /**
  * This class specifies the methods that will be executed on the Control Centre and the Watching Stand .
  */
@@ -56,6 +61,8 @@ public class ControlCentre implements ControlCentreInterface {
      *  @serial totalSpec
      */
     private int totalSpec;
+
+    private static ControlCentre instance;
 
     /**
      * This constructor specifies the initialization of the Control Centre shared Region.
@@ -128,7 +135,7 @@ public class ControlCentre implements ControlCentreInterface {
     @Override
     public synchronized void entertainTheGuests(){
         // Waiting for childs to die
-        ((Broker)Thread.currentThread()).setBrokerState(BrokerState.PLAYING_HOST_AT_THE_BAR);
+        ((Aps)Thread.currentThread()).setBrokerState(BrokerState.PLAYING_HOST_AT_THE_BAR);
         repo.setBrokerState(BrokerState.PLAYING_HOST_AT_THE_BAR);
 
         waitForRaceToStart=true;
@@ -155,15 +162,15 @@ public class ControlCentre implements ControlCentreInterface {
     @Override
     public synchronized boolean waitForNextRace(){
 
-        Spectator spec = ((Spectator) Thread.currentThread());
+        Aps spec = ((Aps) Thread.currentThread());
 
         //repo.setOdd(spec.getSpecId(), -1);
         repo.setSpectatorBet(spec.getSpecId(), -1, -1);
         //repo.reportStatus();
 
         if (currentRace>0 && currentRace != K+1) {
-            ((Spectator) Thread.currentThread()).setState((SpectatorState.WAITING_FOR_A_RACE_TO_START));
-            repo.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START, ((Spectator) Thread.currentThread()).getSpecId());
+            spec.setState((SpectatorState.WAITING_FOR_A_RACE_TO_START));
+            repo.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START, spec.getSpecId());
             //repo.reportStatus();
         }
 
@@ -199,8 +206,8 @@ public class ControlCentre implements ControlCentreInterface {
     @Override
     public synchronized void goWatchTheRace(){
 
-        ((Spectator) Thread.currentThread()).setState((SpectatorState.WATCHING_A_RACE));
-        repo.setSpectatorState(SpectatorState.WATCHING_A_RACE,((Spectator)Thread.currentThread()).getSpecId());
+        ((Aps) Thread.currentThread()).setState((SpectatorState.WATCHING_A_RACE));
+        repo.setSpectatorState(SpectatorState.WATCHING_A_RACE,((Aps)Thread.currentThread()).getSpecId());
         repo.reportStatus();
 
         while(waitForResults)
@@ -223,8 +230,8 @@ public class ControlCentre implements ControlCentreInterface {
     @Override
     public void relaxABit(){
 
-        ((Spectator) Thread.currentThread()).setState((SpectatorState.CELEBRATING));
-        repo.setSpectatorState(SpectatorState.CELEBRATING,((Spectator)Thread.currentThread()).getSpecId());
+        ((Aps) Thread.currentThread()).setState((SpectatorState.CELEBRATING));
+        repo.setSpectatorState(SpectatorState.CELEBRATING,((Aps)Thread.currentThread()).getSpecId());
         repo.reportStatus();
     }
 
@@ -235,5 +242,12 @@ public class ControlCentre implements ControlCentreInterface {
     public synchronized void lastHorseCrossedLine(){
         waitForRaceToFinish=false;
         notifyAll();
+    }
+
+    public static ControlCentre getInstance(){
+        if (instance==null)
+            instance = new ControlCentre(config.K, config.M);
+
+        return instance;
     }
 }

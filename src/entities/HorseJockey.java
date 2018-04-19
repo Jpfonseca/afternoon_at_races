@@ -1,5 +1,6 @@
 package entities;
 
+import clients.ControlCentreStub;
 import clients.GeneralInformationRepositoryStub;
 import clients.RacingTrackStub;
 import clients.StableStub;
@@ -20,7 +21,8 @@ public class HorseJockey extends Thread{
      * Control Centre and Watching Stand - Shared Region
      * @serial ccws
      */
-    private ControlCentre ccws;
+    //private ControlCentre ccws;
+    private ControlCentreStub ccws;
     /**
      * Stable - Shared Region
      * @serial st
@@ -56,14 +58,14 @@ public class HorseJockey extends Thread{
     /**
      * HorseJockey Constructor
      * @param hj_number HorseJockey index
-     * @param ccws Control Centre and Watching Stand - Shared Region
      * @param pd Paddock - Shared Region
      */
 
-    public HorseJockey(int hj_number, ControlCentre ccws, Paddock pd, BettingCentre bc, int maxAgil) {
+    public HorseJockey(int hj_number, Paddock pd, BettingCentre bc, int maxAgil) {
     //public HorseJockey(int hj_number, ControlCentre ccws, Stable st, Paddock pd, BettingCentre bc, int maxAgil, RacingTrack rt) {
         this.hj_number = hj_number;
-        this.ccws = ccws;
+        //this.ccws = ccws;
+        this.ccws = new ControlCentreStub();
         //this.st = st;
         this.st = new StableStub();
         this.pd = pd;
