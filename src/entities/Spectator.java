@@ -3,6 +3,7 @@ package entities;
 import clients.BettingCentreStub;
 import clients.ControlCentreStub;
 import clients.GeneralInformationRepositoryStub;
+import clients.PaddockStub;
 import shared_regions.BettingCentre;
 import shared_regions.ControlCentre;
 import shared_regions.GeneralInformationRepository;
@@ -21,24 +22,21 @@ public class Spectator extends Thread{
      * Control Centre and Watching Stand - Shared Region
      * @serial ccws
      */
-    //private ControlCentre ccws;
     private ControlCentreStub ccws;
     /**
      * Paddock - Shared Region
      * @serial pd
      */
-    private Paddock pd;
+    private PaddockStub pd;
     /**
      * Betting Centre - Shared Region
      * @serial bc
      */
-    //private BettingCentre bc;
     private BettingCentreStub bc;
     /**
      * General Repository
      * @serial repo
      */
-    //private GeneralInformationRepository repo;
     private GeneralInformationRepositoryStub repo;
     /**
      * Current spectator Index
@@ -54,14 +52,11 @@ public class Spectator extends Thread{
     /**
      * Spectator constructor
      * @param specId Spectator Id
-     * @param pd Paddock - Shared Region
      */
-    public Spectator(int specId, Paddock pd, int wallet) {
+    public Spectator(int specId, int wallet) {
         this.specId=specId;
-        //this.ccws = ccws;
         this.ccws = new ControlCentreStub();
-        this.pd = pd;
-        //this.bc = bc;
+        this.pd = new PaddockStub();
         this.bc = new BettingCentreStub();
         this.repo = new GeneralInformationRepositoryStub();
         this.wallet = wallet;
@@ -90,12 +85,10 @@ public class Spectator extends Thread{
 
             bc.placeABet();
             ccws.goWatchTheRace();
-System.out.println("1");
+
             if(bc.haveIWon()) {
-                System.out.println("2");
                 bc.goCollectTheGains();
             }
-System.out.println("3");
         }
 
         ccws.relaxABit();

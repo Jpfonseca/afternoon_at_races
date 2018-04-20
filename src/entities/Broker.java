@@ -14,7 +14,6 @@ public class Broker extends Thread{
      * General Repository
      * @serial repo
      */
-    //private GeneralInformationRepository repo;
     private GeneralInformationRepositoryStub repo;
     /**
      * Broker current State
@@ -25,30 +24,26 @@ public class Broker extends Thread{
      * Control Centre and Watching Stand - Shared Region
      * @serial ccws
      */
-    //private ControlCentre ccws;
     private ControlCentreStub ccws;
     /**
      * Stable - Shared Region
      * @serial st
      */
-    //private Stable st;
     private StableStub st;
     /**
      * Betting Centre - Shared Region
      * @serial bc
      */
-    //private BettingCentre bc;
     private BettingCentreStub bc;
     /**
      * Paddock - Shared Region
      * @serial pd
      */
-    private Paddock pd;
+    private PaddockStub pd;
     /**
      * Racing Track- Shared Region
      * @serial rt
      */
-    //private RacingTrack rt;
     private RacingTrackStub rt;
     /**
      * Total races
@@ -82,21 +77,16 @@ public class Broker extends Thread{
      *
      * @param K Total races
      * @param N Number of Horses in each race
-     * @param pd Paddock -Shared Region
      * @param maxAgil maximum Agility of each HorseJockey
      */
-    public Broker(int K, int N, Paddock pd, int maxAgil) {
+    public Broker(int K, int N, int maxAgil) {
     //public Broker(int K, int N, ControlCentre ccws, Stable st, BettingCentre bc, Paddock pd, int maxAgil, RacingTrack rt) {
         this.K = K;
         this.N = N;
-        //this.ccws = ccws;
         this.ccws = new ControlCentreStub();
-        //this.st = st;
         this.st = new StableStub();
-        //this.bc = bc;
         this.bc = new BettingCentreStub();
-        this.pd = pd;
-        //this.rt = rt;
+        this.pd = new PaddockStub();
         this.rt = new RacingTrackStub();
         this.repo = new GeneralInformationRepositoryStub();
         this.maxAgil = maxAgil;
@@ -120,7 +110,7 @@ public class Broker extends Thread{
             // HorseJockey Instantiation and start
             totalAgility = 0;
             for (int j = 0; j < N; j++) {
-                horseJockeys[j] = new HorseJockey(j, pd, maxAgil);
+                horseJockeys[j] = new HorseJockey(j, maxAgil);
                 horseJockeys[j].start();
                 totalAgility += horseJockeys[j].getAgility();
                 System.out.println("HorseJockey "+(j+1)+" started");

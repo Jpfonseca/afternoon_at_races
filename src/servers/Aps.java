@@ -66,6 +66,7 @@ System.out.println("Message = "+ message.getType());
             case Message.GO_WATCH_THE_RACE:
             case Message.RELAX_A_BIT:
             case Message.HAVE_I_WON:
+            case Message.GO_CHECK_HORSES2:
                 spectatorIndex = message.getIndex();
                 break;
             case Message.PLACE_A_BET:
@@ -105,6 +106,7 @@ System.out.println("Message Reply = "+ reply.getType());
             case Message.REPLY_WAIT_FOR_NEXT_RACE:
             case Message.REPLY_GO_WATCH_THE_RACE:
             case Message.REPLY_RELAX_A_BIT:
+            case Message.REPLY_GO_CHECK_HORSES2:
                 reply.setSpectatorState(spectatorState);
                 break;
             case Message.REPLY_PLACE_A_BET:

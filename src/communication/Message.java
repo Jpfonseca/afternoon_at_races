@@ -89,6 +89,16 @@ public class Message implements Serializable {
     public static final int REPLY_HAVE_I_WON = 62;
     public static final int REPLY_GO_COLLECT_THE_GAINS = 63;
     public static final int REPLY_SET_HORSEJOCKEY_ODD = 64;
+    // Paddock
+    public static final int PROCEED_TO_PADDOCK1 = 65;
+    public static final int PROCEED_TO_PADDOCK2 = 66;
+    public static final int GO_CHECK_HORSES1 = 67;
+    public static final int GO_CHECK_HORSES2= 68;
+    public static final int REPLY_PROCEED_TO_PADDOCK1 = 69;
+    public static final int REPLY_PROCEED_TO_PADDOCK2 = 70;
+    public static final int REPLY_GO_CHECK_HORSES1 = 71;
+    public static final int REPLY_GO_CHECK_HORSES2= 72;
+
 
 
     /**
@@ -122,6 +132,7 @@ public class Message implements Serializable {
     private boolean areThereAnyWinners;
     private boolean haveIWon;
     private int wallet;
+    private boolean last;
 
     /**
      * Message Constructor
@@ -283,6 +294,15 @@ public class Message implements Serializable {
             case REPLY_HAVE_I_WON:
                 this.haveIWon = val;
                 break;
+            case REPLY_PROCEED_TO_PADDOCK1:
+                this.last = val;
+                break;
+            case REPLY_GO_CHECK_HORSES1:
+                this.last = val;
+                break;
+            case GO_CHECK_HORSES2:
+                this.last = val;
+                break;
             default:
                 break;
         }
@@ -429,6 +449,14 @@ public class Message implements Serializable {
 
     public void setWallet(int wallet) {
         this.wallet = wallet;
+    }
+
+    public boolean getLast() {
+        return last;
+    }
+
+    public void setLast(boolean last) {
+        this.last = last;
     }
 }
 

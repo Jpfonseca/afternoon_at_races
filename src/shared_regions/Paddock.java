@@ -1,6 +1,8 @@
 package shared_regions;
 import clients.GeneralInformationRepositoryStub;
 import entities.*;
+import extras.config;
+import servers.Aps;
 
 /**
  * This class specifies the methods that will be executed on the Paddock .
@@ -43,6 +45,8 @@ public class Paddock implements PaddockInterface {
      * @serial waitForLastHJ
      */
     private boolean waitForLastHJ=true;
+
+    private static Paddock instance;
 
     /**
      * Paddock Constructor
@@ -110,8 +114,8 @@ public class Paddock implements PaddockInterface {
     @Override
     public synchronized void goCheckHorses2(boolean last){
 
-        ((Spectator)Thread.currentThread()).setState((SpectatorState.APPRAISING_THE_HORSES));
-        repo.setSpectatorState(SpectatorState.APPRAISING_THE_HORSES,((Spectator)Thread.currentThread()).getSpecId());
+        ((Aps)Thread.currentThread()).setState((SpectatorState.APPRAISING_THE_HORSES));
+        repo.setSpectatorState(SpectatorState.APPRAISING_THE_HORSES,((Aps)Thread.currentThread()).getSpecId());
         repo.reportStatus();
 
         if (last) {
@@ -131,4 +135,10 @@ public class Paddock implements PaddockInterface {
             waitForLastHJ=true; // variable reset
     }
 
+    public static Paddock getInstance(){
+        if (instance==null)
+            instance = new Paddock(config.N, config.M);
+
+        return instance;
+    }
 }
