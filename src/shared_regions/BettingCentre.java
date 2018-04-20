@@ -2,6 +2,8 @@ package shared_regions;
 
 import entities.*;
 import clients.*;
+import extras.config;
+import servers.Aps;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -67,6 +69,8 @@ public class BettingCentre implements BettingCentreInterface {
     //private GeneralInformationRepository repo;
     private GeneralInformationRepositoryStub repo;
 
+    private static BettingCentre instance;
+
     /**
      * This is the Betting Centre constructor. <br> It specifies the variables which will be essential to create this shared region.
      * @param M number of spectators
@@ -86,7 +90,7 @@ public class BettingCentre implements BettingCentreInterface {
     @Override
     public synchronized void acceptTheBets(){
 
-        ((Broker)Thread.currentThread()).setBrokerState((BrokerState.WAITING_FOR_BETS));
+        ((Aps)Thread.currentThread()).setBrokerState((BrokerState.WAITING_FOR_BETS));
         repo.setBrokerState(BrokerState.WAITING_FOR_BETS);
 
         spectatorWinners = new int[0];
@@ -133,7 +137,7 @@ public class BettingCentre implements BettingCentreInterface {
     @Override
     public synchronized void honourTheBets(){
 
-        ((Broker) Thread.currentThread()).setBrokerState((BrokerState.SETTLING_ACCOUNTS));
+        ((Aps) Thread.currentThread()).setBrokerState((BrokerState.SETTLING_ACCOUNTS));
         repo.setBrokerState(BrokerState.SETTLING_ACCOUNTS);
 
         waitForWinnerCall = false;
@@ -155,8 +159,7 @@ public class BettingCentre implements BettingCentreInterface {
      */
     @Override
     public synchronized void placeABet(){
-
-        Spectator spec =((Spectator)Thread.currentThread());
+        Aps spec =((Aps)Thread.currentThread());
 
         // SPECTATOR BET
         int temp,bet,spec_id;
@@ -199,7 +202,7 @@ public class BettingCentre implements BettingCentreInterface {
     @Override
     public synchronized boolean haveIWon(){
 
-        Spectator spec =((Spectator)Thread.currentThread());
+        Aps spec =((Aps)Thread.currentThread());
 
         for (int i=0;i<spectatorWinners.length;i++){
             if (spectatorWinners[i]==spec.getSpecId()){
@@ -216,7 +219,7 @@ public class BettingCentre implements BettingCentreInterface {
     @Override
     public synchronized void goCollectTheGains(){
 
-        Spectator spec=((Spectator) Thread.currentThread());
+        Aps spec=((Aps) Thread.currentThread());
         spec.setState((SpectatorState.COLLECTING_THE_GAINS));
         repo.setSpectatorState(SpectatorState.COLLECTING_THE_GAINS,spec.getSpecId());
         repo.reportStatus();
@@ -258,7 +261,14 @@ public class BettingCentre implements BettingCentreInterface {
 
     @Override
     public void setHorseJockeyOdd() {
-        HorseJockey horseJockey = ((HorseJockey)Thread.currentThread());
+        Aps horseJockey = ((Aps)Thread.currentThread());
         this.odd[horseJockey.getHj_number()] = horseJockey.getOdd();
+    }
+
+    public static BettingCentre getInstance(){
+        if (instance==null)
+            instance = new BettingCentre(config.M);
+
+        return instance;
     }
 }

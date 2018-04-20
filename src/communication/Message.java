@@ -74,6 +74,22 @@ public class Message implements Serializable {
     public static final int REPLY_GO_WATCH_THE_RACE = 48;
     public static final int REPLY_RELAX_A_BIT = 49;
     public static final int REPLY_LAST_HORSE_CROSSED_LINE = 50;
+    // BettingCentre
+    public static final int ACCEPT_THE_BETS = 51;
+    public static final int ARE_THERE_ANY_WINNERS = 52;
+    public static final int HONOUR_THE_BETS = 53;
+    public static final int PLACE_A_BET = 54;
+    public static final int HAVE_I_WON = 55;
+    public static final int GO_COLLECT_THE_GAINS = 56;
+    public static final int SET_HORSEJOCKEY_ODD = 57;
+    public static final int REPLY_ACCEPT_THE_BETS = 58;
+    public static final int REPLY_ARE_THERE_ANY_WINNERS = 59;
+    public static final int REPLY_HONOUR_THE_BETS = 60;
+    public static final int REPLY_PLACE_A_BET = 61;
+    public static final int REPLY_HAVE_I_WON = 62;
+    public static final int REPLY_GO_COLLECT_THE_GAINS = 63;
+    public static final int REPLY_SET_HORSEJOCKEY_ODD = 64;
+
 
     /**
      * @serialField type int Message Type
@@ -103,6 +119,9 @@ public class Message implements Serializable {
 
     private boolean waitForNextRace;
 
+    private boolean areThereAnyWinners;
+    private boolean haveIWon;
+    private int wallet;
 
     /**
      * Message Constructor
@@ -258,6 +277,12 @@ public class Message implements Serializable {
             case REPLY_WAIT_FOR_NEXT_RACE:
                 this.waitForNextRace = val;
                 break;
+            case REPLY_ARE_THERE_ANY_WINNERS:
+                this.areThereAnyWinners = val;
+                break;
+            case REPLY_HAVE_I_WON:
+                this.haveIWon = val;
+                break;
             default:
                 break;
         }
@@ -268,6 +293,9 @@ public class Message implements Serializable {
 
         switch(type){
             case REPLY_REPORT_RESULTS:
+                this.winners = winners;
+                break;
+            case ARE_THERE_ANY_WINNERS:
                 this.winners = winners;
                 break;
             default:
@@ -385,6 +413,22 @@ public class Message implements Serializable {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public boolean getAreThereAnyWinners() {
+        return areThereAnyWinners;
+    }
+
+    public boolean getHaveIWon() {
+        return haveIWon;
+    }
+
+    public int getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(int wallet) {
+        this.wallet = wallet;
     }
 }
 

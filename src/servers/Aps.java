@@ -33,6 +33,7 @@ public class Aps extends Thread{
     private int horseJockeyNumber;
     private int odd;
     private int spectatorIndex;
+    private int wallet;
 
     public Aps(ServerCom sconi, InterfaceServers server) {
         this.sconi = sconi;
@@ -64,8 +65,17 @@ System.out.println("Message = "+ message.getType());
             case Message.WAIT_FOR_NEXT_RACE:
             case Message.GO_WATCH_THE_RACE:
             case Message.RELAX_A_BIT:
+            case Message.HAVE_I_WON:
                 spectatorIndex = message.getIndex();
                 break;
+            case Message.PLACE_A_BET:
+            case Message.GO_COLLECT_THE_GAINS:
+                spectatorIndex = message.getIndex();
+                wallet = message.getWallet();
+                break;
+            case Message.SET_HORSEJOCKEY_ODD:
+                odd = message.getOdd();
+                horseJockeyNumber = message.getHorseJockeyNumber();
             default:
                 break;
         }
@@ -77,6 +87,8 @@ System.out.println("Message Reply = "+ reply.getType());
             case Message.REPLY_START_THE_RACE:
             case Message.REPLY_SUMMON_HORSES_TO_PADDOCK:
             case Message.REPLY_ENTERTAIN_THE_GUESTS:
+            case Message.REPLY_ACCEPT_THE_BETS:
+            case Message.REPLY_HONOUR_THE_BETS:
                 reply.setBrokerState(brokerState);
                 break;
             case Message.REPLY_PROCEED_TO_START_LINE:
@@ -95,6 +107,10 @@ System.out.println("Message Reply = "+ reply.getType());
             case Message.REPLY_RELAX_A_BIT:
                 reply.setSpectatorState(spectatorState);
                 break;
+            case Message.REPLY_PLACE_A_BET:
+            case Message.REPLY_GO_COLLECT_THE_GAINS:
+                reply.setSpectatorState(spectatorState);
+                reply.setWallet(wallet);
             default:
                 break;
         }
@@ -129,5 +145,17 @@ System.out.println("Message Reply = "+ reply.getType());
 
     public int getSpecId() {
         return spectatorIndex;
+    }
+
+    public int getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(int wallet) {
+        this.wallet = wallet;
+    }
+
+    public int getOdd() {
+        return odd;
     }
 }

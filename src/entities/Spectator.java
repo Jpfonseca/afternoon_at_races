@@ -1,5 +1,6 @@
 package entities;
 
+import clients.BettingCentreStub;
 import clients.ControlCentreStub;
 import clients.GeneralInformationRepositoryStub;
 import shared_regions.BettingCentre;
@@ -31,7 +32,8 @@ public class Spectator extends Thread{
      * Betting Centre - Shared Region
      * @serial bc
      */
-    private BettingCentre bc;
+    //private BettingCentre bc;
+    private BettingCentreStub bc;
     /**
      * General Repository
      * @serial repo
@@ -53,14 +55,14 @@ public class Spectator extends Thread{
      * Spectator constructor
      * @param specId Spectator Id
      * @param pd Paddock - Shared Region
-     * @param bc Betting Centre - Shared Region
      */
-    public Spectator(int specId, Paddock pd, BettingCentre bc, int wallet) {
+    public Spectator(int specId, Paddock pd, int wallet) {
         this.specId=specId;
         //this.ccws = ccws;
         this.ccws = new ControlCentreStub();
         this.pd = pd;
-        this.bc = bc;
+        //this.bc = bc;
+        this.bc = new BettingCentreStub();
         this.repo = new GeneralInformationRepositoryStub();
         this.wallet = wallet;
 
@@ -88,9 +90,12 @@ public class Spectator extends Thread{
 
             bc.placeABet();
             ccws.goWatchTheRace();
-
-            if(bc.haveIWon())
+System.out.println("1");
+            if(bc.haveIWon()) {
+                System.out.println("2");
                 bc.goCollectTheGains();
+            }
+System.out.println("3");
         }
 
         ccws.relaxABit();
