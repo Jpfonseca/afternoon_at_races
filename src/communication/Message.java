@@ -104,7 +104,7 @@ public class Message implements Serializable {
     /**
      * @serialField type int Message Type
      */
-    private int type = -1;
+    private int type = 0;
     private int index;
     private BrokerState brokerState;
     private SpectatorState spectatorState;

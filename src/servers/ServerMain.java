@@ -15,6 +15,7 @@ public class ServerMain {
      * @serialField portNumb Port number
      */
     private static final int portNumb = config.baseListenPort;
+    private static boolean endService;
 
     /*
         SD ## = 02
@@ -39,6 +40,7 @@ public class ServerMain {
         if (args.length == 1) {
 
             int service = Integer.parseInt(args[0]);
+            endService = false;
 
             if (service >= 0 && service < 6)
                 port = portNumb + service;
@@ -77,20 +79,24 @@ public class ServerMain {
 
             scon.start();
             /* Requests Processing */
-            while (true) {
+            while (!endService) {
             // while(!serviceEnd)
                 sconi = scon.accept();
                 aps = new Aps(sconi, server);
                 aps.start();
 
+                // 1 mensagem por tipo de client
+
 
                 // try
                 // sconi = scon.accept();
-                // catch (TimeOutException){
                 // aps = new Aps(sconi, server);
                 // aps.start();
+                // catch (TimeOutException){
 
             }
+
+            //sconi.close();
         }
     }
 }

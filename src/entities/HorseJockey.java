@@ -1,7 +1,6 @@
 package entities;
 
 import clients.*;
-import shared_regions.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**

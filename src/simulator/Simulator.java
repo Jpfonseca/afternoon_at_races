@@ -29,41 +29,55 @@ public class Simulator{
         //RacingTrack rt = new RacingTrack(K, N, DMin, DMax);
         //Stable st = new Stable(N);
 
-        Broker broker;
-        broker = new Broker(K, N, maxAgility);
+        if (args.length == 1) {
 
-        Spectator [] spectator = new Spectator[M];
-        for (int i=0; i<M; i++)
-            spectator[i] = new Spectator(i, wallet);
+            int client = Integer.parseInt(args[0]);
 
+            switch (client){
+                case 0: // Broker
 
-        // Simulation Start
-        for (int i=0; i<M; i++){
-            spectator[i].start();
-            System.out.println("Spectator "+(i+1)+" started");
-        }
+                    Broker broker;
+                    broker = new Broker(K, N, maxAgility);
 
-        broker.start();
-        System.out.println("Broker started");
+                    broker.start();
+                    System.out.println("Broker started");
 
+                    try {
+                        broker.join();
+                    } catch (InterruptedException e) {
+                        System.out.println("Broker InterruptedException: " + e);
+                    }
 
-        /* Simulation End */
-        for (int i=0; i<M; i++) {
-            try {
-                spectator[i].join();
-            } catch (InterruptedException e) {
-                System.out.println("Spectator "+i+" InterruptedException: "+e);
+                    System.out.println("Broker ended");
+
+                    break;
+                case 1: // Spectators
+
+                    Spectator[] spectator = new Spectator[M];
+                    for (int i = 0; i < M; i++)
+                        spectator[i] = new Spectator(i, wallet);
+
+                    // Simulation Start
+                    for (int i = 0; i < M; i++) {
+                        spectator[i].start();
+                        System.out.println("Spectator " + (i + 1) + " started");
+                    }
+
+                    /* Simulation End */
+                    for (int i = 0; i < M; i++) {
+                        try {
+                            spectator[i].join();
+                        } catch (InterruptedException e) {
+                            System.out.println("Spectator " + i + " InterruptedException: " + e);
+                        }
+                        System.out.println("Spectator " + (i + 1) + " ended");
+                        //repo.setSpectatorState(null, i);
+                    }
+
+                    break;
+                default:
+                    break;
             }
-            System.out.println("Spectator "+(i+1)+" ended");
-            //repo.setSpectatorState(null, i);
         }
-
-        try {
-            broker.join();
-        } catch (InterruptedException e) {
-            System.out.println("Broker InterruptedException: "+e);
-        }
-
-        System.out.println("Broker ended");
     }
 }

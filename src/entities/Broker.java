@@ -1,7 +1,6 @@
 package entities;
 
 import clients.*;
-import shared_regions.*;
 
 /**
  * Broker Entity
@@ -35,11 +34,6 @@ public class Broker extends Thread{
      * @serial bc
      */
     private BettingCentreStub bc;
-    /**
-     * Paddock - Shared Region
-     * @serial pd
-     */
-    private PaddockStub pd;
     /**
      * Racing Track- Shared Region
      * @serial rt
@@ -86,7 +80,6 @@ public class Broker extends Thread{
         this.ccws = new ControlCentreStub();
         this.st = new StableStub();
         this.bc = new BettingCentreStub();
-        this.pd = new PaddockStub();
         this.rt = new RacingTrackStub();
         this.repo = new GeneralInformationRepositoryStub();
         this.maxAgil = maxAgil;

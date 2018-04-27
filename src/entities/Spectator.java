@@ -1,13 +1,7 @@
 package entities;
 
-import clients.BettingCentreStub;
-import clients.ControlCentreStub;
-import clients.GeneralInformationRepositoryStub;
-import clients.PaddockStub;
-import shared_regions.BettingCentre;
-import shared_regions.ControlCentre;
-import shared_regions.GeneralInformationRepository;
-import shared_regions.Paddock;
+import clients.*;
+
 /**
  * Spectator Entity
  */
