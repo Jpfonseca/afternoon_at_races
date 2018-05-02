@@ -147,6 +147,21 @@ public class BettingCentreStub implements BettingCentreInterface {
         conn.close();
     }
 
+    public void shutdown() {
+        ClientCom conn = clientConn();
+        Message message, reply;
+
+        message = new Message(Message.SHUTDOWN, config.bettingCentreServerPort);
+
+        conn.writeObject(message);
+        reply = (Message) conn.readObject();
+
+        if (reply.getType() != Message.SHUTDOWN)
+            System.out.println("ERROR: Wrong Message Type = " + reply.getType());
+
+        conn.close();
+    }
+
     /**
      * Communication with BettingCentre Server running in port 22224 (default)
      * @return ClientCom object

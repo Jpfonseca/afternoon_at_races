@@ -100,6 +100,21 @@ public class RacingTrackStub implements RacingTrackInterface {
         return reply.getWinners();
     }
 
+    public void shutdown() {
+        ClientCom conn = clientConn();
+        Message message, reply;
+
+        message = new Message(Message.SHUTDOWN, config.racingTrackServerPort);
+
+        conn.writeObject(message);
+        reply = (Message) conn.readObject();
+
+        if (reply.getType() != Message.SHUTDOWN)
+            System.out.println("ERROR: Wrong Message Type = " + reply.getType());
+
+        conn.close();
+    }
+
     /**
      * Communication with RacingTrack Server running in port 22223 (default)
      * @return ClientCom object

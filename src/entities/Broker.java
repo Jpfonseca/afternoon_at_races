@@ -139,6 +139,12 @@ public class Broker extends Thread{
         }
 
         ccws.entertainTheGuests();
+
+        st.shutdown();
+        ccws.shutdown();
+        bc.shutdown();
+        rt.shutdown();
+        repo.shutdown();
     }
 
     /**

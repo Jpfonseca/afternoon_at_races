@@ -68,6 +68,21 @@ public class StableStub implements StableInterface {
         ((HorseJockey)Thread.currentThread()).setHjState(reply.getHorseJockeyState());
     }
 
+    public void shutdown() {
+        ClientCom conn = clientConn();
+        Message message, reply;
+
+        message = new Message(Message.SHUTDOWN, config.stableServerPort);
+
+        conn.writeObject(message);
+        reply = (Message) conn.readObject();
+
+        if (reply.getType() != Message.SHUTDOWN)
+            System.out.println("ERROR: Wrong Message Type = " + reply.getType());
+
+        conn.close();
+    }
+
     /**
      * Communication with Stable Server running in port 22220 (default)
      * @return ClientCom object

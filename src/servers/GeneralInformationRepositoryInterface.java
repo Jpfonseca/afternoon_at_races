@@ -87,6 +87,9 @@ public class GeneralInformationRepositoryInterface implements InterfaceServers{
                 repo.setStandingPos(message.getIndex(), message.getStandingPos());
                 reply = new Message(Message.OK);
                 break;
+            case Message.SHUTDOWN:
+                reply = new Message(Message.SHUTDOWN);
+                break;
             default:
                 break;
         }

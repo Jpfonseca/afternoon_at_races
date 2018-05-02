@@ -43,6 +43,9 @@ public class StableInterface implements InterfaceServers{
                 st.proceedToStable2();
                 reply = new Message((Message.REPLY_PROCEED_TO_STABLE2));
                 break;
+            case Message.SHUTDOWN:
+                reply = new Message(Message.SHUTDOWN);
+                break;
             default:
                 break;
         }

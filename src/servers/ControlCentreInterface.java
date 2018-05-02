@@ -71,6 +71,9 @@ public class ControlCentreInterface implements InterfaceServers{
                 ccws.lastHorseCrossedLine();
                 reply = new Message(Message.REPLY_LAST_HORSE_CROSSED_LINE);
                 break;
+            case Message.SHUTDOWN:
+                reply = new Message(Message.SHUTDOWN);
+                break;
             default:
                 break;
         }

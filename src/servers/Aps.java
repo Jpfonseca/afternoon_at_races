@@ -3,9 +3,9 @@ package servers;
 import communication.Message;
 import communication.ServerCom;
 import entities.BrokerState;
-import entities.HorseJockey;
 import entities.HorseJockeyState;
 import entities.SpectatorState;
+
 
 /**
  * Aps
@@ -34,6 +34,8 @@ public class Aps extends Thread{
     private int odd;
     private int spectatorIndex;
     private int wallet;
+
+    private static int[] shutdownCount = new int[] {4,0,1,4,0,0};
 
     public Aps(ServerCom sconi, InterfaceServers server) {
         this.sconi = sconi;
@@ -77,6 +79,7 @@ System.out.println("Message = "+ message.getType());
             case Message.SET_HORSEJOCKEY_ODD:
                 odd = message.getOdd();
                 horseJockeyNumber = message.getHorseJockeyNumber();
+                break;
             default:
                 break;
         }
@@ -113,12 +116,21 @@ System.out.println("Message Reply = "+ reply.getType());
             case Message.REPLY_GO_COLLECT_THE_GAINS:
                 reply.setSpectatorState(spectatorState);
                 reply.setWallet(wallet);
+                break;
             default:
                 break;
         }
 
         sconi.writeObject(reply);
         sconi.close();
+
+        if (message.getType() == Message.SHUTDOWN)
+            shutdownCount[message.getServer()]++;
+
+    }
+
+    public static int getShutdownCount(int server) {
+        return shutdownCount[server];
     }
 
     public void setHjState(HorseJockeyState state) {

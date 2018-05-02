@@ -59,6 +59,9 @@ public class BettingCentreInterface implements InterfaceServers{
                 bc.setHorseJockeyOdd();
                 reply = new Message(Message.REPLY_SET_HORSEJOCKEY_ODD);
                 break;
+            case Message.SHUTDOWN:
+                reply = new Message(Message.SHUTDOWN);
+                break;
             default:
                 break;
         }

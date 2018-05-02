@@ -16,7 +16,6 @@ public class ServerMain {
      */
     private static final int portNumb = config.baseListenPort;
     private static boolean endService;
-
     /*
         SD ## = 02
         ssh sftp : sd02##@l040101-ws$$.ua.pt
@@ -32,7 +31,7 @@ public class ServerMain {
      */
     public static void main(String[] args){
         InterfaceServers server = null;         // Server
-        ServerCom scon, sconi;          // Communication channels
+        ServerCom scon, sconi = null;          // Communication channels
         Aps aps;
         int port = -1;
 
@@ -81,22 +80,29 @@ public class ServerMain {
             /* Requests Processing */
             while (!endService) {
             // while(!serviceEnd)
-                sconi = scon.accept();
-                aps = new Aps(sconi, server);
-                aps.start();
+                //sconi = scon.accept();
+                //aps = new Aps(sconi, server);
+                //aps.start();
 
                 // 1 mensagem por tipo de client
 
 
-                // try
-                // sconi = scon.accept();
-                // aps = new Aps(sconi, server);
-                // aps.start();
-                // catch (TimeOutException){
+                try {
+                    sconi = scon.accept();
+                    aps = new Aps(sconi, server);
+                    aps.start();
+                } catch (java.net.SocketTimeoutException e){
+                    //System.out.println(Integer.toString(Aps.getShutdownCount(service)));
+                    //continue;
+                }
+
+                if (Aps.getShutdownCount(service) == (1 + config.M))
+                    endService = true;
 
             }
 
-            //sconi.close();
+            sconi.close();
         }
     }
+
 }

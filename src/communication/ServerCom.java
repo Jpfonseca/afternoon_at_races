@@ -1,10 +1,7 @@
 package communication;
 
 import java.io.*;
-import java.net.BindException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketException;
+import java.net.*;
 
 
 /**
@@ -85,6 +82,7 @@ public class ServerCom {
         try
         //{ listeningSocket = new ServerSocket (serverPortNumb, 1);     // Crash on macOSX | Not Crash on Debian
         { listeningSocket = new ServerSocket (serverPortNumb, 10);      // fila de ligações em espera de comprimento um
+            listeningSocket.setSoTimeout(10000);
         }
         catch (BindException e)                         // erro fatal --- port já em uso
         { System.out.println (Thread.currentThread ().getName () +
@@ -100,7 +98,6 @@ public class ServerCom {
             e.printStackTrace ();
             System.exit (1);
         }
-        // TODO: SET TIMEOUT
     }
 
     /**
@@ -130,7 +127,7 @@ public class ServerCom {
      *    @return canal de comunicação
      */
 
-    public ServerCom accept ()
+    public ServerCom accept () throws SocketTimeoutException
     {
         ServerCom scon;                                      // canal de comunicação
 
@@ -143,6 +140,9 @@ public class ServerCom {
                 " - foi fechado o socket de escuta durante o processo de escuta!");
             e.printStackTrace ();
             System.exit (1);
+        }
+        catch(SocketTimeoutException e){
+            throw new SocketTimeoutException();
         }
         catch (IOException e)
         { System.out.println (Thread.currentThread ().getName () +

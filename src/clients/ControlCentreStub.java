@@ -184,6 +184,21 @@ public class ControlCentreStub implements ControlCentreInterface {
         conn.close();
     }
 
+    public void shutdown() {
+        ClientCom conn = clientConn();
+        Message message, reply;
+
+        message = new Message(Message.SHUTDOWN, config.controlCentreServerPort);
+
+        conn.writeObject(message);
+        reply = (Message) conn.readObject();
+
+        if (reply.getType() != Message.SHUTDOWN)
+            System.out.println("ERROR: Wrong Message Type = " + reply.getType());
+
+        conn.close();
+    }
+
     /**
      * Communication with ControlCentre Server running in port 22220 (default)
      * @return ClientCom object

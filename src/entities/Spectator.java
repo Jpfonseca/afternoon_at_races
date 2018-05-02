@@ -86,6 +86,11 @@ public class Spectator extends Thread{
         }
 
         ccws.relaxABit();
+
+        ccws.shutdown();
+        bc.shutdown();
+        pd.shutdown();
+        repo.shutdown();
     }
 
     /**

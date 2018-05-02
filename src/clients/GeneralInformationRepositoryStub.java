@@ -221,13 +221,17 @@ public class GeneralInformationRepositoryStub implements GeneralInformationRepos
     /**
      * ShutDown of Repository Server
      */
-    public void shutDown(){
+    public void shutdown() {
         ClientCom conn = clientConn();
-        Message message;
+        Message message, reply;
 
-        message = new Message(Message.SHUTDOWN);
+        message = new Message(Message.SHUTDOWN, config.repoServerPort);
 
         conn.writeObject(message);
+        reply = (Message) conn.readObject();
+
+        if (reply.getType() != Message.SHUTDOWN)
+            System.out.println("ERROR: Wrong Message Type = " + reply.getType());
 
         conn.close();
     }

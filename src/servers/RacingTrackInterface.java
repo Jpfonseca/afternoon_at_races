@@ -57,6 +57,9 @@ public class RacingTrackInterface implements InterfaceServers{
                 Winners[] winners = rt.reportResults();
                 reply = new Message(Message.REPLY_REPORT_RESULTS, winners);
                 break;
+            case Message.SHUTDOWN:
+                reply = new Message(Message.SHUTDOWN);
+                break;
             default:
                 break;
         }

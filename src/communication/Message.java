@@ -134,6 +134,8 @@ public class Message implements Serializable {
     private int wallet;
     private boolean last;
 
+    private int server;
+
     /**
      * Message Constructor
      */
@@ -171,6 +173,9 @@ public class Message implements Serializable {
                 break;
             case MAKE_A_MOVE:
                 this.horseJockeyNumber = val;
+                break;
+            case SHUTDOWN:
+                this.server = val-22220;
                 break;
             default:
                 break;
@@ -458,6 +463,8 @@ public class Message implements Serializable {
     public void setLast(boolean last) {
         this.last = last;
     }
+
+    public int getServer() { return this.server; }
 }
 
 

@@ -47,6 +47,9 @@ public class PaddockInterface implements InterfaceServers{
                 pd.goCheckHorses2(message.getLast());
                 reply = new Message(Message.REPLY_GO_CHECK_HORSES2);
                 break;
+            case Message.SHUTDOWN:
+                reply = new Message(Message.SHUTDOWN);
+                break;
             default:
                 break;
         }
