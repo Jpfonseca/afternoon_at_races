@@ -228,7 +228,7 @@ public class ControlCentre implements ControlCentreInterface {
      * This method will be used by the Spectator to relax after all the races are finished
      */
     @Override
-    public void relaxABit(){
+    public synchronized void relaxABit(){
 
         ((Aps) Thread.currentThread()).setState((SpectatorState.CELEBRATING));
         repo.setSpectatorState(SpectatorState.CELEBRATING,((Aps)Thread.currentThread()).getSpecId());
