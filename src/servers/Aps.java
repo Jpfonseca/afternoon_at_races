@@ -19,24 +19,66 @@ public class Aps extends Thread{
      * @serialField server InterfaceServer
      * object for all the servers
      */
-    InterfaceServers server;
+    private InterfaceServers server;
 
     /**
      * @serialField sconi Communication channel
      */
-    ServerCom sconi;          // Communication channels
+    private ServerCom sconi;          // Communication channels
 
+    /**
+     * Broker State
+     * @serial brokerState
+     */
     private BrokerState brokerState;
+    /**
+     * HorseJockey State
+     * @serial horseJockeyState
+     */
     private HorseJockeyState horseJockeyState;
+    /**
+     * Spectator State
+     * @serial spectatorState
+     */
     private SpectatorState spectatorState;
+    /**
+     * HorseJockey Agiloty
+     * @serial horseJockeyAgiloity
+     */
     private int horseJockeyAgility;
+    /**
+     * HorseJockey index
+     * @serial horseJockeyNumber
+     */
     private int horseJockeyNumber;
+    /**
+     * HorseJockey Odd
+     * @serial odd
+     */
     private int odd;
+    /**
+     * Spectator Index
+     * @serial spectatorIndex
+     */
     private int spectatorIndex;
+    /**
+     * Wallet amount
+     * @serial wallet
+     */
     private int wallet;
 
+    /**
+     * Shutdown counter. Initialized with some positive values if some entities do not use certain servers.
+     * @serial shutdownCount
+     */
     private static int[] shutdownCount = new int[] {4,0,1,4,0,0};
 
+    /**
+     * Service Provider Agent constructor
+     *
+     * @param sconi communication channel
+     * @param server interface server
+     */
     public Aps(ServerCom sconi, InterfaceServers server) {
         this.sconi = sconi;
         this.server = server;
@@ -129,46 +171,91 @@ System.out.println("Message Reply = "+ reply.getType());
 
     }
 
+    /**
+     * This method returns the total shutdown messages that each server received.
+     * @param server Server id
+     * @return Total count
+     */
     public static int getShutdownCount(int server) {
         return shutdownCount[server];
     }
 
+    /**
+     * Used to set the HorseJockey state
+     * @param state state to set
+     */
     public void setHjState(HorseJockeyState state) {
         horseJockeyState = state;
     }
 
+    /**
+     * Used to set the Broker state
+     * @param state Broker state
+     */
     public void setBrokerState(BrokerState state) {
         brokerState = state;
     }
 
+    /**
+     * This method will be responsible for returning the agility of the horse
+     * @return agility Agility
+     */
     public int getAgility(){
         return horseJockeyAgility;
     }
 
+    /**
+     * This method will return the horse jockey index number.
+     * @return hj_number Index number
+     */
     public int getHj_number() {
         return horseJockeyNumber;
     }
 
+    /**
+     * This method sets the HorseJockey odd
+     * @param odd Odd
+     */
     public void setOdd(int odd) {
         this.odd = odd;
     }
 
+    /**
+     * Used to set the Spectator State
+     * @param state state to set
+     */
     public void setState(SpectatorState state) {
         this.spectatorState = state;
     }
 
+    /**
+     * This method returns the ID of the current Spectator
+     * @return Current Spectator ID
+     */
     public int getSpecId() {
         return spectatorIndex;
     }
 
+    /**
+     * This method returns the total amount in wallet
+     * @return wallet
+     */
     public int getWallet() {
         return wallet;
     }
 
+    /**
+     * This method sets the total amount in wallet
+     * @param wallet sum of money in wallet
+     */
     public void setWallet(int wallet) {
         this.wallet = wallet;
     }
 
+    /**
+     * This method returns the HorseJockey odd
+     * @return odd Odd
+     */
     public int getOdd() {
         return odd;
     }

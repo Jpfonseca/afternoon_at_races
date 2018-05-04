@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * This class specified all the attributes related to the HorseJockey Winners of the current race
+ * The class is Serializable since it needs to e passed on a message through sockets.
  */
 public class Winners implements Serializable {
     /**

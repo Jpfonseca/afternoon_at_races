@@ -51,7 +51,7 @@ public class ControlCentre implements ControlCentreInterface {
      */
     private int M;
     /**
-     * General Repository
+     * General Repository Stub
      * @serial repo
      */
     //private GeneralInformationRepository repo;
@@ -62,6 +62,10 @@ public class ControlCentre implements ControlCentreInterface {
      */
     private int totalSpec;
 
+    /**
+     * Instance of ControlCentre
+     * @serialField instance
+     */
     private static ControlCentre instance;
 
     /**
@@ -244,6 +248,10 @@ public class ControlCentre implements ControlCentreInterface {
         notifyAll();
     }
 
+    /**
+     * Returns current instance of ControlCentre
+     * @return instance of ControlCentre
+     */
     public static ControlCentre getInstance(){
         if (instance==null)
             instance = new ControlCentre(config.K, config.M);

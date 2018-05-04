@@ -10,6 +10,9 @@ import shared_regions.GeneralInformationRepositoryInterface;
 
 public class GeneralInformationRepositoryStub implements GeneralInformationRepositoryInterface {
 
+    /**
+     * This method is used to print a pair of Log Lines into a file containing the current snapshot of the current simulation status
+     */
     @Override
     public void reportStatus() {
         ClientCom conn = clientConn();
@@ -26,6 +29,10 @@ public class GeneralInformationRepositoryStub implements GeneralInformationRepos
         conn.close();
     }
 
+    /**
+     * Used to set the Broker state
+     * @param brokerState Broker state
+     */
     @Override
     public void setBrokerState(BrokerState brokerState) {
         ClientCom conn = clientConn();
@@ -42,6 +49,11 @@ public class GeneralInformationRepositoryStub implements GeneralInformationRepos
         conn.close();
     }
 
+    /**
+     * Used to set the Spectator State
+     * @param state state to set
+     * @param index index of the Spectator
+     */
     @Override
     public void setSpectatorState(SpectatorState state, int index) {
         ClientCom conn = clientConn();
@@ -58,6 +70,11 @@ public class GeneralInformationRepositoryStub implements GeneralInformationRepos
         conn.close();
     }
 
+    /**
+     * Used to set the Spectator amount of money in the wallet
+     * @param money amount of money
+     * @param index index of Spectator
+     */
     @Override
     public void setSpectatorMoney(int money, int index) {
         ClientCom conn = clientConn();
@@ -74,6 +91,10 @@ public class GeneralInformationRepositoryStub implements GeneralInformationRepos
         conn.close();
     }
 
+    /**
+     * Used to set the current race number
+     * @param raceNumber race number
+     */
     @Override
     public void setRaceNumber(int raceNumber) {
         ClientCom conn = clientConn();
@@ -90,6 +111,11 @@ public class GeneralInformationRepositoryStub implements GeneralInformationRepos
         conn.close();
     }
 
+    /**
+     * Used to set the HorseJockey state
+     * @param state state to set
+     * @param index HorseJockey's index
+     */
     @Override
     public void setHorseJockeyState(HorseJockeyState state, int index) {
         ClientCom conn = clientConn();
@@ -106,6 +132,11 @@ public class GeneralInformationRepositoryStub implements GeneralInformationRepos
         conn.close();
     }
 
+    /**
+     * Used to set the HorseJockey agility
+     * @param agility magility to set
+     * @param index HorseJockey's index
+     */
     @Override
     public void setHorseJockeyAgility(int agility, int index) {
         ClientCom conn = clientConn();
@@ -122,6 +153,10 @@ public class GeneralInformationRepositoryStub implements GeneralInformationRepos
         conn.close();
     }
 
+    /**
+     * Used to set all the track distances
+     * @param d distance
+     */
     @Override
     public void setTrackDistance(int[] d) {
         ClientCom conn = clientConn();
@@ -138,6 +173,12 @@ public class GeneralInformationRepositoryStub implements GeneralInformationRepos
         conn.close();
     }
 
+    /**
+     * Used to set the spectators bets
+     * @param spectatorIndex Spectator's index
+     * @param betSelection bet selection index
+     * @param betAmount bet amount
+     */
     @Override
     public void setSpectatorBet(int spectatorIndex, int betSelection, int betAmount) {
         ClientCom conn = clientConn();
@@ -154,6 +195,11 @@ public class GeneralInformationRepositoryStub implements GeneralInformationRepos
         conn.close();
     }
 
+    /**
+     * Used to the HorseJockey odd
+     * @param horse HorseJockey index
+     * @param odd odd
+     */
     @Override
     public void setOdd(int horse, int odd) {
         ClientCom conn = clientConn();
@@ -170,6 +216,11 @@ public class GeneralInformationRepositoryStub implements GeneralInformationRepos
         conn.close();
     }
 
+    /**
+     * Used to set the iteration step
+     * @param horse HorseJockey index
+     * @param iterationStep iteration number
+     */
     @Override
     public void setIterationStep(int horse, int iterationStep) {
         ClientCom conn = clientConn();
@@ -186,6 +237,11 @@ public class GeneralInformationRepositoryStub implements GeneralInformationRepos
         conn.close();
     }
 
+    /**
+     * Used to set the current HorseJockey position in the race
+     * @param horse HorseJockey index
+     * @param position position
+     */
     @Override
     public void setCurrentPos(int horse, int position) {
         ClientCom conn = clientConn();
@@ -202,6 +258,11 @@ public class GeneralInformationRepositoryStub implements GeneralInformationRepos
         conn.close();
     }
 
+    /**
+     * Used to set the current HorseJockey standing position
+     * @param horse HorseJockey index
+     * @param standing standing position
+     */
     @Override
     public void setStandingPos(int horse, int standing) {
         ClientCom conn = clientConn();
@@ -219,7 +280,7 @@ public class GeneralInformationRepositoryStub implements GeneralInformationRepos
     }
 
     /**
-     * ShutDown of Repository Server
+     * This method sends a Message object containing a Shutdown type
      */
     public void shutdown() {
         ClientCom conn = clientConn();
@@ -248,7 +309,9 @@ public class GeneralInformationRepositoryStub implements GeneralInformationRepos
             System.out.println("Issue with (REPOSITORY) in \"localhost:"+config.repoServerPort+"\"");
             try{
                 Thread.sleep((long) (1));
-            }catch (InterruptedException ex) {}
+            }catch (InterruptedException ex) {
+                ex.printStackTrace ();
+            }
         }
         //if (!conn.open())
         //    System.out.println("");

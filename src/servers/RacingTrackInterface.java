@@ -12,8 +12,8 @@ import shared_regions.Winners;
 public class RacingTrackInterface implements InterfaceServers{
 
     /**
-     * Instance of GeneralInformationRepository
-     * @serialField repo
+     * Instance of RacingTrack
+     * @serialField rt
      */
     private final RacingTrack rt;
 

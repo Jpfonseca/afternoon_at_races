@@ -14,26 +14,30 @@ public class HorseJockey extends Thread{
      */
     private HorseJockeyState hjState;
     /**
-     * Control Centre and Watching Stand - Shared Region
+     * Control Centre and Watching Stand Stub
      * @serial ccws
      */
     private ControlCentreStub ccws;
     /**
-     * Stable - Shared Region
+     * Stable Stub
      * @serial st
      */
     private StableStub st;
     /**
-     * Paddock - Shared Region
+     * Paddock Stub
      * @serial pd
      */
     private PaddockStub pd;
     /**
-     * Racing Track- Shared Region
+     * Racing Track Stub
      * @serial rt
      */
     private RacingTrackStub rt;
 
+    /**
+     * Betting Centre Stub
+     * @serial bc
+     */
     private BettingCentreStub bc;
 
     /**
@@ -47,12 +51,17 @@ public class HorseJockey extends Thread{
      */
     private int hj_number;
 
+    /**
+     * HorseJockey Odd
+     * @serial odd
+     */
     private int odd;
+
     /**
      * HorseJockey Constructor
      * @param hj_number HorseJockey index
+     * @param maxAgil Maximum agility of HorseJockey
      */
-
     public HorseJockey(int hj_number, int maxAgil) {
         this.hj_number = hj_number;
         this.ccws = new ControlCentreStub();
@@ -106,6 +115,7 @@ public class HorseJockey extends Thread{
     public int getAgility() {
         return agility;
     }
+
     /**
      * This method will return the horse jockey index number.
      * @return hj_number Index number
@@ -122,10 +132,18 @@ public class HorseJockey extends Thread{
         this.hjState = hjState;
     }
 
+    /**
+     * This method returns the HorseJockey odd
+     * @return odd Odd
+     */
     public int getOdd() {
         return odd;
     }
 
+    /**
+     * This method sets the HorseJockey odd
+     * @param odd Odd
+     */
     public void setOdd(int odd) {
         this.odd = odd;
     }

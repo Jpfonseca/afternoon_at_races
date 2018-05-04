@@ -9,6 +9,11 @@ import shared_regions.RacingTrackInterface;
 import shared_regions.Winners;
 
 public class RacingTrackStub implements RacingTrackInterface {
+
+    /**
+     * Method used by the Broker to start the race
+     * @param k current race number
+     */
     @Override
     public void startTheRace(int k) {
         ClientCom conn = clientConn();
@@ -27,6 +32,10 @@ public class RacingTrackStub implements RacingTrackInterface {
         ((Broker)Thread.currentThread()).setBrokerState(reply.getBrokerState());
     }
 
+    /**
+     * Method used by the HorseJockeys to proceed to the start line
+     * @param hj_number HorseJockey index number
+     */
     @Override
     public void proceedToStartLine(int hj_number) {
         ClientCom conn = clientConn();
@@ -45,6 +54,10 @@ public class RacingTrackStub implements RacingTrackInterface {
         ((HorseJockey)Thread.currentThread()).setHjState(reply.getHorseJockeyState());
     }
 
+    /**
+     * Method used by every HorseJockey to make a move in the Racing track while running
+     * @param hj_number HorseJockey index number
+     */
     @Override
     public void makeAMove(int hj_number) {
         ClientCom conn = clientConn();
@@ -62,6 +75,10 @@ public class RacingTrackStub implements RacingTrackInterface {
         conn.close();
     }
 
+    /**
+     * Method used by the HorseJockeys to know if they have crossed the finish line
+     * @return <b>true</b> if he has crossed or <b>false</b>, if he has not.
+     */
     @Override
     public boolean hasFinishLineBeenCrossed() {
         ClientCom conn = clientConn();
@@ -82,6 +99,10 @@ public class RacingTrackStub implements RacingTrackInterface {
         return reply.getFinishLineCrossed();
     }
 
+    /**
+     * Method used to return an array with all the winning Spectators information
+     * @return winners
+     */
     @Override
     public Winners[] reportResults() {
         ClientCom conn = clientConn();
@@ -100,6 +121,9 @@ public class RacingTrackStub implements RacingTrackInterface {
         return reply.getWinners();
     }
 
+    /**
+     * This method sends a Message object containing a Shutdown type
+     * */
     public void shutdown() {
         ClientCom conn = clientConn();
         Message message, reply;
@@ -127,7 +151,9 @@ public class RacingTrackStub implements RacingTrackInterface {
             System.out.println("Issue with (RacingTrack) in \"localhost:"+config.racingTrackServerPort+"\"");
             try{
                 Thread.sleep((long) (1));
-            }catch (InterruptedException ex) {}
+            }catch (InterruptedException ex) {
+                ex.printStackTrace ();
+            }
         }
         //if (!conn.open())
         //    System.out.println("");

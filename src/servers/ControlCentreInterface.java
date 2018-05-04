@@ -7,7 +7,7 @@ public class ControlCentreInterface implements InterfaceServers{
 
     /**
      * Instance of ControlCentre
-     * @serialField st
+     * @serialField ccws
      */
     private final ControlCentre ccws;
 

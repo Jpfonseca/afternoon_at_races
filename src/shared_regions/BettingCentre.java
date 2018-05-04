@@ -63,12 +63,16 @@ public class BettingCentre implements BettingCentreInterface {
      */
     private boolean waitForWinnerCall = true;
     /**
-     * General Repository
+     * General Repository Stub
      * @serial repo
      */
     //private GeneralInformationRepository repo;
     private GeneralInformationRepositoryStub repo;
 
+    /**
+     * Instance of BettingCentre
+     * @serialField instance
+     */
     private static BettingCentre instance;
 
     /**
@@ -259,12 +263,19 @@ public class BettingCentre implements BettingCentreInterface {
         notifyAll();
     }
 
+    /**
+     * This method sets each HorseJockey odd in the BettingCentre
+     */
     @Override
     public void setHorseJockeyOdd() {
         Aps horseJockey = ((Aps)Thread.currentThread());
         this.odd[horseJockey.getHj_number()] = horseJockey.getOdd();
     }
 
+    /**
+     * Returns current instance of BettingCentre
+     * @return instance of BettingCentre
+     */
     public static BettingCentre getInstance(){
         if (instance==null)
             instance = new BettingCentre(config.M);

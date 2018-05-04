@@ -10,7 +10,7 @@ import clients.*;
 public class Broker extends Thread{
 
     /**
-     * General Repository
+     * General Repository Stub
      * @serial repo
      */
     private GeneralInformationRepositoryStub repo;
@@ -20,22 +20,22 @@ public class Broker extends Thread{
      */
     private BrokerState state;
     /**
-     * Control Centre and Watching Stand - Shared Region
+     * Control Centre and Watching Stand Stub
      * @serial ccws
      */
     private ControlCentreStub ccws;
     /**
-     * Stable - Shared Region
+     * Stable Stub
      * @serial st
      */
     private StableStub st;
     /**
-     * Betting Centre - Shared Region
+     * Betting Centre Stub
      * @serial bc
      */
     private BettingCentreStub bc;
     /**
-     * Racing Track- Shared Region
+     * Racing Track Stub
      * @serial rt
      */
     private RacingTrackStub rt;
