@@ -167,7 +167,7 @@ public class BettingCentreStub implements BettingCentreInterface {
      * @return ClientCom object
      */
     private ClientCom clientConn(){
-        ClientCom conn = new ClientCom("localhost", config.bettingCentreServerPort);
+        ClientCom conn = new ClientCom(config.bettingCentreServer, config.bettingCentreServerPort);
 
         // Needs to be in while cycle
         while (!conn.open()){

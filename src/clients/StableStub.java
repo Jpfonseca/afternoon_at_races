@@ -88,7 +88,7 @@ public class StableStub implements StableInterface {
      * @return ClientCom object
      */
     private ClientCom clientConn(){
-        ClientCom conn = new ClientCom("localhost", config.stableServerPort);
+        ClientCom conn = new ClientCom(config.stableServer, config.stableServerPort);
 
         // Needs to be in while cycle
         while (!conn.open()){

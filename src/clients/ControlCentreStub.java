@@ -204,7 +204,7 @@ public class ControlCentreStub implements ControlCentreInterface {
      * @return ClientCom object
      */
     private ClientCom clientConn(){
-        ClientCom conn = new ClientCom("localhost", config.controlCentreServerPort);
+        ClientCom conn = new ClientCom(config.controlCentreServer, config.controlCentreServerPort);
 
         // Needs to be in while cycle
         while (!conn.open()){

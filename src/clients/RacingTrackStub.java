@@ -120,7 +120,7 @@ public class RacingTrackStub implements RacingTrackInterface {
      * @return ClientCom object
      */
     private ClientCom clientConn(){
-        ClientCom conn = new ClientCom("localhost", config.racingTrackServerPort);
+        ClientCom conn = new ClientCom(config.racingTrackServer, config.racingTrackServerPort);
 
         // Needs to be in while cycle
         while (!conn.open()){

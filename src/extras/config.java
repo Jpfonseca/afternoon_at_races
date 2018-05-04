@@ -57,4 +57,12 @@ public class config {
     public static final int racingTrackServerPort = baseListenPort+3;
     public static final int bettingCentreServerPort = baseListenPort+4;
     public static final int repoServerPort = baseListenPort+5;
+
+    public static String stableServer="l040101-ws01.ua.pt";
+    public static String controlCentreServer ="l040101-ws02.ua.pt";
+    public static String paddockServer ="l040101-ws03.ua.pt";
+    public static String racingTrackServer ="l040101-ws04.ua.pt";
+    public static String bettingCentreServer ="l040101-ws05.ua.pt";
+    public static String repoServer ="l040101-ws06.ua.pt";
+
 }

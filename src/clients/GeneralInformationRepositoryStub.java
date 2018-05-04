@@ -241,7 +241,7 @@ public class GeneralInformationRepositoryStub implements GeneralInformationRepos
      * @return ClientCom object
      */
     private ClientCom clientConn(){
-        ClientCom conn = new ClientCom("localhost", config.repoServerPort);
+        ClientCom conn = new ClientCom(config.repoServer, config.repoServerPort);
 
         // Needs to be in while cycle
         while (!conn.open()){

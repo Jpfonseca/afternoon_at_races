@@ -99,7 +99,7 @@ public class PaddockStub implements PaddockInterface {
      * @return ClientCom object
      */
     private ClientCom clientConn(){
-        ClientCom conn = new ClientCom("localhost", config.paddockServerPort);
+        ClientCom conn = new ClientCom(config.paddockServer, config.paddockServerPort);
 
         // Needs to be in while cycle
         while (!conn.open()){
