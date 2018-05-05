@@ -1,5 +1,4 @@
-file1="deployEntitySim.sh"
-file="deploySRServer.sh"
+#!/bin/bash
 
 usage()
 {
@@ -12,16 +11,18 @@ all(){
  exit 1
 }
 
-server(){
- scp "$file" sd0203@l040101-ws01.ua.pt:/home/sd0203/
- ssh sdsd0203@l040101-ws01.ua.pt 'chmod +x deploySRServer.sh && ./"$file"'
+client(){
+ for i in {09,10}; do
+    scp deployEntitySim.sh sd0203@l040101-ws"$i".ua.pt:/home/sd0203/
+    ssh sd0203@l040101-ws"$i".ua.pt 'chmod +x  deployEntitySim.sh && ./deployEntitySim.sh && exit'
+ done
  exit 1
 }
 
-client(){
+server(){
  for i in {01,02,03,04,05,06}; do
-    scp "$file1" sd0203@l040101-ws"$i".ua.pt:/home/sd0203/
-    ssh sd0203@l040101-ws"$i".ua.pt 'nohup chmod +x deployEntitySim.sh && ./deployEntitySim.sh &'
+    scp deploySRServer.sh sd0203@l040101-ws"$i".ua.pt:/home/sd0203/
+    ssh sd0203@l040101-ws"$i".ua.pt 'chmod +x deploySRServer.sh && ./deploySRServer.sh && exit'
  done
  exit 1
 }
