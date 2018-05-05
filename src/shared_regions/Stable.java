@@ -31,12 +31,16 @@ public class Stable implements StableInterface {
     private int totalAgility;
 
     /**
-     * General Repository
+     * General Repository Stub
      * @serial repo
      */
     //private GeneralInformationRepository repo;
     private GeneralInformationRepositoryStub repo;
 
+    /**
+     * Instance of Stable
+     * @serialField instance
+     */
     private static Stable instance;
 
     /**
@@ -54,6 +58,7 @@ public class Stable implements StableInterface {
     /**
      * Method used by the Broker to summon the horses to Paddock
      * @param k number of current race
+     * @param totalAgility Total agility
      */
     @Override
     public synchronized void summonHorsesToPaddock(int k, int totalAgility){
@@ -119,6 +124,10 @@ public class Stable implements StableInterface {
         repo.setHorseJockeyState(null,((Aps)Thread.currentThread()).getHj_number());
     }
 
+    /**
+     * Returns current instance of Stable
+     * @return instance of Stable
+     */
     public static Stable getInstance(){
         if (instance==null)
             instance = new Stable(config.N);

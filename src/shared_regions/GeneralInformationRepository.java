@@ -92,6 +92,10 @@ public class GeneralInformationRepository implements GeneralInformationRepositor
      */
     private int M;
 
+    /**
+     * Instance of GeneralInformationRepository
+     * @serialField instance
+     */
     private static GeneralInformationRepository instance;
 
     /**
@@ -520,6 +524,10 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
         this.standingPos[horse] = standing;
     }
 
+    /**
+     * Returns current instance of GeneralInformationRepository
+     * @return instance of GeneralInformationRepository
+     */
     public static GeneralInformationRepository getInstance(){
         if (instance==null)
             instance = new GeneralInformationRepository(config.logName, config.K, config.N, config.M);

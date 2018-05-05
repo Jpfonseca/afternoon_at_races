@@ -10,7 +10,7 @@ import servers.Aps;
 public class Paddock implements PaddockInterface {
 
     /**
-     * General Repository
+     * General Repository Stub
      * @serial repo
      */
     //private GeneralInformationRepository repo;
@@ -46,6 +46,10 @@ public class Paddock implements PaddockInterface {
      */
     private boolean waitForLastHJ=true;
 
+    /**
+     * Instance of Paddock
+     * @serialField instance
+     */
     private static Paddock instance;
 
     /**
@@ -98,7 +102,6 @@ public class Paddock implements PaddockInterface {
      * Method used by the Spectator to know if he is the last one to appraise the horses in the Paddock
      * @return <b>true</b> if he is the last or <b>false</b>, if he is not.
      */
-
     @Override
     public synchronized boolean goCheckHorses1(){
         //checks if the (horse)SPECTATOR is the last to enter the paddock
@@ -135,6 +138,10 @@ public class Paddock implements PaddockInterface {
             waitForLastHJ=true; // variable reset
     }
 
+    /**
+     * Returns current instance of Paddock
+     * @return instance of Paddock
+     */
     public static Paddock getInstance(){
         if (instance==null)
             instance = new Paddock(config.N, config.M);

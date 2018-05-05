@@ -7,6 +7,11 @@ import extras.config;
 import shared_regions.PaddockInterface;
 
 public class PaddockStub implements PaddockInterface {
+
+    /**
+     * Method used for HorseJockey to know if he is the last one to proceed to paddock
+     * @return <b>true</b> if he is the last or <b>false</b>, if he is not.
+     * */
     @Override
     public boolean proceedToPaddock1() {
         ClientCom conn = clientConn();
@@ -25,6 +30,9 @@ public class PaddockStub implements PaddockInterface {
         return reply.getLast();
     }
 
+    /**
+     * Method used for HorseJockey to wait in the Paddock
+     * */
     @Override
     public void proceedToPaddock2() {
         ClientCom conn = clientConn();
@@ -41,6 +49,10 @@ public class PaddockStub implements PaddockInterface {
         conn.close();
     }
 
+    /**
+     * Method used by the Spectator to know if he is the last one to appraise the horses in the Paddock
+     * @return <b>true</b> if he is the last or <b>false</b>, if he is not.
+     */
     @Override
     public boolean goCheckHorses1() {
         ClientCom conn = clientConn();
@@ -59,6 +71,10 @@ public class PaddockStub implements PaddockInterface {
         return reply.getLast();
     }
 
+    /**
+     * Method used by the Spectator to wait while appraising the horses in the Paddock
+     * @param last last Spectator
+     */
     @Override
     public void goCheckHorses2(boolean last) {
         ClientCom conn = clientConn();
@@ -79,6 +95,9 @@ public class PaddockStub implements PaddockInterface {
         ((Spectator)Thread.currentThread()).setState(reply.getSpectatorState());
     }
 
+    /**
+     * This method sends a Message object containing a Shutdown type
+     */
     public void shutdown() {
         ClientCom conn = clientConn();
         Message message, reply;
@@ -106,7 +125,9 @@ public class PaddockStub implements PaddockInterface {
             System.out.println("Issue with (Paddock) in \"localhost:"+config.paddockServerPort+"\"");
             try{
                 Thread.sleep((long) (1));
-            }catch (InterruptedException ex) {}
+            }catch (InterruptedException ex) {
+                ex.printStackTrace ();
+            }
         }
         //if (!conn.open())
         //    System.out.println("");

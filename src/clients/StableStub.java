@@ -8,6 +8,12 @@ import extras.config;
 import shared_regions.StableInterface;
 
 public class StableStub implements StableInterface {
+
+    /**
+     * Method used by the Broker to summon the horses to Paddock
+     * @param k number of current race
+     * @param totalAgility Total agility
+     */
     @Override
     public void summonHorsesToPaddock(int k, int totalAgility) {
         ClientCom conn = clientConn();
@@ -26,6 +32,9 @@ public class StableStub implements StableInterface {
         ((Broker)Thread.currentThread()).setBrokerState(reply.getBrokerState());
     }
 
+    /**
+     * Method used by the HorseJockeys to proceed to Stable and wait for the next race
+     */
     @Override
     public void proceedToStable() {
         ClientCom conn = clientConn();
@@ -48,6 +57,9 @@ public class StableStub implements StableInterface {
         ((HorseJockey)Thread.currentThread()).setOdd(reply.getOdd());
     }
 
+    /**
+     * Method used by the HorseJockeys when they finished running to proceed back to the Stable
+     */
     @Override
     public void proceedToStable2() {
         ClientCom conn = clientConn();
@@ -68,6 +80,9 @@ public class StableStub implements StableInterface {
         ((HorseJockey)Thread.currentThread()).setHjState(reply.getHorseJockeyState());
     }
 
+    /**
+     * This method sends a Message object containing a Shutdown type
+     * */
     public void shutdown() {
         ClientCom conn = clientConn();
         Message message, reply;
@@ -95,7 +110,9 @@ public class StableStub implements StableInterface {
             System.out.println("Issue with (Stable) in \"localhost:"+config.stableServerPort+"\"");
             try{
                 Thread.sleep((long) (1));
-            }catch (InterruptedException ex) {}
+            }catch (InterruptedException ex) {
+                ex.printStackTrace ();
+            }
         }
         //if (!conn.open())
         //    System.out.println("");

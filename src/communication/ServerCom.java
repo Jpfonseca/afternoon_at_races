@@ -124,6 +124,8 @@ public class ServerCom {
      *  Instanciação de um socket de comunicação e sua associação ao endereço do cliente.
      *  Abertura dos streams de entrada e de saída do socket.
      *
+     *  @throws SocketTimeoutException if a defined timeout occurs
+     *
      *    @return canal de comunicação
      */
 

@@ -10,7 +10,7 @@ import servers.Aps;
 public class RacingTrack implements RacingTrackInterface {
 
     /**
-     * General Repository
+     * General Repository Stub
      * @serial repo
      */
     //private GeneralInformationRepository repo;
@@ -65,12 +65,18 @@ public class RacingTrack implements RacingTrackInterface {
      */
     private int maxStanding;
 
+    /**
+     * Instance of RacingTrack
+     * @serialField instance
+     */
     private static RacingTrack instance;
 
     /**
      * RacingTrack Constructor
      * @param K Total amount of Races
      * @param N Total amount of HorseJockeys
+     * @param DMax Maximum distance
+     * @param DMin Minimum Distance
      */
     public RacingTrack(int K, int N, int DMin, int DMax) {
         this.currentRace = 0;
@@ -98,7 +104,6 @@ public class RacingTrack implements RacingTrackInterface {
      * Method used by the Broker to start the race
      * @param k current race number
      */
-
     @Override
     public synchronized void startTheRace(int k){
 
@@ -271,6 +276,10 @@ public class RacingTrack implements RacingTrackInterface {
         return winners;
     }
 
+    /**
+     * Returns current instance of RacingTrack
+     * @return instance of RacingTrack
+     */
     public static RacingTrack getInstance(){
         if (instance==null)
             instance = new RacingTrack(config.K, config.N, config.DMin, config.DMax);

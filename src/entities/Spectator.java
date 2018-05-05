@@ -13,22 +13,22 @@ public class Spectator extends Thread{
      */
     private SpectatorState state;
     /**
-     * Control Centre and Watching Stand - Shared Region
+     * Control Centre and Watching Stand Stub
      * @serial ccws
      */
     private ControlCentreStub ccws;
     /**
-     * Paddock - Shared Region
+     * Paddock Stub
      * @serial pd
      */
     private PaddockStub pd;
     /**
-     * Betting Centre - Shared Region
+     * Betting Centre Stub
      * @serial bc
      */
     private BettingCentreStub bc;
     /**
-     * General Repository
+     * General Repository Stub
      * @serial repo
      */
     private GeneralInformationRepositoryStub repo;
@@ -46,6 +46,7 @@ public class Spectator extends Thread{
     /**
      * Spectator constructor
      * @param specId Spectator Id
+     * @param wallet Spectator wallet
      */
     public Spectator(int specId, int wallet) {
         this.specId=specId;
