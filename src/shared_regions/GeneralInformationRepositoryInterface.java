@@ -4,6 +4,10 @@ import entities.BrokerState;
 import entities.HorseJockeyState;
 import entities.SpectatorState;
 
+/**
+ * GeneralInformationRepositoryInterface
+ * Used to instantiate GeneralInformationRepository Server with the "public"
+ */
 public interface GeneralInformationRepositoryInterface {
 
     /**

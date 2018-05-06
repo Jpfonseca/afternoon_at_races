@@ -3,6 +3,10 @@ package servers;
 import communication.Message;
 import shared_regions.Stable;
 
+/**
+ * StableInterface
+ * Used to make Stable Server interact with the "public"
+ */
 public class StableInterface implements InterfaceServers{
 
     /**

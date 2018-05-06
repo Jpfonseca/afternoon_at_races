@@ -1,5 +1,8 @@
 package shared_regions;
-
+/**
+ * RacingTrackInterface
+ * Used to Interface the RacingTrack Server with the "public"
+ */
 public interface RacingTrackInterface {
 
     /**

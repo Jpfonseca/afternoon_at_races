@@ -2,7 +2,10 @@ package servers;
 
 import communication.Message;
 import shared_regions.ControlCentre;
-
+/**
+ * ControlCentreInterface
+ * Used to make ControlCentre Server interact with the "public"
+ */
 public class ControlCentreInterface implements InterfaceServers{
 
     /**

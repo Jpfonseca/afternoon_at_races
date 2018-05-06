@@ -5,7 +5,7 @@ import shared_regions.RacingTrack;
 import shared_regions.Winners;
 
 /**
- * RacongTrackInterface
+ * RacingTrackInterface
  * Used to Interface the RacingTrack Server with the "public"
  */
 
