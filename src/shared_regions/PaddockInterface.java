@@ -1,5 +1,8 @@
 package shared_regions;
-
+/**
+ * PaddockInterface
+ * Used to Interface the Paddock Server with the "public"
+ */
 public interface PaddockInterface {
 
     /**

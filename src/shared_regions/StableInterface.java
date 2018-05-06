@@ -1,5 +1,8 @@
 package shared_regions;
-
+/**
+ * StableInterface
+ * Used to Interface the Stable Server with the "public"
+ */
 public interface StableInterface {
 
     /**

@@ -2,7 +2,10 @@ package servers;
 
 import communication.Message;
 import shared_regions.BettingCentre;
-
+/**
+ * BettingCentreInterface
+ * Used to make BettingCentre Server interact with the "public"
+ */
 public class BettingCentreInterface implements InterfaceServers{
 
     /**

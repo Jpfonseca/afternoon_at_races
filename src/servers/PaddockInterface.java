@@ -3,6 +3,11 @@ package servers;
 import communication.Message;
 import shared_regions.Paddock;
 
+
+/**
+ * PaddockInterface
+ * Used to make Paddock Server interact with the "public"
+ */
 public class PaddockInterface implements InterfaceServers{
 
     /**

@@ -1,5 +1,9 @@
 package shared_regions;
 
+/**
+ * ControlCentreInterface
+ * Used to instantiate ControlCentre Server with the "public"
+ */
 public interface ControlCentreInterface {
 
     /**
