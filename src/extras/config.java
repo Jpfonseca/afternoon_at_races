@@ -82,11 +82,35 @@ public class config {
      */
     public static final int repoServerPort = baseListenPort+5;
 
+    /**
+     * Stable Server IP
+     * @serial stableServer
+     */
     public static String stableServer="l040101-ws01.ua.pt";
+    /**
+     * Control Centre Server IP
+     * @serial controlCentreServer
+     */
     public static String controlCentreServer ="l040101-ws02.ua.pt";
+    /**
+     * Paddock Server IP
+     * @serial paddockServer
+     */
     public static String paddockServer ="l040101-ws03.ua.pt";
+    /**
+     * Racing Track Server IP
+     * @serial racingTrackServer
+     */
     public static String racingTrackServer ="l040101-ws04.ua.pt";
+    /**
+     * etting Centre Server IP
+     * @serial bettingCentreServer
+     */
     public static String bettingCentreServer ="l040101-ws05.ua.pt";
+    /**
+     * General Information Repository Server IP
+     * @serial repoServer
+     */
     public static String repoServer ="l040101-ws06.ua.pt";
 
 }
