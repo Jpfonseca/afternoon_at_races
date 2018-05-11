@@ -1,6 +1,6 @@
 package entities;
 
-import shared_regions.*;
+import clients.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -14,31 +14,35 @@ public class HorseJockey extends Thread{
      */
     private HorseJockeyState hjState;
     /**
-     * Control Centre and Watching Stand - Shared Region
+     * Control Centre and Watching Stand Stub
      * @serial ccws
      */
-    private ControlCentre ccws;
+    private ControlCentreStub ccws;
     /**
-     * Stable - Shared Region
+     * Stable Stub
      * @serial st
      */
-    private Stable st;
+    private StableStub st;
     /**
-     * Paddock - Shared Region
+     * Paddock Stub
      * @serial pd
      */
-    private Paddock pd;
+    private PaddockStub pd;
     /**
-     * Racing Track- Shared Region
+     * Racing Track Stub
      * @serial rt
      */
-    private RacingTrack rt;
+    private RacingTrackStub rt;
 
-    private BettingCentre bc;
+    /**
+     * Betting Centre Stub
+     * @serial bc
+     */
+    private BettingCentreStub bc;
+
     /**
      * HorseJockey agility
      * @serial agility
-
      */
     private int agility;
     /**
@@ -47,27 +51,29 @@ public class HorseJockey extends Thread{
      */
     private int hj_number;
 
+    /**
+     * HorseJockey Odd
+     * @serial odd
+     */
     private int odd;
+
     /**
      * HorseJockey Constructor
      * @param hj_number HorseJockey index
-     * @param ccws Control Centre and Watching Stand - Shared Region
-     * @param st Stable - Shared Region
-     * @param pd Paddock - Shared Region
-     * @param rt Racing Track- Shared Region
-     * @param repo General Repository
+     * @param maxAgil Maximum agility of HorseJockey
      */
-
-    public HorseJockey(int hj_number, ControlCentre ccws, Stable st, Paddock pd, RacingTrack rt,BettingCentre bc, GeneralInformationRepository repo, int maxAgil) {
+    public HorseJockey(int hj_number, int maxAgil) {
         this.hj_number = hj_number;
-        this.ccws = ccws;
-        this.st = st;
-        this.pd = pd;
-        this.rt = rt;
-        this.bc= bc;
+        this.ccws = new ControlCentreStub();
+        this.st = new StableStub();
+        this.pd = new PaddockStub();
+        this.rt = new RacingTrackStub();
+        this.bc = new BettingCentreStub();
         this.agility = ThreadLocalRandom.current().nextInt(1, maxAgil+1);
         this.hjState=HorseJockeyState.AT_THE_STABLE;
         this.odd=0;
+
+        GeneralInformationRepositoryStub repo = new GeneralInformationRepositoryStub();
 
         repo.setHorseJockeyAgility(agility,hj_number);
         repo.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE,hj_number);
@@ -109,6 +115,7 @@ public class HorseJockey extends Thread{
     public int getAgility() {
         return agility;
     }
+
     /**
      * This method will return the horse jockey index number.
      * @return hj_number Index number
@@ -125,10 +132,18 @@ public class HorseJockey extends Thread{
         this.hjState = hjState;
     }
 
+    /**
+     * This method returns the HorseJockey odd
+     * @return odd Odd
+     */
     public int getOdd() {
         return odd;
     }
 
+    /**
+     * This method sets the HorseJockey odd
+     * @param odd Odd
+     */
     public void setOdd(int odd) {
         this.odd = odd;
     }

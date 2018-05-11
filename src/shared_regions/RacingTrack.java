@@ -1,16 +1,20 @@
 package shared_regions;
+import clients.GeneralInformationRepositoryStub;
 import entities.*;
+import extras.config;
+import servers.Aps;
 
 /**
  *This class specifies the methods that will be executed on the Racing Track .
  */
-public class RacingTrack{
+public class RacingTrack implements RacingTrackInterface {
 
     /**
-     * General Repository
+     * General Repository Stub
      * @serial repo
      */
-    private GeneralInformationRepository repo;
+    //private GeneralInformationRepository repo;
+    private GeneralInformationRepositoryStub repo;
     /**
      * Condition statement used know until when to wait in the start line
      * @serial waitForA
@@ -62,12 +66,19 @@ public class RacingTrack{
     private int maxStanding;
 
     /**
+     * Instance of RacingTrack
+     * @serialField instance
+     */
+    private static RacingTrack instance;
+
+    /**
      * RacingTrack Constructor
      * @param K Total amount of Races
      * @param N Total amount of HorseJockeys
-     * @param repo General Repository
+     * @param DMax Maximum distance
+     * @param DMin Minimum Distance
      */
-    public RacingTrack(int K, int N, GeneralInformationRepository repo, int DMin, int DMax) {
+    public RacingTrack(int K, int N, int DMin, int DMax) {
         this.currentRace = 0;
         this.D = new int[K];
         this.N = N;
@@ -75,7 +86,7 @@ public class RacingTrack{
         this.HJPos = new int[N];
         this.iterations = new int[N];
         this.winners = new Winners[N];
-        this.repo = repo;
+        this.repo = new GeneralInformationRepositoryStub();
         this.maxStanding = 0;
 
         for (int i=0; i<K; i++)
@@ -93,10 +104,10 @@ public class RacingTrack{
      * Method used by the Broker to start the race
      * @param k current race number
      */
-
+    @Override
     public synchronized void startTheRace(int k){
 
-        ((Broker)Thread.currentThread()).setBrokerState((BrokerState.SUPERVISING_THE_RACE));
+        ((Aps)Thread.currentThread()).setBrokerState((BrokerState.SUPERVISING_THE_RACE));
         repo.setBrokerState(BrokerState.SUPERVISING_THE_RACE);
 
         this.currentRace = k;
@@ -119,9 +130,10 @@ public class RacingTrack{
      * Method used by the HorseJockeys to proceed to the start line
      * @param hj_number HorseJockey index number
      */
+    @Override
     public synchronized void proceedToStartLine(int hj_number){
 
-        ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_START_LINE));
+        ((Aps)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_START_LINE));
         repo.setHorseJockeyState(HorseJockeyState.AT_THE_START_LINE,hj_number);
 
         iterations[hj_number] = 0;
@@ -140,7 +152,7 @@ public class RacingTrack{
                 System.out.println("HorseJockey rt.proceedToStartLine() Exception: "+e);
             }
 
-        ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.RUNNING));
+        ((Aps)Thread.currentThread()).setHjState((HorseJockeyState.RUNNING));
         repo.setHorseJockeyState(HorseJockeyState.RUNNING,hj_number);
     }
 
@@ -148,9 +160,10 @@ public class RacingTrack{
      * Method used by every HorseJockey to make a move in the Racing track while running
      * @param hj_number HorseJockey index number
      */
+    @Override
     public synchronized void makeAMove(int hj_number) {
 
-        HJPos[hj_number] += (int)(Math.random()*((HorseJockey)Thread.currentThread()).getAgility()+1);
+        HJPos[hj_number] += (int)(Math.random()*((Aps)Thread.currentThread()).getAgility()+1);
 
         //System.out.println("Cavalo:" +hj_number+" Posição:"+HJPos[hj_number]);
 
@@ -177,6 +190,7 @@ public class RacingTrack{
      * Method used by the HorseJockeys to know if they have crossed the finish line
      * @return <b>true</b> if he has crossed or <b>false</b>, if he has not.
      */
+    @Override
     public synchronized boolean hasFinishLineBeenCrossed(){
 
         if (HJPos[fifo[0]] < D[currentRace-1])
@@ -206,7 +220,7 @@ public class RacingTrack{
         winners[fifo[0]].standing = standingCalc;
 
 
-        ((HorseJockey)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_FINNISH_LINE));
+        ((Aps)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_FINNISH_LINE));
         repo.setHorseJockeyState(HorseJockeyState.AT_THE_FINNISH_LINE,fifo[0]);
         repo.reportStatus();
 
@@ -256,10 +270,20 @@ public class RacingTrack{
      * Method used to return an array with all the winning Spectators information
      * @return winners
      */
+    @Override
     public Winners[] reportResults(){
         //Winners[] temp = winners;
         return winners;
     }
 
+    /**
+     * Returns current instance of RacingTrack
+     * @return instance of RacingTrack
+     */
+    public static RacingTrack getInstance(){
+        if (instance==null)
+            instance = new RacingTrack(config.K, config.N, config.DMin, config.DMax);
 
+        return instance;
+    }
 }

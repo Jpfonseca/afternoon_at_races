@@ -1,9 +1,7 @@
 package entities;
 
-import shared_regions.BettingCentre;
-import shared_regions.ControlCentre;
-import shared_regions.GeneralInformationRepository;
-import shared_regions.Paddock;
+import clients.*;
+
 /**
  * Spectator Entity
  */
@@ -15,25 +13,25 @@ public class Spectator extends Thread{
      */
     private SpectatorState state;
     /**
-     * Control Centre and Watching Stand - Shared Region
+     * Control Centre and Watching Stand Stub
      * @serial ccws
      */
-    private ControlCentre ccws;
+    private ControlCentreStub ccws;
     /**
-     * Paddock - Shared Region
+     * Paddock Stub
      * @serial pd
      */
-    private Paddock pd;
+    private PaddockStub pd;
     /**
-     * Betting Centre - Shared Region
+     * Betting Centre Stub
      * @serial bc
      */
-    private BettingCentre bc;
+    private BettingCentreStub bc;
     /**
-     * General Repository
+     * General Repository Stub
      * @serial repo
      */
-    private GeneralInformationRepository repo;
+    private GeneralInformationRepositoryStub repo;
     /**
      * Current spectator Index
      * @serial specId
@@ -48,17 +46,14 @@ public class Spectator extends Thread{
     /**
      * Spectator constructor
      * @param specId Spectator Id
-     * @param ccws Control Centre and Watching Stand - Shared Region
-     * @param pd Paddock - Shared Region
-     * @param bc Betting Centre - Shared Region
-     * @param repo General Repository -Shared Region
+     * @param wallet Spectator wallet
      */
-    public Spectator(int specId, ControlCentre ccws, Paddock pd, BettingCentre bc, GeneralInformationRepository repo, int wallet) {
+    public Spectator(int specId, int wallet) {
         this.specId=specId;
-        this.ccws = ccws;
-        this.pd = pd;
-        this.bc = bc;
-        this.repo = repo;
+        this.ccws = new ControlCentreStub();
+        this.pd = new PaddockStub();
+        this.bc = new BettingCentreStub();
+        this.repo = new GeneralInformationRepositoryStub();
         this.wallet = wallet;
 
         repo.setSpectatorMoney(wallet, specId);
@@ -86,11 +81,17 @@ public class Spectator extends Thread{
             bc.placeABet();
             ccws.goWatchTheRace();
 
-            if(bc.haveIWon())
+            if(bc.haveIWon()) {
                 bc.goCollectTheGains();
+            }
         }
 
         ccws.relaxABit();
+
+        ccws.shutdown();
+        bc.shutdown();
+        pd.shutdown();
+        repo.shutdown();
     }
 
     /**

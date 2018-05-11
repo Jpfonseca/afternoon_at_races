@@ -1,16 +1,20 @@
 package shared_regions;
+import clients.GeneralInformationRepositoryStub;
 import entities.*;
+import extras.config;
+import servers.Aps;
 
 /**
  * This class specifies the methods that will be executed on the Paddock .
  */
-public class Paddock{
+public class Paddock implements PaddockInterface {
 
     /**
-     * General Repository
+     * General Repository Stub
      * @serial repo
      */
-    private GeneralInformationRepository repo;
+    //private GeneralInformationRepository repo;
+    private GeneralInformationRepositoryStub repo;
     /**
      *  Total HorseJockeys in paddock (FIFO)
      *  @serial queueHJ
@@ -43,21 +47,27 @@ public class Paddock{
     private boolean waitForLastHJ=true;
 
     /**
+     * Instance of Paddock
+     * @serialField instance
+     */
+    private static Paddock instance;
+
+    /**
      * Paddock Constructor
      * @param N Number of HorseJockeys
      * @param M Number of Spectators
-     * @param repo General Repository
      */
-    public Paddock(int N, int M, GeneralInformationRepository repo) {
+    public Paddock(int N, int M) {
         this.N = N;
         this.M = M;
-        this.repo = repo;
+        this.repo = new GeneralInformationRepositoryStub();
     }
 
     /**
      * Method used for HorseJockey to know if he is the last one to proceed to paddock
      * @return <b>true</b> if he is the last or <b>false</b>, if he is not.
      * */
+    @Override
     public synchronized boolean proceedToPaddock1(){
         //check if it’s the last horse
         totalHJ++;
@@ -68,6 +78,7 @@ public class Paddock{
     /**
      * Method used for HorseJockey to wait in the Paddock
      * */
+    @Override
     public synchronized void proceedToPaddock2(){
 
         while(waitBeingChecked)
@@ -91,7 +102,7 @@ public class Paddock{
      * Method used by the Spectator to know if he is the last one to appraise the horses in the Paddock
      * @return <b>true</b> if he is the last or <b>false</b>, if he is not.
      */
-
+    @Override
     public synchronized boolean goCheckHorses1(){
         //checks if the (horse)SPECTATOR is the last to enter the paddock
         totalSpec++;
@@ -103,10 +114,11 @@ public class Paddock{
      * Method used by the Spectator to wait while appraising the horses in the Paddock
      * @param last last Spectator
      */
+    @Override
     public synchronized void goCheckHorses2(boolean last){
 
-        ((Spectator)Thread.currentThread()).setState((SpectatorState.APPRAISING_THE_HORSES));
-        repo.setSpectatorState(SpectatorState.APPRAISING_THE_HORSES,((Spectator)Thread.currentThread()).getSpecId());
+        ((Aps)Thread.currentThread()).setState((SpectatorState.APPRAISING_THE_HORSES));
+        repo.setSpectatorState(SpectatorState.APPRAISING_THE_HORSES,((Aps)Thread.currentThread()).getSpecId());
         repo.reportStatus();
 
         if (last) {
@@ -126,4 +138,14 @@ public class Paddock{
             waitForLastHJ=true; // variable reset
     }
 
+    /**
+     * Returns current instance of Paddock
+     * @return instance of Paddock
+     */
+    public static Paddock getInstance(){
+        if (instance==null)
+            instance = new Paddock(config.N, config.M);
+
+        return instance;
+    }
 }

@@ -1,6 +1,6 @@
 package entities;
 
-import shared_regions.*;
+import clients.*;
 
 /**
  * Broker Entity
@@ -10,40 +10,35 @@ import shared_regions.*;
 public class Broker extends Thread{
 
     /**
-     * General Repository
+     * General Repository Stub
      * @serial repo
      */
-    private GeneralInformationRepository repo;
+    private GeneralInformationRepositoryStub repo;
     /**
      * Broker current State
      * @serial state
      */
     private BrokerState state;
     /**
-     * Control Centre and Watching Stand - Shared Region
+     * Control Centre and Watching Stand Stub
      * @serial ccws
      */
-    private ControlCentre ccws;
+    private ControlCentreStub ccws;
     /**
-     * Stable - Shared Region
+     * Stable Stub
      * @serial st
      */
-    private Stable st;
+    private StableStub st;
     /**
-     * Betting Centre - Shared Region
+     * Betting Centre Stub
      * @serial bc
      */
-    private BettingCentre bc;
+    private BettingCentreStub bc;
     /**
-     * Paddock - Shared Region
-     * @serial pd
-     */
-    private Paddock pd;
-    /**
-     * Racing Track- Shared Region
+     * Racing Track Stub
      * @serial rt
      */
-    private RacingTrack rt;
+    private RacingTrackStub rt;
     /**
      * Total races
      * @serial K
@@ -76,23 +71,17 @@ public class Broker extends Thread{
      *
      * @param K Total races
      * @param N Number of Horses in each race
-     * @param ccws Control Centre and Watching Stand - Shared Region
-     * @param st Stable - Shared Region
-     * @param bc Betting Centre - Shared Region
-     * @param pd Paddock -Shared Region
-     * @param rt Racing Track -Shared Region
-     * @param repo General Repository - Shared Region
      * @param maxAgil maximum Agility of each HorseJockey
      */
-    public Broker(int K, int N, ControlCentre ccws, Stable st, BettingCentre bc, Paddock pd, RacingTrack rt, GeneralInformationRepository repo, int maxAgil) {
+    public Broker(int K, int N, int maxAgil) {
+    //public Broker(int K, int N, ControlCentre ccws, Stable st, BettingCentre bc, Paddock pd, int maxAgil, RacingTrack rt) {
         this.K = K;
         this.N = N;
-        this.ccws = ccws;
-        this.st = st;
-        this.bc = bc;
-        this.pd = pd;
-        this.rt = rt;
-        this.repo = repo;
+        this.ccws = new ControlCentreStub();
+        this.st = new StableStub();
+        this.bc = new BettingCentreStub();
+        this.rt = new RacingTrackStub();
+        this.repo = new GeneralInformationRepositoryStub();
         this.maxAgil = maxAgil;
         this.horseJockeys = new HorseJockey[N];
 
@@ -114,7 +103,7 @@ public class Broker extends Thread{
             // HorseJockey Instantiation and start
             totalAgility = 0;
             for (int j = 0; j < N; j++) {
-                horseJockeys[j] = new HorseJockey(j, ccws, st, pd, rt, bc, repo, maxAgil);
+                horseJockeys[j] = new HorseJockey(j, maxAgil);
                 horseJockeys[j].start();
                 totalAgility += horseJockeys[j].getAgility();
                 System.out.println("HorseJockey "+(j+1)+" started");
@@ -150,6 +139,12 @@ public class Broker extends Thread{
         }
 
         ccws.entertainTheGuests();
+
+        st.shutdown();
+        ccws.shutdown();
+        bc.shutdown();
+        rt.shutdown();
+        repo.shutdown();
     }
 
     /**
