@@ -17,28 +17,28 @@ public class HorseJockey extends Thread{
      * Control Centre and Watching Stand Stub
      * @serial ccws
      */
-    private ControlCentreStub ccws;
+    private ControlCentreStub ccwsStub;
     /**
      * Stable Stub
      * @serial st
      */
-    private StableStub st;
+    private StableStub stStub;
     /**
      * Paddock Stub
      * @serial pd
      */
-    private PaddockStub pd;
+    private PaddockStub pdStub;
     /**
      * Racing Track Stub
      * @serial rt
      */
-    private RacingTrackStub rt;
+    private RacingTrackStub rtStub;
 
     /**
      * Betting Centre Stub
      * @serial bc
      */
-    private BettingCentreStub bc;
+    private BettingCentreStub bcStub;
 
     /**
      * HorseJockey agility
@@ -64,11 +64,11 @@ public class HorseJockey extends Thread{
      */
     public HorseJockey(int hj_number, int maxAgil) {
         this.hj_number = hj_number;
-        this.ccws = new ControlCentreStub();
-        this.st = new StableStub();
-        this.pd = new PaddockStub();
-        this.rt = new RacingTrackStub();
-        this.bc = new BettingCentreStub();
+        this.ccwsStub = new ControlCentreStub();
+        this.stStub = new StableStub();
+        this.pdStub = new PaddockStub();
+        this.rtStub = new RacingTrackStub();
+        this.bcStub = new BettingCentreStub();
         this.agility = ThreadLocalRandom.current().nextInt(1, maxAgil+1);
         this.hjState=HorseJockeyState.AT_THE_STABLE;
         this.odd=0;
@@ -92,20 +92,20 @@ public class HorseJockey extends Thread{
     public void run(){
         boolean last;
 
-        st.proceedToStable();
-        bc.setHorseJockeyOdd();
-        last = pd.proceedToPaddock1();     // Este método verifica o último.
+        stStub.proceedToStable();
+        bcStub.setHorseJockeyOdd();
+        last = pdStub.proceedToPaddock1();     // Este método verifica o último.
         if (last)
-            ccws.proceedToPaddock();    // Acorda spectator que está no ccws a espera de ser acordado
-        pd.proceedToPaddock2();   //envia para o paddock
+            ccwsStub.proceedToPaddock();    // Acorda spectator que está no ccws a espera de ser acordado
+        pdStub.proceedToPaddock2();   //envia para o paddock
 
-        rt.proceedToStartLine(hj_number);
+        rtStub.proceedToStartLine(hj_number);
         do{
-            rt.makeAMove(hj_number);
-        }while(!rt.hasFinishLineBeenCrossed()); //devolve se terminou ou não. Em caso de témino devolve a posição
-        ccws.lastHorseCrossedLine();
+            rtStub.makeAMove(hj_number);
+        }while(!rtStub.hasFinishLineBeenCrossed()); //devolve se terminou ou não. Em caso de témino devolve a posição
+        ccwsStub.lastHorseCrossedLine();
 
-        st.proceedToStable2();
+        stStub.proceedToStable2();
     }
 
     /**

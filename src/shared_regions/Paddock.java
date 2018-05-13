@@ -11,10 +11,9 @@ public class Paddock implements PaddockInterface {
 
     /**
      * General Repository Stub
-     * @serial repo
+     * @serial repoStub
      */
-    //private GeneralInformationRepository repo;
-    private GeneralInformationRepositoryStub repo;
+    private GeneralInformationRepositoryStub repoStub;
     /**
      *  Total HorseJockeys in paddock (FIFO)
      *  @serial queueHJ
@@ -60,7 +59,7 @@ public class Paddock implements PaddockInterface {
     public Paddock(int N, int M) {
         this.N = N;
         this.M = M;
-        this.repo = new GeneralInformationRepositoryStub();
+        this.repoStub = new GeneralInformationRepositoryStub();
     }
 
     /**
@@ -118,8 +117,8 @@ public class Paddock implements PaddockInterface {
     public synchronized void goCheckHorses2(boolean last){
 
         ((Aps)Thread.currentThread()).setState((SpectatorState.APPRAISING_THE_HORSES));
-        repo.setSpectatorState(SpectatorState.APPRAISING_THE_HORSES,((Aps)Thread.currentThread()).getSpecId());
-        repo.reportStatus();
+        repoStub.setSpectatorState(SpectatorState.APPRAISING_THE_HORSES,((Aps)Thread.currentThread()).getSpecId());
+        repoStub.reportStatus();
 
         if (last) {
             waitBeingChecked = false;

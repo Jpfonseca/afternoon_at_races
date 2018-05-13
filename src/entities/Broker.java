@@ -11,9 +11,9 @@ public class Broker extends Thread{
 
     /**
      * General Repository Stub
-     * @serial repo
+     * @serial repoStub
      */
-    private GeneralInformationRepositoryStub repo;
+    private GeneralInformationRepositoryStub repoStub;
     /**
      * Broker current State
      * @serial state
@@ -23,22 +23,22 @@ public class Broker extends Thread{
      * Control Centre and Watching Stand Stub
      * @serial ccws
      */
-    private ControlCentreStub ccws;
+    private ControlCentreStub ccwsStub;
     /**
      * Stable Stub
      * @serial st
      */
-    private StableStub st;
+    private StableStub stStub;
     /**
      * Betting Centre Stub
      * @serial bc
      */
-    private BettingCentreStub bc;
+    private BettingCentreStub bcStub;
     /**
      * Racing Track Stub
-     * @serial rt
+     * @serial rtStub
      */
-    private RacingTrackStub rt;
+    private RacingTrackStub rtStub;
     /**
      * Total races
      * @serial K
@@ -74,19 +74,19 @@ public class Broker extends Thread{
      * @param maxAgil maximum Agility of each HorseJockey
      */
     public Broker(int K, int N, int maxAgil) {
-    //public Broker(int K, int N, ControlCentre ccws, Stable st, BettingCentre bc, Paddock pd, int maxAgil, RacingTrack rt) {
+    //public Broker(int K, int N, ControlCentre ccws, Stable st, BettingCentre bc, Paddock pd, int maxAgil, RacingTrack rtStub) {
         this.K = K;
         this.N = N;
-        this.ccws = new ControlCentreStub();
-        this.st = new StableStub();
-        this.bc = new BettingCentreStub();
-        this.rt = new RacingTrackStub();
-        this.repo = new GeneralInformationRepositoryStub();
+        this.ccwsStub = new ControlCentreStub();
+        this.stStub = new StableStub();
+        this.bcStub  = new BettingCentreStub();
+        this.rtStub = new RacingTrackStub();
+        this.repoStub = new GeneralInformationRepositoryStub();
         this.maxAgil = maxAgil;
         this.horseJockeys = new HorseJockey[N];
 
         this.state=BrokerState.OPENING_THE_EVENT; // set current Broker state to the initial state
-        repo.setBrokerState(this.state);
+        repoStub.setBrokerState(this.state);
     }
 
     /**
@@ -112,17 +112,17 @@ public class Broker extends Thread{
             System.out.println("Race "+k+" Start");
 
 
-            st.summonHorsesToPaddock(k,totalAgility); // primeira parte é invocada no stable a segunda no ccws
-            ccws.summonHorsesToPaddock();
-            bc.acceptTheBets();
-            rt.startTheRace(k);
-            ccws.startTheRace();
+            stStub.summonHorsesToPaddock(k,totalAgility); // primeira parte é invocada no stable a segunda no ccws
+            ccwsStub.summonHorsesToPaddock();
+            bcStub.acceptTheBets();
+            rtStub.startTheRace(k);
+            ccwsStub.startTheRace();
 
-            if (bc.areThereAnyWinners(rt.reportResults())) {
-                ccws.reportResults();
-                bc.honourTheBets();
+            if (bcStub.areThereAnyWinners(rtStub.reportResults())) {
+                ccwsStub.reportResults();
+                bcStub.honourTheBets();
             }else
-                ccws.reportResults();
+                ccwsStub.reportResults();
 
 
             System.out.println("Race "+k+" End");
@@ -138,13 +138,13 @@ public class Broker extends Thread{
             }
         }
 
-        ccws.entertainTheGuests();
+        ccwsStub.entertainTheGuests();
 
-        st.shutdown();
-        ccws.shutdown();
-        bc.shutdown();
-        rt.shutdown();
-        repo.shutdown();
+        stStub.shutdown();
+        ccwsStub.shutdown();
+        bcStub.shutdown();
+        rtStub.shutdown();
+        repoStub.shutdown();
     }
 
     /**
