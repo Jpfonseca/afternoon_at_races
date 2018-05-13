@@ -54,8 +54,7 @@ public class ControlCentre implements ControlCentreInterface {
      * General Repository Stub
      * @serial repo
      */
-    //private GeneralInformationRepository repo;
-    private GeneralInformationRepositoryStub repo;
+    private GeneralInformationRepositoryStub repoStub;
     /**
      *  Total Spectators in paddock (FIFO)
      *  @serial totalSpec
@@ -81,7 +80,7 @@ public class ControlCentre implements ControlCentreInterface {
         this.waitForRaceToStart=true;
         this.waitForResults=true;
         this.waitForRaceToFinish=true;
-        this.repo = new GeneralInformationRepositoryStub();
+        this.repoStub = new GeneralInformationRepositoryStub();
 
         totalSpec=0;
     }
@@ -140,7 +139,7 @@ public class ControlCentre implements ControlCentreInterface {
     public synchronized void entertainTheGuests(){
         // Waiting for childs to die
         ((Aps)Thread.currentThread()).setBrokerState(BrokerState.PLAYING_HOST_AT_THE_BAR);
-        repo.setBrokerState(BrokerState.PLAYING_HOST_AT_THE_BAR);
+        repoStub.setBrokerState(BrokerState.PLAYING_HOST_AT_THE_BAR);
 
         waitForRaceToStart=true;
         currentRace++;
@@ -153,7 +152,7 @@ public class ControlCentre implements ControlCentreInterface {
     @Override
     public synchronized void proceedToPaddock(){
         // Wakes up Spectator that is in CCWS
-        repo.reportStatus();
+        repoStub.reportStatus();
 
         this.waitForRaceToStart=false;
         notifyAll();
@@ -168,14 +167,14 @@ public class ControlCentre implements ControlCentreInterface {
 
         Aps spec = ((Aps) Thread.currentThread());
 
-        //repo.setOdd(spec.getSpecId(), -1);
-        repo.setSpectatorBet(spec.getSpecId(), -1, -1);
-        //repo.reportStatus();
+        //repoStub.setOdd(spec.getSpecId(), -1);
+        repoStub.setSpectatorBet(spec.getSpecId(), -1, -1);
+        //repoStub.reportStatus();
 
         if (currentRace>0 && currentRace != K+1) {
             spec.setState((SpectatorState.WAITING_FOR_A_RACE_TO_START));
-            repo.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START, spec.getSpecId());
-            //repo.reportStatus();
+            repoStub.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START, spec.getSpecId());
+            //repoStub.reportStatus();
         }
 
         while(waitForRaceToStart && currentRace != K+1)
@@ -211,8 +210,8 @@ public class ControlCentre implements ControlCentreInterface {
     public synchronized void goWatchTheRace(){
 
         ((Aps) Thread.currentThread()).setState((SpectatorState.WATCHING_A_RACE));
-        repo.setSpectatorState(SpectatorState.WATCHING_A_RACE,((Aps)Thread.currentThread()).getSpecId());
-        repo.reportStatus();
+        repoStub.setSpectatorState(SpectatorState.WATCHING_A_RACE,((Aps)Thread.currentThread()).getSpecId());
+        repoStub.reportStatus();
 
         while(waitForResults)
             try {
@@ -235,8 +234,8 @@ public class ControlCentre implements ControlCentreInterface {
     public synchronized void relaxABit(){
 
         ((Aps) Thread.currentThread()).setState((SpectatorState.CELEBRATING));
-        repo.setSpectatorState(SpectatorState.CELEBRATING,((Aps)Thread.currentThread()).getSpecId());
-        repo.reportStatus();
+        repoStub.setSpectatorState(SpectatorState.CELEBRATING,((Aps)Thread.currentThread()).getSpecId());
+        repoStub.reportStatus();
     }
 
     /**

@@ -67,7 +67,7 @@ public class BettingCentre implements BettingCentreInterface {
      * @serial repo
      */
     //private GeneralInformationRepository repo;
-    private GeneralInformationRepositoryStub repo;
+    private GeneralInformationRepositoryStub repoStub;
 
     /**
      * Instance of BettingCentre
@@ -83,7 +83,7 @@ public class BettingCentre implements BettingCentreInterface {
         this.totalSpectators = M;
         this.betAmounts=new BetAmount[totalSpectators];
         this.odd=new int[totalSpectators];
-        this.repo = new GeneralInformationRepositoryStub();
+        this.repoStub = new GeneralInformationRepositoryStub();
         for(int i=0; i<M; i++)
             fifo = new int[totalSpectators];
     }
@@ -95,7 +95,7 @@ public class BettingCentre implements BettingCentreInterface {
     public synchronized void acceptTheBets(){
 
         ((Aps)Thread.currentThread()).setBrokerState((BrokerState.WAITING_FOR_BETS));
-        repo.setBrokerState(BrokerState.WAITING_FOR_BETS);
+        repoStub.setBrokerState(BrokerState.WAITING_FOR_BETS);
 
         spectatorWinners = new int[0];
 
@@ -142,7 +142,7 @@ public class BettingCentre implements BettingCentreInterface {
     public synchronized void honourTheBets(){
 
         ((Aps) Thread.currentThread()).setBrokerState((BrokerState.SETTLING_ACCOUNTS));
-        repo.setBrokerState(BrokerState.SETTLING_ACCOUNTS);
+        repoStub.setBrokerState(BrokerState.SETTLING_ACCOUNTS);
 
         waitForWinnerCall = false;
         notifyAll();
@@ -181,9 +181,9 @@ public class BettingCentre implements BettingCentreInterface {
 
         //System.out.print("Spectator: " + spec.getSpecId()+ " betted [{horse:"+temp+"},{bet:"+bet+"}]\n");
         spec.setState((SpectatorState.PLACING_A_BET));
-        repo.setSpectatorState(SpectatorState.PLACING_A_BET,spec.getSpecId());
-        repo.setSpectatorBet(spec.getSpecId(), temp, bet);
-        repo.reportStatus();
+        repoStub.setSpectatorState(SpectatorState.PLACING_A_BET,spec.getSpecId());
+        repoStub.setSpectatorBet(spec.getSpecId(), temp, bet);
+        repoStub.reportStatus();
         notifyAll();
 
         while (!isBetDone)
@@ -225,8 +225,8 @@ public class BettingCentre implements BettingCentreInterface {
 
         Aps spec=((Aps) Thread.currentThread());
         spec.setState((SpectatorState.COLLECTING_THE_GAINS));
-        repo.setSpectatorState(SpectatorState.COLLECTING_THE_GAINS,spec.getSpecId());
-        repo.reportStatus();
+        repoStub.setSpectatorState(SpectatorState.COLLECTING_THE_GAINS,spec.getSpecId());
+        repoStub.reportStatus();
 
         fifo[totalWaiting++]=spec.getSpecId();
         if (totalWaiting == spectatorWinners.length) {

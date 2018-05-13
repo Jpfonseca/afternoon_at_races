@@ -13,8 +13,8 @@ public class RacingTrack implements RacingTrackInterface {
      * General Repository Stub
      * @serial repo
      */
-    //private GeneralInformationRepository repo;
-    private GeneralInformationRepositoryStub repo;
+    //private GeneralInformationRepository repoStub;
+    private GeneralInformationRepositoryStub repoStub;
     /**
      * Condition statement used know until when to wait in the start line
      * @serial waitForA
@@ -86,12 +86,12 @@ public class RacingTrack implements RacingTrackInterface {
         this.HJPos = new int[N];
         this.iterations = new int[N];
         this.winners = new Winners[N];
-        this.repo = new GeneralInformationRepositoryStub();
+        this.repoStub = new GeneralInformationRepositoryStub();
         this.maxStanding = 0;
 
         for (int i=0; i<K; i++)
             D[i] = DMax - (int) (Math.random() * DMin);
-        repo.setTrackDistance(D);
+        repoStub.setTrackDistance(D);
 
         for (int i=0; i<N; i++) {
             HJPos[i] = -1;
@@ -108,7 +108,7 @@ public class RacingTrack implements RacingTrackInterface {
     public synchronized void startTheRace(int k){
 
         ((Aps)Thread.currentThread()).setBrokerState((BrokerState.SUPERVISING_THE_RACE));
-        repo.setBrokerState(BrokerState.SUPERVISING_THE_RACE);
+        repoStub.setBrokerState(BrokerState.SUPERVISING_THE_RACE);
 
         this.currentRace = k;
 
@@ -134,13 +134,13 @@ public class RacingTrack implements RacingTrackInterface {
     public synchronized void proceedToStartLine(int hj_number){
 
         ((Aps)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_START_LINE));
-        repo.setHorseJockeyState(HorseJockeyState.AT_THE_START_LINE,hj_number);
+        repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_START_LINE,hj_number);
 
         iterations[hj_number] = 0;
         HJPos[hj_number] = 0;
-        repo.setIterationStep(hj_number,iterations[hj_number]);
-        repo.setCurrentPos(hj_number, HJPos[hj_number]);
-        repo.reportStatus();
+        repoStub.setIterationStep(hj_number,iterations[hj_number]);
+        repoStub.setCurrentPos(hj_number, HJPos[hj_number]);
+        repoStub.reportStatus();
 
         fifo[totalHJ++] = hj_number;
         notifyAll();
@@ -153,7 +153,7 @@ public class RacingTrack implements RacingTrackInterface {
             }
 
         ((Aps)Thread.currentThread()).setHjState((HorseJockeyState.RUNNING));
-        repo.setHorseJockeyState(HorseJockeyState.RUNNING,hj_number);
+        repoStub.setHorseJockeyState(HorseJockeyState.RUNNING,hj_number);
     }
 
     /**
@@ -168,12 +168,12 @@ public class RacingTrack implements RacingTrackInterface {
         //System.out.println("Cavalo:" +hj_number+" Posição:"+HJPos[hj_number]);
 
         iterations[hj_number]++;
-        repo.setIterationStep(hj_number,iterations[hj_number]);
-        repo.setCurrentPos(hj_number, HJPos[hj_number]);
+        repoStub.setIterationStep(hj_number,iterations[hj_number]);
+        repoStub.setCurrentPos(hj_number, HJPos[hj_number]);
 
 
         if (HJPos[hj_number] < D[currentRace-1]) {
-            repo.reportStatus();
+            repoStub.reportStatus();
             fifoUpdate();
             notifyAll();
         }
@@ -203,7 +203,7 @@ public class RacingTrack implements RacingTrackInterface {
             if (winners[i].iteration == iterations[fifo[0]])
                 if (winners[i].position < HJPos[fifo[0]]) {
                     winners[i].standing++;
-                    //repo.setStandingPos(i,winners[i].standing);
+                    //repoStub.setStandingPos(i,winners[i].standing);
                     if (winners[i].standing > maxStanding)
                         maxStanding = winners[i].standing;
                     standingCalc--;
@@ -221,8 +221,8 @@ public class RacingTrack implements RacingTrackInterface {
 
 
         ((Aps)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_FINNISH_LINE));
-        repo.setHorseJockeyState(HorseJockeyState.AT_THE_FINNISH_LINE,fifo[0]);
-        repo.reportStatus();
+        repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_FINNISH_LINE,fifo[0]);
+        repoStub.reportStatus();
 
         totalHJ--;
 
@@ -234,8 +234,8 @@ public class RacingTrack implements RacingTrackInterface {
             maxStanding=0;
 
             for (int i=0; i<N; i++)
-                repo.setStandingPos(i,winners[i].standing);
-            repo.reportStatus();
+                repoStub.setStandingPos(i,winners[i].standing);
+            repoStub.reportStatus();
 
         } else {
             int[] temp = new int[totalHJ];

@@ -32,10 +32,10 @@ public class Stable implements StableInterface {
 
     /**
      * General Repository Stub
-     * @serial repo
+     * @serial repoStub
      */
     //private GeneralInformationRepository repo;
-    private GeneralInformationRepositoryStub repo;
+    private GeneralInformationRepositoryStub repoStub;
 
     /**
      * Instance of Stable
@@ -51,7 +51,7 @@ public class Stable implements StableInterface {
     public Stable(int N) {
         this.N = N;
         this.queueHJ = 0;
-        this.repo = new GeneralInformationRepositoryStub();
+        this.repoStub = new GeneralInformationRepositoryStub();
         this.totalAgility=0;
     }
 
@@ -63,8 +63,8 @@ public class Stable implements StableInterface {
     @Override
     public synchronized void summonHorsesToPaddock(int k, int totalAgility){
         ((Aps)Thread.currentThread()).setBrokerState(BrokerState.ANNOUNCING_NEXT_RACE);
-        repo.setRaceNumber(k);
-        repo.setBrokerState(BrokerState.ANNOUNCING_NEXT_RACE);
+        repoStub.setRaceNumber(k);
+        repoStub.setBrokerState(BrokerState.ANNOUNCING_NEXT_RACE);
 
         this.totalAgility = totalAgility;
 
@@ -80,8 +80,8 @@ public class Stable implements StableInterface {
         Aps horse = ((Aps)Thread.currentThread());
         //repo.setIterationStep(horse.getHj_number(),-1);
         //repo.setCurrentPosZero(horse.getHj_number());
-        repo.setHorseJockeyAgility(horse.getAgility(),horse.getHj_number());
-        repo.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE,horse.getHj_number());
+        repoStub.setHorseJockeyAgility(horse.getAgility(),horse.getHj_number());
+        repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE,horse.getHj_number());
 
             while(waitForNextRace)
             try {
@@ -100,10 +100,10 @@ public class Stable implements StableInterface {
         int odd;
         odd=totalAgility/horse.getAgility();
         horse.setOdd(odd);
-        repo.setOdd(horse.getHj_number(),odd);
+        repoStub.setOdd(horse.getHj_number(),odd);
 
         horse.setHjState((HorseJockeyState.AT_THE_PADDOCK));
-        repo.setHorseJockeyState(HorseJockeyState.AT_THE_PADDOCK,horse.getHj_number());
+        repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_PADDOCK,horse.getHj_number());
     }
 
     /**
@@ -112,16 +112,16 @@ public class Stable implements StableInterface {
     @Override
     public synchronized void proceedToStable2(){
         ((Aps)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_STABLE));
-        repo.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE,((Aps)Thread.currentThread()).getHj_number());
+        repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE,((Aps)Thread.currentThread()).getHj_number());
         //repo.reportStatus();
 
-        repo.setIterationStep(((Aps)Thread.currentThread()).getHj_number(),-1);
-        repo.setCurrentPos(((Aps)Thread.currentThread()).getHj_number(),-1);
-        repo.setStandingPos(((Aps)Thread.currentThread()).getHj_number(),-1);
-        repo.setHorseJockeyAgility(0,((Aps)Thread.currentThread()).getHj_number());
-        repo.setOdd(((Aps)Thread.currentThread()).getHj_number(), -1);
-        repo.reportStatus();
-        repo.setHorseJockeyState(null,((Aps)Thread.currentThread()).getHj_number());
+        repoStub.setIterationStep(((Aps)Thread.currentThread()).getHj_number(),-1);
+        repoStub.setCurrentPos(((Aps)Thread.currentThread()).getHj_number(),-1);
+        repoStub.setStandingPos(((Aps)Thread.currentThread()).getHj_number(),-1);
+        repoStub.setHorseJockeyAgility(0,((Aps)Thread.currentThread()).getHj_number());
+        repoStub.setOdd(((Aps)Thread.currentThread()).getHj_number(), -1);
+        repoStub.reportStatus();
+        repoStub.setHorseJockeyState(null,((Aps)Thread.currentThread()).getHj_number());
     }
 
     /**

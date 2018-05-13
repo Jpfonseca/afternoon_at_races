@@ -14,24 +14,24 @@ public class Spectator extends Thread{
     private SpectatorState state;
     /**
      * Control Centre and Watching Stand Stub
-     * @serial ccws
+     * @serial ccwsStub
      */
-    private ControlCentreStub ccws;
+    private ControlCentreStub ccwsStub;
     /**
      * Paddock Stub
-     * @serial pd
+     * @serial pdStub
      */
-    private PaddockStub pd;
+    private PaddockStub pdStub;
     /**
      * Betting Centre Stub
-     * @serial bc
+     * @serial bcStub
      */
-    private BettingCentreStub bc;
+    private BettingCentreStub bcStub;
     /**
      * General Repository Stub
-     * @serial repo
+     * @serial repoStub
      */
-    private GeneralInformationRepositoryStub repo;
+    private GeneralInformationRepositoryStub repoStub;
     /**
      * Current spectator Index
      * @serial specId
@@ -50,17 +50,17 @@ public class Spectator extends Thread{
      */
     public Spectator(int specId, int wallet) {
         this.specId=specId;
-        this.ccws = new ControlCentreStub();
-        this.pd = new PaddockStub();
-        this.bc = new BettingCentreStub();
-        this.repo = new GeneralInformationRepositoryStub();
+        this.ccwsStub = new ControlCentreStub();
+        this.pdStub = new PaddockStub();
+        this.bcStub = new BettingCentreStub();
+        this.repoStub = new GeneralInformationRepositoryStub();
         this.wallet = wallet;
 
-        repo.setSpectatorMoney(wallet, specId);
+        repoStub.setSpectatorMoney(wallet, specId);
 
         this.state=SpectatorState.WAITING_FOR_A_RACE_TO_START;
-        repo.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START,specId);
-        repo.reportStatus();
+        repoStub.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START,specId);
+        repoStub.reportStatus();
     }
 
     /**
@@ -71,27 +71,27 @@ public class Spectator extends Thread{
 
         boolean last;
 
-        while(ccws.waitForNextRace()){
+        while(ccwsStub.waitForNextRace()){
 
-            last = pd.goCheckHorses1();     // Este método verifica o último.
+            last = pdStub.goCheckHorses1();     // Este método verifica o último.
             if (last)
-                ccws.goCheckHorses();    // Acorda o Broker , que dá inicio à corrida
-            pd.goCheckHorses2(last);          //envia o spectator para o pd e diz se é o último
+                ccwsStub.goCheckHorses();    // Acorda o Broker , que dá inicio à corrida
+            pdStub.goCheckHorses2(last);          //envia o spectator para o pdStub e diz se é o último
 
-            bc.placeABet();
-            ccws.goWatchTheRace();
+            bcStub.placeABet();
+            ccwsStub.goWatchTheRace();
 
-            if(bc.haveIWon()) {
-                bc.goCollectTheGains();
+            if(bcStub.haveIWon()) {
+                bcStub.goCollectTheGains();
             }
         }
 
-        ccws.relaxABit();
+        ccwsStub.relaxABit();
 
-        ccws.shutdown();
-        bc.shutdown();
-        pd.shutdown();
-        repo.shutdown();
+        ccwsStub.shutdown();
+        bcStub.shutdown();
+        pdStub.shutdown();
+        repoStub.shutdown();
     }
 
     /**
@@ -116,7 +116,7 @@ public class Spectator extends Thread{
      */
     public synchronized void setWallet(int wallet) {
         this.wallet = wallet;
-        repo.setSpectatorMoney(wallet,specId);
+        repoStub.setSpectatorMoney(wallet,specId);
     }
 
     /**
