@@ -2,6 +2,14 @@ package servers;
 
 import extras.config;
 import communication.ServerCom;
+import interfaces.Register;
+import shared_regions.Stable;
+
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 
 /**
  * ServerMain
@@ -30,25 +38,40 @@ public class ServerMain {
      * @param args command line arguments
      */
     public static void main(String[] args){
-        InterfaceServers server = null;         // Server
-        ServerCom scon, sconi = null;          // Communication channels
-        Aps aps;
-        int port = -1;
+        String rmiRegHostName = config.RMI_REGISTRY_HOSTNAME;;
+        int rmiRegPortNumb = config.RMI_REGISTRY_PORT;
 
+        /* instanciação e instalação do gestor de segurança */
+        if (System.getSecurityManager() == null) {
+            System.setSecurityManager(new SecurityManager());
+        }
 
         if (args.length == 1) {
 
             int service = Integer.parseInt(args[0]);
-            endService = false;
-
-            if (service >= 0 && service < 6)
-                port = portNumb + service;
-
-            /* Service Establishment */
-            scon = new ServerCom(port);
 
             switch (config.baseListenPort + service) {
-                case config.stableServerPort:           // Stable portNumb = 22220
+                case config.stableServerPort:           // Stable
+
+                    /* localização por nome do objecto remoto no serviço de registos RMI */
+                    Stable st = new Stable(config.N);
+                    shared_regions.StableInterface stableInterface = null;
+
+                    try {
+                        stableInterface = (shared_regions.StableInterface) UnicastRemoteObject.exportObject(st, "REGISTRY_STABLE");
+                    } catch (RemoteException e) {
+                        System.out.println("Excepção na geração do stub para o Stable: " + e.getMessage());
+                        System.exit(1);
+                    }
+                    System.out.println("O stub para o Stable foi gerado!");
+
+                    /* seu registo no serviço de registo RMI */
+                    String nameEntryBase = config.RMI_REGISTER_NAME;
+                    String nameEntryObject = "REGISTRY_STABLE";
+                    Registry registry = null;
+                    Register reg = null;
+
+
                     server = new StableInterface();
                     System.out.println("Server Stable is listening!");
                     break;
