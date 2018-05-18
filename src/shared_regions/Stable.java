@@ -7,7 +7,7 @@ import servers.Aps;
 /**
  * This class specifies the methods that will be executed on the Stable .
  */
-public class Stable implements StableInterface {
+public class Stable implements StableInterface{
 
     /**
      * Total competitors per race

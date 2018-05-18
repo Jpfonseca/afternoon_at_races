@@ -4,11 +4,13 @@ import entities.BrokerState;
 import entities.HorseJockeyState;
 import entities.SpectatorState;
 
+import java.rmi.Remote;
+
 /**
  * GeneralInformationRepositoryInterface
  * Used to instantiate GeneralInformationRepository Server with the "public"
  */
-public interface GeneralInformationRepositoryInterface {
+public interface GeneralInformationRepositoryInterface extends Remote {
 
     /**
      * This method is used to print a pair of Log Lines into a file containing the current snapshot of the current simulation status

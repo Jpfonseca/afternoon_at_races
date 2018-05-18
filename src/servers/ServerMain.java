@@ -1,10 +1,16 @@
 package servers;
 
+import com.sun.security.ntlm.Server;
+import communication.ClientCom;
 import extras.config;
 import communication.ServerCom;
 import interfaces.Register;
+import shared_regions.ControlCentre;
+import shared_regions.ControlCentreInterface;
+import shared_regions.GeneralInformationRepository;
 import shared_regions.Stable;
 
+import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -42,8 +48,25 @@ public class ServerMain {
         int rmiRegPortNumb = config.RMI_REGISTRY_PORT;
 
         /* instanciação e instalação do gestor de segurança */
-        if (System.getSecurityManager() == null) {
-            System.setSecurityManager(new SecurityManager());
+        //if (System.getSecurityManager() == null) {
+        //    System.setSecurityManager(new SecurityManager());
+        //}
+
+        InterfaceServers server = null;
+
+        String nameEntryBase = config.RMI_REGISTER_NAME;
+        String nameEntryObject = null;
+
+        Registry registry = null;
+        Register reg = null;
+        try {
+            reg = (Register) registry.lookup(nameEntryBase);
+        } catch (RemoteException e) {
+            System.out.println("RegisterRemoteObject lookup exception: " + e.getMessage());
+            System.exit(1);
+        } catch (NotBoundException e) {
+            System.out.println("RegisterRemoteObject not bound exception: " + e.getMessage());
+            System.exit(1);
         }
 
         if (args.length == 1) {
@@ -55,10 +78,10 @@ public class ServerMain {
 
                     /* localização por nome do objecto remoto no serviço de registos RMI */
                     Stable st = new Stable(config.N);
-                    shared_regions.StableInterface stableInterface = null;
+                    shared_regions.StableInterface stableStub = null;
 
                     try {
-                        stableInterface = (shared_regions.StableInterface) UnicastRemoteObject.exportObject(st, "REGISTRY_STABLE");
+                        stableStub = (shared_regions.StableInterface) UnicastRemoteObject.exportObject(st, config.RMI_REGISTRY_PORT);
                     } catch (RemoteException e) {
                         System.out.println("Excepção na geração do stub para o Stable: " + e.getMessage());
                         System.exit(1);
@@ -66,18 +89,67 @@ public class ServerMain {
                     System.out.println("O stub para o Stable foi gerado!");
 
                     /* seu registo no serviço de registo RMI */
-                    String nameEntryBase = config.RMI_REGISTER_NAME;
-                    String nameEntryObject = "REGISTRY_STABLE";
-                    Registry registry = null;
-                    Register reg = null;
+                    nameEntryObject = "STABLE";
 
+                    try {
+                        registry = LocateRegistry.getRegistry(rmiRegHostName, rmiRegPortNumb);
+                    } catch (RemoteException e) {
+                        System.out.println("Excepção na criação do registo RMI: " + e.getMessage());
+                        System.exit(1);
+                    }
+                    System.out.println("O registo RMI foi criado!");
 
-                    server = new StableInterface();
-                    System.out.println("Server Stable is listening!");
+                    try {
+                        reg.bind(nameEntryObject, stableStub);
+                    } catch (RemoteException e) {
+                        System.out.println("Excepção no registo do Stable: " + e.getMessage());
+                        System.exit(1);
+                    } catch (AlreadyBoundException e) {
+                        System.out.println("O Stable já está bound: " + e.getMessage());
+                        System.exit(1);
+                    }
+
+                    System.out.println("O Stable foi registado!");
+
                     break;
                 case config.controlCentreServerPort:    // ControlCentre portNumb = 22221
-                    server = new ControlCentreInterface();
-                    System.out.println("Server ControlCentre is listening!");
+
+                    /* localização por nome do objecto remoto no serviço de registos RMI */
+                    ControlCentre ccws = new ControlCentre(config.K, config.M);;
+                    shared_regions.ControlCentreInterface ccwsStub = null;
+
+                    try {
+                        ccwsStub = (shared_regions.ControlCentreInterface) UnicastRemoteObject.exportObject(ccws, config.RMI_REGISTRY_PORT);
+                    } catch (RemoteException e) {
+                        System.out.println("Excepção na geração do stub para o CCWS: " + e.getMessage());
+                        System.exit(1);
+                    }
+                    System.out.println("O stub para o CCWS foi gerado!");
+
+                    /* seu registo no serviço de registo RMI */
+
+                    nameEntryObject = "CCWS";
+
+                    try {
+                        registry = LocateRegistry.getRegistry(rmiRegHostName, rmiRegPortNumb);
+                    } catch (RemoteException e) {
+                        System.out.println("Excepção na criação do registo RMI: " + e.getMessage());
+                        System.exit(1);
+                    }
+                    System.out.println("O registo RMI foi criado!");
+
+                    try {
+                        reg.bind(nameEntryObject, ccwsStub);
+                    } catch (RemoteException e) {
+                        System.out.println("Excepção no registo do CCWS: " + e.getMessage());
+                        System.exit(1);
+                    } catch (AlreadyBoundException e) {
+                        System.out.println("O CCWS já está bound: " + e.getMessage());
+                        System.exit(1);
+                    }
+
+                    System.out.println("O CCWS foi registado!");
+
                     break;
                 case config.paddockServerPort:          // Paddock portNumb = 22222
                     server = new PaddockInterface();
@@ -92,40 +164,57 @@ public class ServerMain {
                     System.out.println("Server BettingCentre is listening!");
                     break;
                 case config.repoServerPort:             // Repo portNumb = 22225
-                    server = new GeneralInformationRepositoryInterface();
-                    System.out.println("Server GeneralInformationRepository is listening!");
+
+                    /* localização por nome do objecto remoto no serviço de registos RMI */
+                    GeneralInformationRepository repo = new GeneralInformationRepository(config.logName, config.K, config.N, config.M);
+                    shared_regions.GeneralInformationRepositoryInterface repoStub = null;
+
+                    try {
+                        repoStub = (shared_regions.GeneralInformationRepositoryInterface) UnicastRemoteObject.exportObject(repo, config.RMI_REGISTRY_PORT);
+                    } catch (RemoteException e) {
+                        System.out.println("Excepção na geração do stub para o REPO: " + e.getMessage());
+                        System.exit(1);
+                    }
+                    System.out.println("O stub para o REPO foi gerado!");
+
+                    /* seu registo no serviço de registo RMI */
+                    nameEntryObject = "REPO";
+
+                    try {
+                        registry = LocateRegistry.getRegistry(rmiRegHostName, rmiRegPortNumb);
+                    } catch (RemoteException e) {
+                        System.out.println("Excepção na criação do registo RMI: " + e.getMessage());
+                        System.exit(1);
+                    }
+                    System.out.println("O registo RMI foi criado!");
+
+                    try {
+                        reg.bind(nameEntryObject, repoStub);
+                    } catch (RemoteException e) {
+                        System.out.println("Excepção no registo do REPO: " + e.getMessage());
+                        System.exit(1);
+                    } catch (AlreadyBoundException e) {
+                        System.out.println("O REPO já está bound: " + e.getMessage());
+                        System.exit(1);
+                    }
+
+                    System.out.println("O REPO foi registado!");
+
                     break;
                 default:
                     break;
             }
 
-            scon.start();
-            /* Requests Processing */
-            while (!endService) {
-            // while(!serviceEnd)
-                //sconi = scon.accept();
-                //aps = new Aps(sconi, server);
-                //aps.start();
-
-                // 1 mensagem por tipo de client
-
-
-                try {
-                    sconi = scon.accept();
-                    aps = new Aps(sconi, server);
-                    aps.start();
-                } catch (java.net.SocketTimeoutException e){
-                    //System.out.println(Integer.toString(Aps.getShutdownCount(service)));
-                    //continue;
-                }
-
-                if (Aps.getShutdownCount(service) == (1 + config.M))
-                    endService = true;
-
-            }
-
-            sconi.close();
         }
+
+        // TODO
+        // SYSTEM CALL PARA SHUTDOWN
+
+        // 1 - Unbind
+        //reg.unbind(nameEntryObject, engineStub)
+        // 2 - unexportObject
+        //engineStub = (Compute) UnicastRemoteObject.unexportObject()
+
     }
 
 }

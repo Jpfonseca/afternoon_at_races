@@ -34,10 +34,9 @@ public class ServerRegisterRemoteObject
         rmiRegPortNumb = config.RMI_REGISTRY_PORT;
 
         /* create and install the security manager */
-
-        if (System.getSecurityManager () == null)
-            System.setSecurityManager (new SecurityManager ());
-        GenericIO.writelnString ("Security manager was installed!");
+        //if (System.getSecurityManager () == null)
+        //    System.setSecurityManager (new SecurityManager ());
+        //GenericIO.writelnString ("Security manager was installed!");
 
         /* instantiate a registration remote object and generate a stub for it */
 

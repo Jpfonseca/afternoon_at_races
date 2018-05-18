@@ -4,7 +4,7 @@ package shared_regions;
  * BettingCentreInterface
  * Used to Interface the BettingCentre Server with the "public"
  */
-public interface BettingCentreInterface {
+public interface BettingCentreInterface{
     /**
      * Method used by the broker to announce he can collect Spectator's bets
      */

@@ -1,9 +1,12 @@
 package shared_regions;
+
+import java.rmi.Remote;
+
 /**
  * StableInterface
  * Used to Interface the Stable Server with the "public"
  */
-public interface StableInterface {
+public interface StableInterface extends Remote {
 
     /**
      * Method used by the Broker to summon the horses to Paddock

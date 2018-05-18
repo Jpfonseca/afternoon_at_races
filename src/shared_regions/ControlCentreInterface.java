@@ -1,10 +1,12 @@
 package shared_regions;
 
+import java.rmi.Remote;
+
 /**
  * ControlCentreInterface
  * Used to instantiate ControlCentre Server with the "public"
  */
-public interface ControlCentreInterface {
+public interface ControlCentreInterface extends Remote {
 
     /**
      * This method is used by the Broker to summon the Horses to the Paddock
