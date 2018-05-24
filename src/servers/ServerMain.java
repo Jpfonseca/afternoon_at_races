@@ -52,23 +52,10 @@ public class ServerMain {
 
         InterfaceServers server = null;
 
-        String nameEntryBase = config.RMI_REGISTER_NAME;
         String nameEntryObject;
 
         Registry registry = null;
         Register reg = null;
-        try {
-            reg = (Register) registry.lookup(nameEntryBase);
-        } catch (RemoteException e) {
-            System.out.println("RegisterRemoteObject lookup exception: " + e.getMessage());
-            System.exit(1);
-        } catch (NotBoundException e) {
-            System.out.println("RegisterRemoteObject not bound exception: " + e.getMessage());
-            System.exit(1);
-        }catch (NullPointerException e){
-            System.out.println("RegisterRemoteObject lookup created NullPointerException: " + e.getMessage());
-            System.exit(1);
-        }
 
         if (args.length == 1) {
 
@@ -99,6 +86,8 @@ public class ServerMain {
                         System.exit(1);
                     }
                     System.out.println("The StableStub was not found the RMI registry");
+
+                    reg = regLookup(registry);
 
                     try {
                         reg.bind(nameEntryObject, stableStub);
@@ -139,6 +128,8 @@ public class ServerMain {
                     }
                     System.out.println("The StableStub was not found the RMI registry");
 
+                    reg = regLookup(registry);
+
                     try {
                         reg.bind(nameEntryObject, ccwsStub);
                     } catch (RemoteException e) {
@@ -177,6 +168,8 @@ public class ServerMain {
                         System.out.println("Exception while finding the register for the  Paddock on the RMI Registry: " + e.getMessage());
                         System.exit(1);
                     }
+
+                    reg = regLookup(registry);
 
                     try {
                         reg.bind(nameEntryObject,pdStub);
@@ -217,6 +210,8 @@ public class ServerMain {
                         System.exit(1);
                     }
 
+                    reg = regLookup(registry);
+
                     try {
                         reg.bind(nameEntryObject, rtStub);
                     }catch (RemoteException e){
@@ -251,6 +246,8 @@ public class ServerMain {
                         System.out.println("Exception while finding the register for the Betting Centre on the RMI Registry: " + e.getMessage());
                         System.exit(1);
                     }
+
+                    reg = regLookup(registry);
 
                     try {
                         reg.bind(nameEntryObject, bcStub);
@@ -288,6 +285,8 @@ public class ServerMain {
                         System.exit(1);
                     }
 
+                    reg = regLookup(registry);
+
                     try {
                         reg.bind(nameEntryObject, repoStub);
                     } catch (RemoteException e) {
@@ -316,5 +315,26 @@ public class ServerMain {
         //engineStub = (Compute) UnicastRemoteObject.unexportObject()
 
     }
+
+    private static Register regLookup(Registry registry) {
+        String nameEntryBase = config.RMI_REGISTER_NAME;
+        Register reg = null;
+
+        try {
+            reg = (Register) registry.lookup(nameEntryBase);
+        } catch (RemoteException e) {
+            System.out.println("RegisterRemoteObject lookup exception: " + e.getMessage());
+            System.exit(1);
+        } catch (NotBoundException e) {
+            System.out.println("RegisterRemoteObject not bound exception: " + e.getMessage());
+            System.exit(1);
+        } catch (NullPointerException e) {
+            System.out.println("RegisterRemoteObject lookup created NullPointerException: " + e.getMessage());
+            System.exit(1);
+        }
+
+        return reg;
+    }
+
 
 }
