@@ -1,10 +1,12 @@
 package shared_regions;
 
+import java.rmi.Remote;
+
 /**
  * BettingCentreInterface
  * Used to Interface the BettingCentre Server with the "public"
  */
-public interface BettingCentreInterface{
+public interface BettingCentreInterface extends Remote {
     /**
      * Method used by the broker to announce he can collect Spectator's bets
      */

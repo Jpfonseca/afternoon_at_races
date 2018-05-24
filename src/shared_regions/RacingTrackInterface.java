@@ -1,9 +1,12 @@
 package shared_regions;
+
+import java.rmi.Remote;
+
 /**
  * RacingTrackInterface
  * Used to Interface the RacingTrack Server with the "public"
  */
-public interface RacingTrackInterface {
+public interface RacingTrackInterface extends Remote {
 
     /**
      * Method used by the Broker to start the race

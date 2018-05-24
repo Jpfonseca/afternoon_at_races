@@ -1,9 +1,12 @@
 package shared_regions;
+
+import java.rmi.Remote;
+
 /**
  * PaddockInterface
  * Used to Interface the Paddock Server with the "public"
  */
-public interface PaddockInterface {
+public interface PaddockInterface extends Remote {
 
     /**
      * Method used for HorseJockey to know if he is the last one to proceed to paddock
