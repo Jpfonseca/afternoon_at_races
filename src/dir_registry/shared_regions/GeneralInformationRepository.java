@@ -7,6 +7,7 @@ import extras.config;
 import genclass.GenericIO;
 import genclass.TextFile;
 import shared_regions.BetAmount;
+import shared_regions.GeneralInformationRepositoryInterface;
 
 /**
  * General Repository
@@ -97,7 +98,7 @@ public class GeneralInformationRepository implements GeneralInformationRepositor
      * Instance of GeneralInformationRepository
      * @serialField instance
      */
-    private static GeneralInformationRepository instance;
+    private static shared_regions.GeneralInformationRepository instance;
 
     /**
      * This entity will provide all the information about the current aspects of the program
@@ -529,9 +530,9 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
      * Returns current instance of GeneralInformationRepository
      * @return instance of GeneralInformationRepository
      */
-    public static GeneralInformationRepository getInstance(){
+    public static shared_regions.GeneralInformationRepository getInstance(){
         if (instance==null)
-            instance = new GeneralInformationRepository(config.logName, config.K, config.N, config.M);
+            instance = new shared_regions.GeneralInformationRepository(config.logName, config.K, config.N, config.M);
 
         return instance;
     }

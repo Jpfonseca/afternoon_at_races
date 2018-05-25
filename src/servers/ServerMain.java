@@ -46,9 +46,9 @@ public class ServerMain {
         int rmiRegPortNumb = config.RMI_REGISTRY_PORT;
 
         /* instanciação e instalação do gestor de segurança */
-        //if (System.getSecurityManager() == null) {
-        //    System.setSecurityManager(new SecurityManager());
-        //}
+        if (System.getSecurityManager() == null) {
+            System.setSecurityManager(new SecurityManager());
+        }
 
         InterfaceServers server = null;
 

@@ -1,4 +1,4 @@
-package dir_servers.extras;
+package extras;
 
 /**
  * Configurations for the simulation
