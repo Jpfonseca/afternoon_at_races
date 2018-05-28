@@ -1,9 +1,5 @@
 package shared_regions;
-
-import entities.BrokerState;
-import entities.HorseJockeyState;
-import entities.SpectatorState;
-
+import entities.*;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 

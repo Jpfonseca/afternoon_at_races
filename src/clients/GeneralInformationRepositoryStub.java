@@ -2,11 +2,7 @@ package clients;
 
 import communication.ClientCom;
 import communication.Message;
-import entities.BrokerState;
-import entities.HorseJockeyState;
-import entities.SpectatorState;
 import extras.config;
-import shared_regions.GeneralInformationRepositoryInterface;
 
 public class GeneralInformationRepositoryStub implements GeneralInformationRepositoryInterface {
 

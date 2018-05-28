@@ -7,7 +7,6 @@ import entities.HorseJockey;
 import entities.Spectator;
 import extras.config;
 import shared_regions.BettingCentreInterface;
-import shared_regions.Winners;
 
 public class BettingCentreStub implements BettingCentreInterface {
 

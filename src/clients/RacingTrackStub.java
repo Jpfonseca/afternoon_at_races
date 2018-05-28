@@ -6,7 +6,6 @@ import entities.Broker;
 import entities.HorseJockey;
 import extras.config;
 import shared_regions.RacingTrackInterface;
-import shared_regions.Winners;
 
 public class RacingTrackStub implements RacingTrackInterface {
 

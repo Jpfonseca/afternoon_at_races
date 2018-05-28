@@ -1,10 +1,5 @@
 package communication;
 
-import entities.BrokerState;
-import entities.HorseJockeyState;
-import entities.SpectatorState;
-import shared_regions.Winners;
-
 import java.io.Serializable;
 
 /**

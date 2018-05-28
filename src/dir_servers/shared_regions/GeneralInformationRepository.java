@@ -1,13 +1,9 @@
 package shared_regions;
 
-import entities.BrokerState;
-import entities.HorseJockeyState;
-import entities.SpectatorState;
 import extras.config;
 import genclass.GenericIO;
 import genclass.TextFile;
-import shared_regions.BetAmount;
-
+import entities.*;
 /**
  * General Repository
  */

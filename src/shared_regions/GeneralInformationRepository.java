@@ -1,8 +1,5 @@
 package shared_regions;
 
-import entities.BrokerState;
-import entities.HorseJockeyState;
-import entities.SpectatorState;
 import extras.config;
 import genclass.TextFile;
 import genclass.GenericIO;
