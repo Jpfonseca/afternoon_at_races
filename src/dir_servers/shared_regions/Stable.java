@@ -1,11 +1,14 @@
 package shared_regions;
-import clients.GeneralInformationRepositoryStub;
-import entities.*;
+
+//import clients.GeneralInformationRepositoryStub;
+import entities.BrokerState;
+import entities.HorseJockeyState;
 import extras.config;
-//import servers.Aps;
 import shared_regions.RMIReply.ProceedToStable;
 import shared_regions.RMIReply.ProceedToStable2;
 import shared_regions.RMIReply.SummonHorsesToPaddock;
+
+//import servers.Aps;
 
 /**
  * This class specifies the methods that will be executed on the Stable .
@@ -38,7 +41,7 @@ public class Stable implements StableInterface{
      * @serial repoStub
      */
     //private GeneralInformationRepository repo;
-    private GeneralInformationRepositoryStub repoStub;
+    //TODO private GeneralInformationRepositoryStub repoStub;
 
     /**
      * Instance of Stable
@@ -54,7 +57,7 @@ public class Stable implements StableInterface{
     public Stable(int N) {
         this.N = N;
         this.queueHJ = 0;
-        this.repoStub = new GeneralInformationRepositoryStub();
+        //TODO this.repoStub = new GeneralInformationRepositoryStub();
         this.totalAgility=0;
     }
 

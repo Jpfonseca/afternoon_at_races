@@ -1,6 +1,8 @@
 package shared_regions;
 //import clients.GeneralInformationRepositoryStub;
-import entities.*;
+
+import entities.BrokerState;
+import entities.SpectatorState;
 import extras.config;
 import shared_regions.RMIReply.EntertainTheGuests;
 import shared_regions.RMIReply.GoWatchTheRace;

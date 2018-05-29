@@ -1,15 +1,11 @@
 package servers;
 
-import com.sun.security.ntlm.Server;
-import communication.ClientCom;
 import extras.config;
-import communication.ServerCom;
 import interfaces.Register;
 import shared_regions.*;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -50,26 +46,27 @@ public class ServerMain {
             System.setSecurityManager(new SecurityManager());
         }
 
-        InterfaceServers server = null;
-
         String nameEntryObject;
 
         Registry registry = null;
         Register reg = null;
 
+
+
         if (args.length == 1) {
 
             int service = Integer.parseInt(args[0]);
+            //service = 5;
 
             switch (config.baseListenPort + service) {
                 case config.stableServerPort:           // Stable
 
                     /* find the remote object by name on the RMI service registry*/
                     Stable st = new Stable(config.N);
-                    shared_regions.StableInterface stableStub = null;
+                    StableInterface stableStub = null;
 
                     try {
-                        stableStub = (shared_regions.StableInterface) UnicastRemoteObject.exportObject(st, config.RMI_REGISTRY_PORT);
+                        stableStub = (StableInterface) UnicastRemoteObject.exportObject(st, config.stableServerPort);
                     } catch (RemoteException e) {
                         System.out.println("Exception while creating the StableStub: " + e.getMessage());
                         System.exit(1);
@@ -96,6 +93,7 @@ public class ServerMain {
                         System.exit(1);
                     } catch (AlreadyBoundException e) {
                         System.out.println("There is an instance of the Stable Stub already bounded on the RMI Registry: " + e.getMessage());
+                        e.printStackTrace();
                         System.exit(1);
                     }
 
@@ -106,10 +104,10 @@ public class ServerMain {
 
                     /* find the remote object by name on the RMI service registry*/
                     ControlCentre ccws = new ControlCentre(config.K, config.M);
-                    shared_regions.ControlCentreInterface ccwsStub = null;
+                    ControlCentreInterface ccwsStub = null;
 
                     try {
-                        ccwsStub = (shared_regions.ControlCentreInterface) UnicastRemoteObject.exportObject(ccws, config.RMI_REGISTRY_PORT);
+                        ccwsStub = (ControlCentreInterface) UnicastRemoteObject.exportObject(ccws, config.RMI_REGISTRY_PORT);
                     } catch (RemoteException e) {
                         System.out.println("Exception while creating the ccwsStub: " + e.getMessage());
                         System.exit(1);
@@ -143,135 +141,137 @@ public class ServerMain {
                     System.out.println("The CCWS was successfully registered on the RMI Registry");
 
                     break;
-                case config.paddockServerPort:          // Paddock portNumb = 22222
-                    /* find the remote object by name on the RMI service registry*/
+//                case config.paddockServerPort:          // Paddock portNumb = 22222
+//                    /* find the remote object by name on the RMI service registry*/
+//
+//                    Paddock pd = new Paddock(config.N,config.M);
+//                    PaddockInterface pdStub=null;
+//
+//                    try {
+//                        pdStub=(PaddockInterface) UnicastRemoteObject.exportObject(pd,config.RMI_REGISTRY_PORT);
+//                    } catch (RemoteException e){
+//                        System.out.println("Exception while creating the pdStub: " + e.getMessage());
+//                        System.exit(1);
+//                    }
+//
+//                    System.out.println("The pdSub is running!");
+//
+//                    /* name of the service in the register inside the RMI registry service */
+//
+//                    nameEntryObject = "PD";
+//
+//                    try {
+//                        registry=LocateRegistry.getRegistry(rmiRegHostName,rmiRegPortNumb);
+//                    } catch (RemoteException e){
+//                        System.out.println("Exception while finding the register for the  Paddock on the RMI Registry: " + e.getMessage());
+//                        System.exit(1);
+//                    }
+//
+//                    reg = regLookup(registry);
+//
+//                    try {
+//                        reg.bind(nameEntryObject,pdStub);
+//                    }catch (RemoteException e){
+//                        System.out.println("Exception inside the RMI Registry(PD) : " + e.getMessage());
+//                        System.exit(1);
+//                    }catch (AlreadyBoundException e){
+//                        System.out.println("There is an instance of the Paddock Stub already bounded on the RMI Registry: " + e.getMessage());
+//                        System.exit(1);
+//                    }
+//
+//                    System.out.println("The Paddock was successfully registered on the RMI Registry");
+//                    break;
+//
+//                case config.racingTrackServerPort:      // RacingTrack portNumb = 22223
+//                    /* find the remote object by name on the RMI service registry*/
+//
+//                    RacingTrack rt = new RacingTrack(config.K, config.N, config.DMin, config.DMax);
+//                    RacingTrackInterface rtStub=null;
+//
+//                    try {
+//                        rtStub = (RacingTrackInterface) UnicastRemoteObject.exportObject(rt,config.RMI_REGISTRY_PORT);
+//                    }catch (RemoteException e){
+//                        System.out.println("Exception while creating the rtStub: " + e.getMessage());
+//                        System.exit(1);
+//                    }
+//
+//                    System.out.println("The rtSub is running!");
+//
+//                    /* name of the service in the register inside the RMI registry service */
+//
+//                    nameEntryObject = "RT";
+//
+//                    try {
+//                        registry=LocateRegistry.getRegistry(rmiRegHostName,rmiRegPortNumb);
+//                    }catch (RemoteException e){
+//                        System.out.println("Exception while finding the register for the Racing Track on the RMI Registry: " + e.getMessage());
+//                        System.exit(1);
+//                    }
+//
+//                    reg = regLookup(registry);
+//
+//                    try {
+//                        reg.bind(nameEntryObject, rtStub);
+//                    }catch (RemoteException e){
+//                        System.out.println("Exception inside the RMI Registry(RT) : " + e.getMessage());
+//                        System.exit(1);
+//                    }catch (AlreadyBoundException e){
+//                        System.out.println("There is an instance of the Racing Track Stub already bounded on the RMI Registry: " + e.getMessage());
+//                        System.exit(1);
+//                    }
+//                    System.out.println("The Racing Track was successfully registered on the RMI Registry");
+//
+//                    break;
+//                case config.bettingCentreServerPort:    // BettingCentre portNumb = 22224
+//                    /* find the remote object by name on the RMI service registry*/
+//
+//                    BettingCentre bc=new BettingCentre(config.M);
+//                    BettingCentreInterface bcStub=null;
+//
+//                    try {
+//                        bcStub=(BettingCentreInterface) UnicastRemoteObject.exportObject(bc,config.RMI_REGISTRY_PORT);
+//                    }catch (RemoteException e){
+//                        System.out.println("Exception while creating the bcStub: " + e.getMessage());
+//                        System.exit(1);
+//                    }
+//
+//                    /* name of the service in the register inside the RMI registry service */
+//                    nameEntryObject = "BC";
+//
+//                    try {
+//                        registry=LocateRegistry.getRegistry(rmiRegHostName,rmiRegPortNumb);
+//                    }catch (RemoteException e){
+//                        System.out.println("Exception while finding the register for the Betting Centre on the RMI Registry: " + e.getMessage());
+//                        System.exit(1);
+//                    }
+//
+//                    reg = regLookup(registry);
+//
+//                    try {
+//                        reg.bind(nameEntryObject, bcStub);
+//                    }catch (RemoteException e){
+//                        System.out.println("Exception inside the RMI Registry(BC) : " + e.getMessage());
+//                        System.exit(1);
+//                    }catch (AlreadyBoundException e){
+//                        System.out.println("There is an instance of the Betting Centr Stub already bounded on the RMI Registry: " + e.getMessage());
+//                        System.exit(1);
+//                    }
+//                    System.out.println("The Betting Centre was successfully registered on the RMI Registry");
+//
+//
+//                    break;
 
-                    Paddock pd = new Paddock(config.N,config.M);
-                    shared_regions.PaddockInterface pdStub=null;
-
-                    try {
-                        pdStub=(shared_regions.PaddockInterface) UnicastRemoteObject.exportObject(pd,config.RMI_REGISTRY_PORT);
-                    } catch (RemoteException e){
-                        System.out.println("Exception while creating the pdStub: " + e.getMessage());
-                        System.exit(1);
-                    }
-
-                    System.out.println("The pdSub is running!");
-
-                    /* name of the service in the register inside the RMI registry service */
-
-                    nameEntryObject = "PD";
-
-                    try {
-                        registry=LocateRegistry.getRegistry(rmiRegHostName,rmiRegPortNumb);
-                    } catch (RemoteException e){
-                        System.out.println("Exception while finding the register for the  Paddock on the RMI Registry: " + e.getMessage());
-                        System.exit(1);
-                    }
-
-                    reg = regLookup(registry);
-
-                    try {
-                        reg.bind(nameEntryObject,pdStub);
-                    }catch (RemoteException e){
-                        System.out.println("Exception inside the RMI Registry(PD) : " + e.getMessage());
-                        System.exit(1);
-                    }catch (AlreadyBoundException e){
-                        System.out.println("There is an instance of the Paddock Stub already bounded on the RMI Registry: " + e.getMessage());
-                        System.exit(1);
-                    }
-
-                    System.out.println("The Paddock was successfully registered on the RMI Registry");
-                    break;
-
-                case config.racingTrackServerPort:      // RacingTrack portNumb = 22223
-                    /* find the remote object by name on the RMI service registry*/
-
-                    RacingTrack rt = new RacingTrack(config.K, config.N, config.DMin, config.DMax);
-                    shared_regions.RacingTrackInterface rtStub=null;
-
-                    try {
-                        rtStub = (shared_regions.RacingTrackInterface) UnicastRemoteObject.exportObject(rt,config.RMI_REGISTRY_PORT);
-                    }catch (RemoteException e){
-                        System.out.println("Exception while creating the rtStub: " + e.getMessage());
-                        System.exit(1);
-                    }
-
-                    System.out.println("The rtSub is running!");
-
-                    /* name of the service in the register inside the RMI registry service */
-
-                    nameEntryObject = "RT";
-
-                    try {
-                        registry=LocateRegistry.getRegistry(rmiRegHostName,rmiRegPortNumb);
-                    }catch (RemoteException e){
-                        System.out.println("Exception while finding the register for the Racing Track on the RMI Registry: " + e.getMessage());
-                        System.exit(1);
-                    }
-
-                    reg = regLookup(registry);
-
-                    try {
-                        reg.bind(nameEntryObject, rtStub);
-                    }catch (RemoteException e){
-                        System.out.println("Exception inside the RMI Registry(RT) : " + e.getMessage());
-                        System.exit(1);
-                    }catch (AlreadyBoundException e){
-                        System.out.println("There is an instance of the Racing Track Stub already bounded on the RMI Registry: " + e.getMessage());
-                        System.exit(1);
-                    }
-                    System.out.println("The Racing Track was successfully registered on the RMI Registry");
-
-                    break;
-                case config.bettingCentreServerPort:    // BettingCentre portNumb = 22224
-                    /* find the remote object by name on the RMI service registry*/
-
-                    BettingCentre bc=new BettingCentre(config.M);
-                    shared_regions.BettingCentreInterface bcStub=null;
-
-                    try {
-                        bcStub=(shared_regions.BettingCentreInterface) UnicastRemoteObject.exportObject(bc,config.RMI_REGISTRY_PORT);
-                    }catch (RemoteException e){
-                        System.out.println("Exception while creating the bcStub: " + e.getMessage());
-                        System.exit(1);
-                    }
-
-                    /* name of the service in the register inside the RMI registry service */
-                    nameEntryObject = "BC";
-
-                    try {
-                        registry=LocateRegistry.getRegistry(rmiRegHostName,rmiRegPortNumb);
-                    }catch (RemoteException e){
-                        System.out.println("Exception while finding the register for the Betting Centre on the RMI Registry: " + e.getMessage());
-                        System.exit(1);
-                    }
-
-                    reg = regLookup(registry);
-
-                    try {
-                        reg.bind(nameEntryObject, bcStub);
-                    }catch (RemoteException e){
-                        System.out.println("Exception inside the RMI Registry(BC) : " + e.getMessage());
-                        System.exit(1);
-                    }catch (AlreadyBoundException e){
-                        System.out.println("There is an instance of the Betting Centr Stub already bounded on the RMI Registry: " + e.getMessage());
-                        System.exit(1);
-                    }
-                    System.out.println("The Betting Centre was successfully registered on the RMI Registry");
-
-
-                    break;
                 case config.repoServerPort:             // Repo portNumb = 22225
 
                     /* find the remote object by name on the RMI service registry*/
                     GeneralInformationRepository repo = new GeneralInformationRepository(config.logName, config.K, config.N, config.M);
-                    shared_regions.GeneralInformationRepositoryInterface repoStub = null;
+                    GeneralInformationRepositoryInterface repoStub = null;
 
                     try {
-                        repoStub = (shared_regions.GeneralInformationRepositoryInterface) UnicastRemoteObject.exportObject(repo, config.RMI_REGISTRY_PORT);
+                        repoStub = (GeneralInformationRepositoryInterface) UnicastRemoteObject.exportObject(repo, config.repoServerPort);
                     } catch (RemoteException e) {
                         System.out.println("Exception while creating the repoStub: " + e.getMessage());
+                        e.printStackTrace ();
                         System.exit(1);
                     }
 
@@ -282,6 +282,7 @@ public class ServerMain {
                         registry = LocateRegistry.getRegistry(rmiRegHostName, rmiRegPortNumb);
                     } catch (RemoteException e) {
                         System.out.println("Exception while finding the register for the General Information Repository on the RMI Registry:" + e.getMessage());
+                        e.printStackTrace ();
                         System.exit(1);
                     }
 
@@ -291,9 +292,11 @@ public class ServerMain {
                         reg.bind(nameEntryObject, repoStub);
                     } catch (RemoteException e) {
                         System.out.println("Exception inside the RMI Registry(REPO) " + e.getMessage());
+                        e.printStackTrace ();
                         System.exit(1);
                     } catch (AlreadyBoundException e) {
                         System.out.println("There is an instance of the Betting Centr Stub already bounded on the RMI Registry: " + e.getMessage());
+                        e.printStackTrace ();
                         System.exit(1);
                     }
 

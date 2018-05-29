@@ -51,95 +51,94 @@ public class ServerMain {
         Registry registry = null;
         Register reg = null;
 
-
-
         if (args.length == 1) {
 
             int service = Integer.parseInt(args[0]);
-            service = 5;
+            //service = 5;
 
             switch (config.baseListenPort + service) {
-//                case config.stableServerPort:           // Stable
-//
-//                    /* find the remote object by name on the RMI service registry*/
-//                    Stable st = new Stable(config.N);
-//                    StableInterface stableStub = null;
-//
-//                    try {
-//                        stableStub = (StableInterface) UnicastRemoteObject.exportObject(st, config.RMI_REGISTRY_PORT);
-//                    } catch (RemoteException e) {
-//                        System.out.println("Exception while creating the StableStub: " + e.getMessage());
-//                        System.exit(1);
-//                    }
-//                    System.out.println("The StableSub is running!");
-//
-//                    /* name of the service in the register inside the RMI registry service */
-//                    nameEntryObject = "STABLE";
-//
-//                    try {
-//                        registry = LocateRegistry.getRegistry(rmiRegHostName, rmiRegPortNumb);
-//                    } catch (RemoteException e) {
-//                        System.out.println("Exception while finding the register for the  STABLE on the RMI Registry: " + e.getMessage());
-//                        System.exit(1);
-//                    }
-//                    System.out.println("The StableStub was not found the RMI registry");
-//
-//                    reg = regLookup(registry);
-//
-//                    try {
-//                        reg.bind(nameEntryObject, stableStub);
-//                    } catch (RemoteException e) {
-//                        System.out.println("Exception inside the RMI Registry(STABLE): " + e.getMessage());
-//                        System.exit(1);
-//                    } catch (AlreadyBoundException e) {
-//                        System.out.println("There is an instance of the Stable Stub already bounded on the RMI Registry: " + e.getMessage());
-//                        System.exit(1);
-//                    }
-//
-//                    System.out.println("The Stable was successfully registered on the RMI Registry");
-//
-//                    break;
-//                case config.controlCentreServerPort:    // ControlCentre portNumb = 22221
-//
-//                    /* find the remote object by name on the RMI service registry*/
-//                    ControlCentre ccws = new ControlCentre(config.K, config.M);
-//                    ControlCentreInterface ccwsStub = null;
-//
-//                    try {
-//                        ccwsStub = (ControlCentreInterface) UnicastRemoteObject.exportObject(ccws, config.RMI_REGISTRY_PORT);
-//                    } catch (RemoteException e) {
-//                        System.out.println("Exception while creating the ccwsStub: " + e.getMessage());
-//                        System.exit(1);
-//                    }
-//                    System.out.println("The ccwsSub is running!");
-//
-//                    /* name of the service in the register inside the RMI registry service */
-//
-//                    nameEntryObject = "CCWS";
-//
-//                    try {
-//                        registry = LocateRegistry.getRegistry(rmiRegHostName, rmiRegPortNumb);
-//                    } catch (RemoteException e) {
-//                        System.out.println("Exception while finding the register for the  CCWS on the RMI Registry: " + e.getMessage());
-//                        System.exit(1);
-//                    }
-//                    System.out.println("The StableStub was not found the RMI registry");
-//
-//                    reg = regLookup(registry);
-//
-//                    try {
-//                        reg.bind(nameEntryObject, ccwsStub);
-//                    } catch (RemoteException e) {
-//                        System.out.println("Exception inside the RMI Registry(CCWS) : " + e.getMessage());
-//                        System.exit(1);
-//                    } catch (AlreadyBoundException e) {
-//                        System.out.println("There is an instance of the CCWS Stub already bounded on the RMI Registry: " + e.getMessage());
-//                        System.exit(1);
-//                    }
-//
-//                    System.out.println("The CCWS was successfully registered on the RMI Registry");
-//
-//                    break;
+                case config.stableServerPort:           // Stable
+
+                    /* find the remote object by name on the RMI service registry*/
+                    Stable st = new Stable(config.N);
+                    StableInterface stableStub = null;
+
+                    try {
+                        stableStub = (StableInterface) UnicastRemoteObject.exportObject(st, config.stableServerPort);
+                    } catch (RemoteException e) {
+                        System.out.println("Exception while creating the StableStub: " + e.getMessage());
+                        System.exit(1);
+                    }
+                    System.out.println("The Stable Stub is running!");
+
+                    /* name of the service in the register inside the RMI registry service */
+                    nameEntryObject = "STABLE";
+
+                    try {
+                        registry = LocateRegistry.getRegistry(rmiRegHostName, rmiRegPortNumb);
+                    } catch (RemoteException e) {
+                        System.out.println("Exception while finding the register for the  STABLE on the RMI Registry: " + e.getMessage());
+                        System.exit(1);
+                    }
+                    System.out.println("The StableStub was not found the RMI registry");
+
+                    reg = regLookup(registry);
+
+                    try {
+                        reg.bind(nameEntryObject, stableStub);
+                    } catch (RemoteException e) {
+                        System.out.println("Exception inside the RMI Registry(STABLE): " + e.getMessage());
+                        System.exit(1);
+                    } catch (AlreadyBoundException e) {
+                        System.out.println("There is an instance of the Stable Stub already bounded on the RMI Registry: " + e.getMessage());
+                        e.printStackTrace();
+                        System.exit(1);
+                    }
+
+                    System.out.println("The Stable was successfully registered on the RMI Registry");
+
+                    break;
+                case config.controlCentreServerPort:    // ControlCentre portNumb = 22221
+
+                    /* find the remote object by name on the RMI service registry*/
+                    ControlCentre ccws = new ControlCentre(config.K, config.M);
+                    ControlCentreInterface ccwsStub = null;
+
+                    try {
+                        ccwsStub = (ControlCentreInterface) UnicastRemoteObject.exportObject(ccws, config.controlCentreServerPort);
+                    } catch (RemoteException e) {
+                        System.out.println("Exception while creating the ccwsStub: " + e.getMessage());
+                        System.exit(1);
+                    }
+                    System.out.println("The CCWS Stub is running!");
+
+                    /* name of the service in the register inside the RMI registry service */
+
+                    nameEntryObject = "CCWS";
+
+                    try {
+                        registry = LocateRegistry.getRegistry(rmiRegHostName, rmiRegPortNumb);
+                    } catch (RemoteException e) {
+                        System.out.println("Exception while finding the register for the  CCWS on the RMI Registry: " + e.getMessage());
+                        System.exit(1);
+                    }
+                    System.out.println("The CCWS Stub was not found the RMI registry");
+
+                    reg = regLookup(registry);
+
+                    try {
+                        reg.bind(nameEntryObject, ccwsStub);
+                    } catch (RemoteException e) {
+                        System.out.println("Exception inside the RMI Registry(CCWS) : " + e.getMessage());
+                        System.exit(1);
+                    } catch (AlreadyBoundException e) {
+                        System.out.println("There is an instance of the CCWS Stub already bounded on the RMI Registry: " + e.getMessage());
+                        System.exit(1);
+                    }
+
+                    System.out.println("The CCWS was successfully registered on the RMI Registry");
+
+                    break;
 //                case config.paddockServerPort:          // Paddock portNumb = 22222
 //                    /* find the remote object by name on the RMI service registry*/
 //
@@ -273,6 +272,7 @@ public class ServerMain {
                         e.printStackTrace ();
                         System.exit(1);
                     }
+                    System.out.println("The Repo Stub is running!");
 
                     /* name of the service in the register inside the RMI registry service */
                     nameEntryObject = "REPO";
@@ -284,6 +284,7 @@ public class ServerMain {
                         e.printStackTrace ();
                         System.exit(1);
                     }
+                    System.out.println("The Repo Stub was not found the RMI registry");
 
                     reg = regLookup(registry);
 

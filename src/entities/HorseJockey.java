@@ -92,7 +92,7 @@ public class HorseJockey extends Thread{
     public void run(){
         boolean last;
 
-        stStub.proceedToStable();
+        stStub.proceedToStable(this.agility, this.hj_number);
         bcStub.setHorseJockeyOdd();
         last = pdStub.proceedToPaddock1();     // Este método verifica o último.
         if (last)
@@ -105,7 +105,7 @@ public class HorseJockey extends Thread{
         }while(!rtStub.hasFinishLineBeenCrossed()); //devolve se terminou ou não. Em caso de témino devolve a posição
         ccwsStub.lastHorseCrossedLine();
 
-        stStub.proceedToStable2();
+        stStub.proceedToStable2(this.hj_number);
     }
 
     /**
