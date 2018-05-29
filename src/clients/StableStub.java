@@ -5,6 +5,9 @@ import communication.Message;
 import entities.Broker;
 import entities.HorseJockey;
 import extras.config;
+import shared_regions.RMIReply.ProceedToStable;
+import shared_regions.RMIReply.ProceedToStable2;
+import shared_regions.RMIReply.SummonHorsesToPaddock;
 import shared_regions.StableInterface;
 
 public class StableStub implements StableInterface {
@@ -15,7 +18,7 @@ public class StableStub implements StableInterface {
      * @param totalAgility Total agility
      */
     @Override
-    public void summonHorsesToPaddock(int k, int totalAgility) {
+    public SummonHorsesToPaddock summonHorsesToPaddock(int k, int totalAgility) {
         ClientCom conn = clientConn();
         Message message, reply;
 
@@ -30,13 +33,16 @@ public class StableStub implements StableInterface {
         conn.close();
 
         ((Broker)Thread.currentThread()).setBrokerState(reply.getBrokerState());
+
+        //TODO check return
+        return new SummonHorsesToPaddock(reply.getBrokerState());
     }
 
     /**
      * Method used by the HorseJockeys to proceed to Stable and wait for the next race
      */
     @Override
-    public void proceedToStable() {
+    public ProceedToStable proceedToStable(int agility, int hjNumber) {
         ClientCom conn = clientConn();
         Message message, reply;
 
@@ -44,6 +50,8 @@ public class StableStub implements StableInterface {
 
         message.setHorsejockeyAgility(((HorseJockey)Thread.currentThread()).getAgility());
         message.setHorsejockeyNumber(((HorseJockey)Thread.currentThread()).getHj_number());
+        //TODO agility
+        //TODO hjNumber
 
         conn.writeObject(message);
         reply = (Message) conn.readObject();
@@ -55,19 +63,22 @@ public class StableStub implements StableInterface {
 
         ((HorseJockey)Thread.currentThread()).setHjState(reply.getHorseJockeyState());
         ((HorseJockey)Thread.currentThread()).setOdd(reply.getOdd());
+
+        return new ProceedToStable(reply.getOdd(), reply.getHorseJockeyState());
     }
 
     /**
      * Method used by the HorseJockeys when they finished running to proceed back to the Stable
      */
     @Override
-    public void proceedToStable2() {
+    public ProceedToStable2 proceedToStable2(int hjNumber) {
         ClientCom conn = clientConn();
         Message message, reply;
 
         message = new Message(Message.PROCEED_TO_STABLE2);
 
         message.setHorsejockeyNumber(((HorseJockey)Thread.currentThread()).getHj_number());
+        //TODO hjNumber
 
         conn.writeObject(message);
         reply = (Message) conn.readObject();
@@ -78,6 +89,8 @@ public class StableStub implements StableInterface {
         conn.close();
 
         ((HorseJockey)Thread.currentThread()).setHjState(reply.getHorseJockeyState());
+
+        return new ProceedToStable2(reply.getHorseJockeyState());
     }
 
     /**

@@ -6,6 +6,10 @@ import entities.Broker;
 import entities.Spectator;
 import extras.config;
 import shared_regions.ControlCentreInterface;
+import shared_regions.RMIReply.EntertainTheGuests;
+import shared_regions.RMIReply.GoWatchTheRace;
+import shared_regions.RMIReply.RelaxABit;
+import shared_regions.RMIReply.WaitForNextRace;
 
 public class ControlCentreStub implements ControlCentreInterface {
 
@@ -71,7 +75,7 @@ public class ControlCentreStub implements ControlCentreInterface {
      * This method is used by the winner to entertain the guests
      */
     @Override
-    public void entertainTheGuests() {
+    public EntertainTheGuests entertainTheGuests() {
         ClientCom conn = clientConn();
         Message message, reply;
 
@@ -86,6 +90,9 @@ public class ControlCentreStub implements ControlCentreInterface {
         conn.close();
 
         ((Broker)Thread.currentThread()).setBrokerState(reply.getBrokerState());
+
+        //TODO check return
+        return new EntertainTheGuests(reply.getBrokerState());
     }
 
     /**
@@ -112,13 +119,14 @@ public class ControlCentreStub implements ControlCentreInterface {
      * @return <b>true</b>if they are waiting, or <b>false</b> if they are not
      */
     @Override
-    public boolean waitForNextRace() {
+    public WaitForNextRace waitForNextRace(int specId) {
                 ClientCom conn = clientConn();
         Message message, reply;
 
         message = new Message(Message.WAIT_FOR_NEXT_RACE);
 
         message.setIndex(((Spectator)Thread.currentThread()).getSpecId());
+        //TODO specid
 
         conn.writeObject(message);
         reply = (Message) conn.readObject();
@@ -130,7 +138,9 @@ public class ControlCentreStub implements ControlCentreInterface {
 
         ((Spectator)Thread.currentThread()).setState(reply.getSpectatorState());
 
-        return reply.getWaitForNextRace();
+        //return reply.getWaitForNextRace();
+        //TODO check return
+        return new WaitForNextRace(reply.getSpectatorState(), reply.getWaitForNextRace());
     }
 
     /**
@@ -156,13 +166,14 @@ public class ControlCentreStub implements ControlCentreInterface {
      * This method will be used by the Spectator to start watching a race.
      */
     @Override
-    public void goWatchTheRace() {
+    public GoWatchTheRace goWatchTheRace(int specId) {
         ClientCom conn = clientConn();
         Message message, reply;
 
         message = new Message(Message.GO_WATCH_THE_RACE);
 
         message.setIndex(((Spectator)Thread.currentThread()).getSpecId());
+        //TODO specid
 
         conn.writeObject(message);
         reply = (Message) conn.readObject();
@@ -173,19 +184,23 @@ public class ControlCentreStub implements ControlCentreInterface {
         conn.close();
 
         ((Spectator)Thread.currentThread()).setState(reply.getSpectatorState());
+
+        //TODO check return
+        return new GoWatchTheRace(reply.getSpectatorState());
     }
 
     /**
      * This method will be used by the Spectator to relax after all the races are finished
      */
     @Override
-    public void relaxABit() {
+    public RelaxABit relaxABit(int specId) {
         ClientCom conn = clientConn();
         Message message, reply;
 
         message = new Message(Message.RELAX_A_BIT);
 
         message.setIndex(((Spectator)Thread.currentThread()).getSpecId());
+        //TODO specid
 
         conn.writeObject(message);
         reply = (Message) conn.readObject();
@@ -196,6 +211,9 @@ public class ControlCentreStub implements ControlCentreInterface {
         conn.close();
 
         ((Spectator)Thread.currentThread()).setState(reply.getSpectatorState());
+
+        //TODO check return
+        return new RelaxABit(reply.getSpectatorState());
     }
 
     /**

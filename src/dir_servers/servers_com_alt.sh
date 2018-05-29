@@ -7,4 +7,4 @@ PLANCK_GEN="file:///home/planck/Desktop/afternoon_at_races/src/common_infrastruc
 java -cp "$PLANCK_GEN":. -Djava.rmi.server.codebase="$PLANCK"\
      -Djava.rmi.server.useCodebaseOnly=false\
      -Djava.security.policy=java.policy\
-     servers.ServerMain 22225
+     servers.ServerMain $1

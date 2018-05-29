@@ -1,6 +1,8 @@
 package shared_regions;
 //import clients.GeneralInformationRepositoryStub;
-import entities.*;
+
+import entities.BrokerState;
+import entities.SpectatorState;
 import extras.config;
 import shared_regions.RMIReply.EntertainTheGuests;
 import shared_regions.RMIReply.GoWatchTheRace;
@@ -66,7 +68,7 @@ public class ControlCentre implements ControlCentreInterface {
      * Instance of ControlCentre
      * @serialField instance
      */
-    private static ControlCentre instance;
+    private static shared_regions.ControlCentre instance;
 
     /**
      * This constructor specifies the initialization of the Control Centre shared Region.
@@ -260,9 +262,9 @@ public class ControlCentre implements ControlCentreInterface {
      * Returns current instance of ControlCentre
      * @return instance of ControlCentre
      */
-    public static ControlCentre getInstance(){
+    public static shared_regions.ControlCentre getInstance(){
         if (instance==null)
-            instance = new ControlCentre(config.K, config.M);
+            instance = new shared_regions.ControlCentre(config.K, config.M);
 
         return instance;
     }

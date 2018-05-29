@@ -1,13 +1,15 @@
 package registry;
 
+import java.rmi.registry.Registry;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.RemoteException;
+import java.rmi.AccessException;
+import java.rmi.server.UnicastRemoteObject;
+import java.rmi.server.*;
+
 import extras.config;
 import genclass.GenericIO;
 import interfaces.Register;
-
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 
 /**
  *  This data type instantiates and registers a remote object that enables the registration of other remote objects
@@ -38,7 +40,7 @@ public class ServerRegisterRemoteObject
 
         /* instantiate a registration remote object and generate a stub for it */
 
-        RegisterRemoteObject regEngine = new RegisterRemoteObject(rmiRegHostName, rmiRegPortNumb);
+        RegisterRemoteObject regEngine = new RegisterRemoteObject (rmiRegHostName, rmiRegPortNumb);
         Register regEngineStub = null;
         int listeningPort = config.RMI_REGISTER_PORT;              /* it should be set accordingly in each case */
 
@@ -47,7 +49,6 @@ public class ServerRegisterRemoteObject
         }
         catch (RemoteException e)
         { GenericIO.writelnString ("RegisterRemoteObject stub generation exception: " + e.getMessage ());
-            e.printStackTrace ();
             System.exit (1);
         }
         GenericIO.writelnString ("Stub was generated!");
@@ -62,7 +63,6 @@ public class ServerRegisterRemoteObject
         }
         catch (RemoteException e)
         { GenericIO.writelnString ("RMI registry creation exception: " + e.getMessage ());
-            e.printStackTrace ();
             System.exit (1);
         }
         GenericIO.writelnString ("RMI registry was created!");
@@ -72,7 +72,6 @@ public class ServerRegisterRemoteObject
         }
         catch (RemoteException e)
         { GenericIO.writelnString ("RegisterRemoteObject remote exception on registration: " + e.getMessage ());
-            e.printStackTrace ();
             System.exit (1);
         }
         GenericIO.writelnString ("RegisterRemoteObject object was registered!");

@@ -71,7 +71,7 @@ public class Spectator extends Thread{
 
         boolean last;
 
-        while(ccwsStub.waitForNextRace()){
+        while(ccwsStub.waitForNextRace(this.specId)){
 
             last = pdStub.goCheckHorses1();     // Este método verifica o último.
             if (last)
@@ -79,7 +79,7 @@ public class Spectator extends Thread{
             pdStub.goCheckHorses2(last);          //envia o spectator para o pdStub e diz se é o último
 
             bcStub.placeABet();
-            ccwsStub.goWatchTheRace();
+            ccwsStub.goWatchTheRace(this.specId);
 
             if(bcStub.haveIWon()) {
                 bcStub.goCollectTheGains();

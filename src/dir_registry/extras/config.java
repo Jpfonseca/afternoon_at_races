@@ -83,7 +83,7 @@ public class config {
     public static final int repoServerPort = baseListenPort+5;
 
     public static final String RMI_REGISTRY_HOSTNAME = "localhost";
-    public static final int RMI_REGISTRY_PORT = 22220;
-    public static final int RMI_REGISTER_PORT = 22221;
+    public static final int RMI_REGISTRY_PORT = 22229;
+    public static final int RMI_REGISTER_PORT = 22228;
     public static final String RMI_REGISTER_NAME = "RegisterHandler";
 }
