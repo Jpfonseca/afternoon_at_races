@@ -13,8 +13,9 @@ echo "Copying *.class files to dir_registry"
 cp ./entities/*.class ../dir_registry/entities/
 rm */*1.class
 cp ./shared_regions/*.class ../dir_registry/shared_regions/
+cp ./shared_regions/RMIReply/*.class ../dir_registry/shared_regions/RMIReply/
 #cp ./extras/*.class ../dir_registry/extras/
 
-echo "Running registry_com_alt"
+echo "Running servers_com_alt"
 
-./registry_com_alt.sh
+./servers_com_alt.sh $1

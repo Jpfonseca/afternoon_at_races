@@ -9,6 +9,8 @@ import shared_regions.RMIReply.GoWatchTheRace;
 import shared_regions.RMIReply.RelaxABit;
 import shared_regions.RMIReply.WaitForNextRace;
 
+import java.rmi.RemoteException;
+
 /**
  * This class specifies the methods that will be executed on the Control Centre and the Watching Stand .
  */
@@ -57,7 +59,7 @@ public class ControlCentre implements ControlCentreInterface {
      * General Repository Stub
      * @serial repo
      */
-    //TODO private GeneralInformationRepositoryStub repoStub;
+    private GeneralInformationRepositoryInterface repoStub;
     /**
      *  Total Spectators in paddock (FIFO)
      *  @serial totalSpec
@@ -75,7 +77,7 @@ public class ControlCentre implements ControlCentreInterface {
      * @param K  current race number
      * @param M current number spectators
      */
-    public ControlCentre(int K, int M) {
+    public ControlCentre(int K, int M, GeneralInformationRepositoryInterface repoStub) {
         this.K = K;
         this.M = M;
         this.currentRace=0;
@@ -83,7 +85,7 @@ public class ControlCentre implements ControlCentreInterface {
         this.waitForRaceToStart=true;
         this.waitForResults=true;
         this.waitForRaceToFinish=true;
-        //TODO this.repoStub = new GeneralInformationRepositoryStub();
+        this.repoStub = repoStub;
 
         totalSpec=0;
     }
@@ -142,7 +144,11 @@ public class ControlCentre implements ControlCentreInterface {
     public synchronized EntertainTheGuests entertainTheGuests(){
         // Waiting for childs to die
         //((Aps)Thread.currentThread()).setBrokerState(BrokerState.PLAYING_HOST_AT_THE_BAR);
-        //TODO repoStub.setBrokerState(BrokerState.PLAYING_HOST_AT_THE_BAR);
+        try {
+            repoStub.setBrokerState(BrokerState.PLAYING_HOST_AT_THE_BAR);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
         waitForRaceToStart=true;
         currentRace++;
@@ -157,7 +163,11 @@ public class ControlCentre implements ControlCentreInterface {
     @Override
     public synchronized void proceedToPaddock(){
         // Wakes up Spectator that is in CCWS
-        //TODO repoStub.reportStatus();
+        try {
+            repoStub.reportStatus();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
         this.waitForRaceToStart=false;
         notifyAll();
@@ -173,14 +183,19 @@ public class ControlCentre implements ControlCentreInterface {
         //Aps spec = ((Aps) Thread.currentThread());
 
         //repoStub.setOdd(spec.getSpecId(), -1);
-        //TODO repoStub.setSpectatorBet(specId, -1, -1);
+        try {
+            repoStub.setSpectatorBet(specId, -1, -1);
+            if (currentRace>0 && currentRace != K+1) {
+                //spec.setState((SpectatorState.WAITING_FOR_A_RACE_TO_START));
+                repoStub.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START, specId);
+                //repoStub.reportStatus();
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         //repoStub.reportStatus();
 
-        if (currentRace>0 && currentRace != K+1) {
-            //spec.setState((SpectatorState.WAITING_FOR_A_RACE_TO_START));
-            //TODO repoStub.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START, specId);
-            //repoStub.reportStatus();
-        }
+
 
         while(waitForRaceToStart && currentRace != K+1)
             try {
@@ -217,8 +232,13 @@ public class ControlCentre implements ControlCentreInterface {
     public synchronized GoWatchTheRace goWatchTheRace(int specId){
 
         //((Aps) Thread.currentThread()).setState((SpectatorState.WATCHING_A_RACE));
-        //TODO repoStub.setSpectatorState(SpectatorState.WATCHING_A_RACE, specId);
-        //TODO repoStub.reportStatus();
+        try {
+            repoStub.setSpectatorState(SpectatorState.WATCHING_A_RACE, specId);
+            repoStub.reportStatus();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
 
         while(waitForResults)
             try {
@@ -243,8 +263,13 @@ public class ControlCentre implements ControlCentreInterface {
     public synchronized RelaxABit relaxABit(int specId){
 
         //((Aps) Thread.currentThread()).setState((SpectatorState.CELEBRATING));
-        //TODO repoStub.setSpectatorState(SpectatorState.CELEBRATING,specId);
-        //TODO repoStub.reportStatus();
+        try {
+            repoStub.setSpectatorState(SpectatorState.CELEBRATING,specId);
+            repoStub.reportStatus();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
 
         return new RelaxABit(SpectatorState.CELEBRATING);
     }
@@ -262,10 +287,10 @@ public class ControlCentre implements ControlCentreInterface {
      * Returns current instance of ControlCentre
      * @return instance of ControlCentre
      */
-    public static ControlCentre getInstance(){
-        if (instance==null)
-            instance = new ControlCentre(config.K, config.M);
-
-        return instance;
-    }
+//    public static ControlCentre getInstance(){
+//        if (instance==null)
+//            instance = new ControlCentre(config.K, config.M);
+//
+//        return instance;
+//    }
 }
