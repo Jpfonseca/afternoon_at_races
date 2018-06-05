@@ -12,4 +12,12 @@ public class HasFinishLineBeenCrossed implements Serializable {
         this.state=state;
         this.status=status;
     }
+
+    public HorseJockeyState getState() {
+        return state;
+    }
+
+    public boolean getStatus() {
+        return status;
+    }
 }

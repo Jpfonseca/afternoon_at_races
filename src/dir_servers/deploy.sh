@@ -6,12 +6,12 @@ echo "Removing Old Files"
 rm */*.class
 
 echo "Compiling Files"
-javac -cp "$PLANCK_GEN":. */*.java
+javac */*.java
 
 echo "Copying *.class files to dir_registry"
 
 cp ./entities/*.class ../dir_registry/entities/
-rm */*1.class
+#rm */*1.class
 cp ./shared_regions/*.class ../dir_registry/shared_regions/
 cp ./shared_regions/RMIReply/*.class ../dir_registry/shared_regions/RMIReply/
 #cp ./extras/*.class ../dir_registry/extras/

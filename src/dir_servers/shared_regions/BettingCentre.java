@@ -190,7 +190,7 @@ import RMIReply.HonourTheBets;
     //TODO make spectator send its Id and wallet
 
         // SPECTATOR BET
-        int temp,bet,spec_id;
+        int temp, bet;
 
         temp= ThreadLocalRandom.current().nextInt(0,odd.length);
         betAmounts[specId]=new BetAmount();

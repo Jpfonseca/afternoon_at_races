@@ -12,4 +12,12 @@ public class WaitForNextRace implements Serializable {
         this.spectatorState = spectatorState;
         this.waitForNextRace = waitForNextRace;
     }
+
+    public SpectatorState getSpectatorState() {
+        return spectatorState;
+    }
+
+    public boolean getWaitForNextRac() {
+        return waitForNextRace;
+    }
 }

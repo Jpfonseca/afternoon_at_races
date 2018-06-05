@@ -9,4 +9,8 @@ public class  ProceedToStartLine implements Serializable {
     public ProceedToStartLine(HorseJockeyState state){
         this.state=state;
     }
+
+    public HorseJockeyState getState() {
+        return state;
+    }
 }

@@ -7,4 +7,8 @@ public class HaveIWon implements Serializable {
     public HaveIWon(boolean status){
         this.status=status;
     }
+
+    public boolean getStatus() {
+        return status;
+    }
 }

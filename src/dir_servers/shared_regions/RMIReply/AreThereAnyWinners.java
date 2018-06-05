@@ -7,4 +7,8 @@ public class AreThereAnyWinners implements Serializable {
     public AreThereAnyWinners(boolean winner_status){
         this.winner_status=winner_status;
     }
+
+    public boolean getWinnerStatus() {
+        return winner_status;
+    }
 }

@@ -12,4 +12,12 @@ public class ProceedToStable implements Serializable {
         this.odd = odd;
         this.hjState = hjState;
     }
+
+    public int getOdd() {
+        return odd;
+    }
+
+    public HorseJockeyState getHjState() {
+        return hjState;
+    }
 }

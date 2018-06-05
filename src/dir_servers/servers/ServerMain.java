@@ -63,7 +63,7 @@ public class ServerMain {
 
                     repoStub= InformationRepositoryLookup();
                     /* find the remote object by name on the RMI service registry*/
-                    Stable st = new Stable(config.N,repoStub);
+                    Stable st = new Stable(config.N, repoStub);
                     StableInterface stableStub = null;
 
                     try {
