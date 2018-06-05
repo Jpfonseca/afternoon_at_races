@@ -31,5 +31,5 @@ public interface PaddockInterface extends Remote {
      * Method used by the Spectator to wait while appraising the horses in the Paddock
      * @param last last Spectator
      */
-    GoCheckHorses2 goCheckHorses2(boolean last, int specId)throws RemoteException;
+    GoCheckHorses2 goCheckHorses2(boolean last, int specId) throws RemoteException;
 }

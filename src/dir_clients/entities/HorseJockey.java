@@ -80,7 +80,7 @@ public class HorseJockey extends Thread{
 
         try {
             repoStub.setHorseJockeyAgility(agility,hj_number);
-            repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE.getShortName(),hj_number);
+            repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE,hj_number);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,21 +99,23 @@ public class HorseJockey extends Thread{
     public void run(){
         HasFinishLineBeenCrossed rmiReply1;
         ProceedToStable rmiReply2;
+        ProceedToStable2 rmiReply3;
 
         try {
             boolean last;
 
-            rmiReply2 = stStub.proceedToStable(this.agility, this.hj_number);
+            rmiReply2 = stStub.proceedToStable(agility, hj_number);
             this.odd = rmiReply2.getOdd();
             setHjState(rmiReply2.getHjState());
 
-            bcStub.setHorseJockeyOdd(this.hj_number, this.odd);
+            bcStub.setHorseJockeyOdd(hj_number, odd);
             last = pdStub.proceedToPaddock1();     // Este método verifica o último.
             if (last)
                 ccwsStub.proceedToPaddock();    // Acorda spectator que está no ccws a espera de ser acordado
             pdStub.proceedToPaddock2();   //envia para o paddock
 
             this.setHjState(rtStub.proceedToStartLine1(hj_number).getState());
+            this.setHjState(rtStub.proceedToStartLine2(hj_number).getState());
             do{
                 rtStub.makeAMove(hj_number, agility);
                 rmiReply1 = rtStub.hasFinishLineBeenCrossed();
@@ -121,7 +123,7 @@ public class HorseJockey extends Thread{
             }while(!rmiReply1.getStatus()); //devolve se terminou ou não. Em caso de témino devolve a posição
             ccwsStub.lastHorseCrossedLine();
 
-            stStub.proceedToStable2(this.hj_number);
+            this.setHjState(stStub.proceedToStable2(hj_number).getHjState());
         } catch (RemoteException e) {
             e.printStackTrace();
         }

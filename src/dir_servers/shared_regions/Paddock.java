@@ -122,7 +122,7 @@ public class Paddock implements PaddockInterface {
         //TODO send spectator id
 
         try {
-            repoStub.setSpectatorState(SpectatorState.APPRAISING_THE_HORSES.getShortName(),specId);
+            repoStub.setSpectatorState(SpectatorState.APPRAISING_THE_HORSES,specId);
             repoStub.reportStatus();
         } catch (RemoteException e) {
             e.printStackTrace();

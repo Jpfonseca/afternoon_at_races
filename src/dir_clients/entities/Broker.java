@@ -94,7 +94,7 @@ public class Broker extends Thread{
 
         this.state=BrokerState.OPENING_THE_EVENT; // set current Broker state to the initial state
         try {
-            repoStub.setBrokerState(this.state.getShortName());
+            repoStub.setBrokerState(this.state);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -127,15 +127,15 @@ public class Broker extends Thread{
                 System.out.println("Race "+k+" Start");
 
 
-                stStub.summonHorsesToPaddock(k,totalAgility); // primeira parte é invocada no stable a segunda no ccws
+                this.setBrokerState(stStub.summonHorsesToPaddock(k,totalAgility).getState()); // primeira parte é invocada no stable a segunda no ccws
                 ccwsStub.summonHorsesToPaddock();
-                bcStub.acceptTheBets();
-                rtStub.startTheRace(k);
+                this.setBrokerState(bcStub.acceptTheBets().getState());
+                this.setBrokerState(rtStub.startTheRace(k).getState());
                 ccwsStub.startTheRace();
 
-                if (bcStub.areThereAnyWinners(rtStub.reportResults()).getWinnerStatus()) {
+                if (bcStub.areThereAnyWinners(rtStub.reportResults()).getWinner()) {
                     ccwsStub.reportResults();
-                    bcStub.honourTheBets();
+                    this.setBrokerState(bcStub.honourTheBets().getState());
                 }else
                     ccwsStub.reportResults();
 
@@ -153,7 +153,7 @@ public class Broker extends Thread{
                 }
             }
 
-            ccwsStub.entertainTheGuests();
+            this.setBrokerState(ccwsStub.entertainTheGuests().getState());
 
             //stStub.shutdown();
             //ccwsStub.shutdown();

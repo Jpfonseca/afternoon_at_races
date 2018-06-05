@@ -10,4 +10,8 @@ public class AcceptTheBets implements Serializable {
     public AcceptTheBets (BrokerState state){
         this.brokerState=state;
     }
+
+    public BrokerState getState() {
+        return brokerState;
+    }
 }

@@ -2,6 +2,8 @@ package entities;
 
 import interfaces.*;
 import shared_regions.RMIReply.*;
+import shared_regions.RMIReply.GoCollectTheGains;
+import shared_regions.RMIReply.PlaceABet;
 
 /**
  * Spectator Entity
@@ -61,7 +63,7 @@ public class Spectator extends Thread{
             repoStub.setSpectatorMoney(wallet, specId);
 
             this.state=SpectatorState.WAITING_FOR_A_RACE_TO_START;
-            repoStub.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START.getShortName(),specId);
+            repoStub.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START,specId);
             repoStub.reportStatus();
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,28 +77,37 @@ public class Spectator extends Thread{
     public void run(){
 
         boolean last;
+        PlaceABet rmiReply1;
+        GoCollectTheGains rmiReply2;
+        WaitForNextRace rmiReply3;
 
         try {
-            WaitForNextRace temp;
-            temp = ccwsStub.waitForNextRace(this.specId);
-            while(temp.getWaitForNextRace()){
+            rmiReply3 = ccwsStub.waitForNextRace(specId);
+            this.setState(rmiReply3.getSpectatorState());
+            while(rmiReply3.getWaitForNextRace()){
 
                 last = pdStub.goCheckHorses1();     // Este método verifica o último.
                 if (last)
                     ccwsStub.goCheckHorses();    // Acorda o Broker , que dá inicio à corrida
-                pdStub.goCheckHorses2(last, specId);          //envia o spectator para o pdStub e diz se é o último
+                this.setState(pdStub.goCheckHorses2(last, specId).getState());          //envia o spectator para o pdStub e diz se é o último
 
-                bcStub.placeABet(specId, wallet);
-                ccwsStub.goWatchTheRace(this.specId);
+                rmiReply1 = bcStub.placeABet(specId, wallet);
+                this.setWallet(rmiReply1.getSpecWallet());
+                this.setState(rmiReply1.getState());
+
+                this.setState(ccwsStub.goWatchTheRace(specId).getSpectatorState());
 
                 if(bcStub.haveIWon(specId).getStatus()) {
-                    bcStub.goCollectTheGains(specId, wallet);
+                    rmiReply2 = bcStub.goCollectTheGains(specId, wallet);
+                    this.setWallet(rmiReply2.getSpecWallet());
+                    this.setState(rmiReply2.getState());
                 }
 
-                temp = ccwsStub.waitForNextRace(this.specId);
+                rmiReply3 = ccwsStub.waitForNextRace(specId);
+                this.setState(rmiReply3.getSpectatorState());
             }
 
-        ccwsStub.relaxABit(this.specId);
+        this.setState(ccwsStub.relaxABit(specId).getSpectatorState());
 
         } catch (Exception e) {
             e.printStackTrace();

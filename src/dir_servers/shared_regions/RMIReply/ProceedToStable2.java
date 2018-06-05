@@ -10,4 +10,8 @@ public class ProceedToStable2 implements Serializable {
     public ProceedToStable2(HorseJockeyState hjState) {
         this.hjState = hjState;
     }
+
+    public HorseJockeyState getHjState() {
+        return hjState;
+    }
 }

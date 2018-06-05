@@ -16,17 +16,17 @@ public interface GeneralInformationRepositoryInterface extends Remote {
 
     /**
      * Used to set the Broker state
-     * @param shortName Broker state
+     * @param state Broker state
      */
 
-    void setBrokerState(String shortName) throws RemoteException;
+    void setBrokerState(BrokerState state) throws RemoteException;
 
     /**
      * Used to set the Spectator State
-     * @param shortName state to set
+     * @param state state to set
      * @param index index of the Spectator
      */
-    void setSpectatorState(String shortName, int index) throws RemoteException;
+    void setSpectatorState(SpectatorState state, int index) throws RemoteException;
 
     /**
      * Used to set the Spectator amount of money in the wallet
@@ -43,10 +43,10 @@ public interface GeneralInformationRepositoryInterface extends Remote {
 
     /**
      * Used to set the HorseJockey state
-     * @param shortName state to set
+     * @param state state to set
      * @param index HorseJockey's index
      */
-    void setHorseJockeyState(String shortName, int index) throws RemoteException;
+    void setHorseJockeyState(HorseJockeyState state, int index) throws RemoteException;
 
     /**
      * Used to set the HorseJockey agility

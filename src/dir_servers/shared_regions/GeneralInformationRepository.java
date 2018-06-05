@@ -108,7 +108,7 @@ public class GeneralInformationRepository implements GeneralInformationRepositor
 
         this.N = N;
         this.M = M;
-        this.brokerState = BrokerState.longName("OPTE");
+        this.brokerState = BrokerState.OPENING_THE_EVENT;
         this.spectatorState = new SpectatorState[N];
         this.spectatorMoney = new int[N];
         raceNumber = 0;
@@ -213,49 +213,49 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
             System.exit(1);
         }
 
-        switch (brokerState.getShortName()){
-            case "OPTE":
+        switch (brokerState){
+            case OPENING_THE_EVENT:
                 textToAppend.append(" OPTE ");
                 break;
-            case "ANNR":
+            case ANNOUNCING_NEXT_RACE:
                 textToAppend.append(" ANNR ");
                 break;
-            case "WAFB":
+            case WAITING_FOR_BETS:
                 textToAppend.append(" WAFB ");
                 break;
-            case "SUTR":
+            case SUPERVISING_THE_RACE:
                 textToAppend.append(" SUTR ");
                 break;
-            case "SETA":
+            case SETTLING_ACCOUNTS:
                 textToAppend.append(" SETA ");
                 break;
-            case "PHAB":
+            case PLAYING_HOST_AT_THE_BAR:
                 textToAppend.append(" PHAB ");
                 break;
             default:
                 textToAppend.append(" ---- ");
                 break;
         }
-        System.out.println(brokerState.getShortName());
+
         for (int i=0; i<M; i++){
             if (spectatorState[i]!=null)
-                switch (spectatorState[i].getShortName()){
-                    case "WFR":
+                switch (spectatorState[i]){
+                    case WAITING_FOR_A_RACE_TO_START:
                         textToAppend.append(" WFR");
                         break;
-                    case "ATH":
+                    case APPRAISING_THE_HORSES:
                         textToAppend.append(" ATH");
                         break;
-                    case "PAB":
+                    case PLACING_A_BET:
                         textToAppend.append(" PAB");
                         break;
-                    case "WAR":
+                    case WATCHING_A_RACE:
                         textToAppend.append(" WAR");
                         break;
-                    case "CTG":
+                    case COLLECTING_THE_GAINS:
                         textToAppend.append(" CTG");
                         break;
-                    case "CEL":
+                    case CELEBRATING:
                         textToAppend.append(" CEL");
                         break;
                     default:
@@ -281,20 +281,20 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
 
         for (int i=0; i<N; i++){
             if (horseJockeyState[i]!=null)
-                switch (horseJockeyState[i].getShortName()){
-                    case "ATS":
+                switch (horseJockeyState[i]){
+                    case AT_THE_STABLE:
                         textToAppend.append(" ATS ");
                         break;
-                    case "ATP":
+                    case AT_THE_PADDOCK:
                         textToAppend.append(" ATP ");
                         break;
-                    case "ASL":
+                    case AT_THE_START_LINE:
                         textToAppend.append(" ASL ");
                         break;
-                    case "RUN":
+                    case RUNNING:
                         textToAppend.append(" RUN ");
                         break;
-                    case "AFL":
+                    case AT_THE_FINNISH_LINE:
                         textToAppend.append(" AFL ");
                         break;
                     default:
@@ -400,22 +400,22 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
 
     /**
      * Used to set the Broker state
-     * @param shortName Broker state
+     * @param state Broker state
      */
     @Override
-    public synchronized void setBrokerState(String shortName) {
-        this.brokerState = BrokerState.longName(shortName);
+    public synchronized void setBrokerState(BrokerState state) {
+        this.brokerState = state;
         reportStatus();
     }
 
     /**
      * Used to set the Spectator State
-     * @param shortname state to set
+     * @param state state to set
      * @param index index of the Spectator
      */
     @Override
-    public synchronized void setSpectatorState(String shortname, int index) {
-        this.spectatorState[index] = SpectatorState.longName(shortname);
+    public synchronized void setSpectatorState(SpectatorState state, int index) {
+        this.spectatorState[index] = state;
     }
 
     /**
@@ -440,12 +440,12 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
 
     /**
      * Used to set the HorseJockey state
-     * @param shortname state to set
+     * @param state state to set
      * @param index HorseJockey's index
      */
     @Override
-    public synchronized void setHorseJockeyState(String shortname, int index) {
-        this.horseJockeyState[index] = HorseJockeyState.longName(shortname);
+    public synchronized void setHorseJockeyState(HorseJockeyState state, int index) {
+        this.horseJockeyState[index] = state;
         //reportStatus();
     }
 

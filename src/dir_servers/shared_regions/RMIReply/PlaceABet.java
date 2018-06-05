@@ -6,11 +6,19 @@ import java.io.Serializable;
 
 public class PlaceABet implements Serializable {
 
-    private int setSpecWallet;
+    private int specWallet;
     private SpectatorState state;
 
-    public PlaceABet(int setSpecWallet, SpectatorState state){
+    public PlaceABet(int specWallet, SpectatorState state){
         this.state=state;
-        this.setSpecWallet=setSpecWallet;
+        this.specWallet=specWallet;
+    }
+
+    public int getSpecWallet() {
+        return specWallet;
+    }
+
+    public SpectatorState getState() {
+        return state;
     }
 }

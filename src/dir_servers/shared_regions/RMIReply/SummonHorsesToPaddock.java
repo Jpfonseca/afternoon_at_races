@@ -10,4 +10,8 @@ public class SummonHorsesToPaddock implements Serializable {
     public SummonHorsesToPaddock(BrokerState brokerState) {
         this.brokerState = brokerState;
     }
+
+    public BrokerState getState() {
+        return brokerState;
+    }
 }

@@ -146,7 +146,7 @@ public class ControlCentre implements ControlCentreInterface {
         // Waiting for childs to die
         //((Aps)Thread.currentThread()).setBrokerState(BrokerState.PLAYING_HOST_AT_THE_BAR);
         try {
-            repoStub.setBrokerState(BrokerState.PLAYING_HOST_AT_THE_BAR.getShortName());
+            repoStub.setBrokerState(BrokerState.PLAYING_HOST_AT_THE_BAR);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -188,7 +188,7 @@ public class ControlCentre implements ControlCentreInterface {
             repoStub.setSpectatorBet(specId, -1, -1);
             if (currentRace>0 && currentRace != K+1) {
                 //spec.setState((SpectatorState.WAITING_FOR_A_RACE_TO_START));
-                repoStub.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START.getShortName(), specId);
+                repoStub.setSpectatorState(SpectatorState.WAITING_FOR_A_RACE_TO_START, specId);
                 //repoStub.reportStatus();
             }
         } catch (RemoteException e) {
@@ -234,7 +234,7 @@ public class ControlCentre implements ControlCentreInterface {
 
         //((Aps) Thread.currentThread()).setState((SpectatorState.WATCHING_A_RACE));
         try {
-            repoStub.setSpectatorState(SpectatorState.WATCHING_A_RACE.getShortName(), specId);
+            repoStub.setSpectatorState(SpectatorState.WATCHING_A_RACE, specId);
             repoStub.reportStatus();
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -265,7 +265,7 @@ public class ControlCentre implements ControlCentreInterface {
 
         //((Aps) Thread.currentThread()).setState((SpectatorState.CELEBRATING));
         try {
-            repoStub.setSpectatorState(SpectatorState.CELEBRATING.getShortName(),specId);
+            repoStub.setSpectatorState(SpectatorState.CELEBRATING,specId);
             repoStub.reportStatus();
         } catch (RemoteException e) {
             e.printStackTrace();

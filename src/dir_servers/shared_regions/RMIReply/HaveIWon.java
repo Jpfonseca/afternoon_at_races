@@ -11,4 +11,5 @@ public class HaveIWon implements Serializable {
     public boolean getStatus() {
         return status;
     }
+
 }

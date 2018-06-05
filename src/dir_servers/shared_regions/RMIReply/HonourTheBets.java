@@ -10,4 +10,8 @@ public class HonourTheBets implements Serializable {
     public HonourTheBets(BrokerState state){
         this.state=state;
     }
+
+    public BrokerState getState() {
+        return state;
+    }
 }

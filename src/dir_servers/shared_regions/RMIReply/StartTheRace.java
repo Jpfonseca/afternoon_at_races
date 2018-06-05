@@ -9,4 +9,8 @@ public class StartTheRace implements Serializable {
     public StartTheRace(BrokerState state){
         this.state=state;
     }
+
+    public BrokerState getState() {
+        return state;
+    }
 }

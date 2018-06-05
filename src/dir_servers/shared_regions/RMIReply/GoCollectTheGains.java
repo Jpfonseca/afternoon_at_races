@@ -6,10 +6,18 @@ import java.io.Serializable;
 
 public class GoCollectTheGains implements Serializable {
     private SpectatorState state;
-    private int setSpecWallet;
+    private int specWallet;
 
-    public GoCollectTheGains(int setSpecWallet, SpectatorState state){
-        this.setSpecWallet=setSpecWallet;
-        this.state=state;
+    public GoCollectTheGains(int specWallet, SpectatorState state){
+        this.specWallet = specWallet;
+        this.state = state;
+    }
+
+    public SpectatorState getState() {
+        return state;
+    }
+
+    public int getSpecWallet() {
+        return specWallet;
     }
 }

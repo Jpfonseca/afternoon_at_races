@@ -10,4 +10,8 @@ public class EntertainTheGuests implements Serializable {
     public EntertainTheGuests(BrokerState brokerState) {
         this.brokerState = brokerState;
     }
+
+    public BrokerState getState() {
+        return brokerState;
+    }
 }

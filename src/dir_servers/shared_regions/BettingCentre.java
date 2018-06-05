@@ -109,7 +109,7 @@ import RMIReply.HonourTheBets;
     public synchronized AcceptTheBets acceptTheBets(){
 
         try {
-            repoStub.setBrokerState(BrokerState.WAITING_FOR_BETS.getShortName());
+            repoStub.setBrokerState(BrokerState.WAITING_FOR_BETS);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -151,7 +151,7 @@ import RMIReply.HonourTheBets;
                     spectatorWinners[spectatorWinners.length-1] = j;
                 }
 
-        return new AreThereAnyWinners((winnersCount != 0));
+        return new AreThereAnyWinners(winnersCount != 0);
     }
 
     /**
@@ -162,7 +162,7 @@ import RMIReply.HonourTheBets;
 
 
         try {
-            repoStub.setBrokerState(BrokerState.SETTLING_ACCOUNTS.getShortName());
+            repoStub.setBrokerState(BrokerState.SETTLING_ACCOUNTS);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -202,7 +202,7 @@ import RMIReply.HonourTheBets;
         bets++;
 
         try {
-            repoStub.setSpectatorState(SpectatorState.PLACING_A_BET.getShortName(),specId);
+            repoStub.setSpectatorState(SpectatorState.PLACING_A_BET,specId);
             repoStub.setSpectatorBet(specId, temp, bet);
             repoStub.reportStatus();
         } catch (RemoteException e) {
@@ -250,7 +250,7 @@ import RMIReply.HonourTheBets;
         //TODO make spectator send its Id and Wallet
 
         try {
-            repoStub.setSpectatorState(SpectatorState.COLLECTING_THE_GAINS.getShortName(),specId);
+            repoStub.setSpectatorState(SpectatorState.COLLECTING_THE_GAINS,specId);
             repoStub.reportStatus();
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -289,7 +289,7 @@ import RMIReply.HonourTheBets;
 
         waitForSpectatorCollectsMoney =false;
         notifyAll();
-        return new GoCollectTheGains(specWallet+money_won,SpectatorState.COLLECTING_THE_GAINS);
+        return new GoCollectTheGains(specWallet+money_won, SpectatorState.COLLECTING_THE_GAINS);
     }
 
     /**

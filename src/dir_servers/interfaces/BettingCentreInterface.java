@@ -43,7 +43,7 @@ public interface BettingCentreInterface extends Remote {
     /**
      * This method is used by the spectators to collect their gains, if they have won something.
      */
-    GoCollectTheGains goCollectTheGains(int horseId,int horseOdd)throws RemoteException;
+    GoCollectTheGains goCollectTheGains(int horseId,int specWallet)throws RemoteException;
 
     /**
      * This method sets each HorseJockey odd in the BettingCentre

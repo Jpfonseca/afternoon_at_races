@@ -12,4 +12,8 @@ public class GoCheckHorses2 implements Serializable {
     public GoCheckHorses2(SpectatorState state){
         this.state=state;
     }
+
+    public SpectatorState getState() {
+        return state;
+    }
 }

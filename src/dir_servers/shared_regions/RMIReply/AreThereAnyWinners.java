@@ -11,4 +11,8 @@ public class AreThereAnyWinners implements Serializable {
     public boolean getWinnerStatus() {
         return winner_status;
     }
+
+    public boolean getWinner() {
+        return winner_status;
+    }
 }

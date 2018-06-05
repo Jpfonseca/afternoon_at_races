@@ -78,7 +78,7 @@ public class Stable implements StableInterface {
             e.printStackTrace();
         }
         try {
-            repoStub.setBrokerState(BrokerState.ANNOUNCING_NEXT_RACE.getShortName());
+            repoStub.setBrokerState(BrokerState.ANNOUNCING_NEXT_RACE);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -102,7 +102,7 @@ public class Stable implements StableInterface {
 
         try {
             repoStub.setHorseJockeyAgility(agility, hjNumber);
-            repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE.getShortName(), hjNumber);
+            repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE, hjNumber);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -127,7 +127,7 @@ public class Stable implements StableInterface {
         try {
             repoStub.setOdd(hjNumber, odd);
             //horse.setHjState((HorseJockeyState.AT_THE_PADDOCK));
-            repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_PADDOCK.getShortName(), hjNumber);
+            repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_PADDOCK, hjNumber);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -142,7 +142,7 @@ public class Stable implements StableInterface {
     public synchronized ProceedToStable2 proceedToStable2(int hjNumber){
         //((Aps)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_STABLE));
         try {
-            repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE.getShortName(), hjNumber);
+            repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE, hjNumber);
             //repo.reportStatus();
 
             repoStub.setIterationStep(hjNumber,-1);

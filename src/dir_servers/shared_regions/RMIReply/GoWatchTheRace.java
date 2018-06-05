@@ -10,4 +10,8 @@ public class GoWatchTheRace implements Serializable {
     public GoWatchTheRace(SpectatorState spectatorState) {
         this.spectatorState = spectatorState;
     }
+
+    public SpectatorState getSpectatorState() {
+        return spectatorState;
+    }
 }

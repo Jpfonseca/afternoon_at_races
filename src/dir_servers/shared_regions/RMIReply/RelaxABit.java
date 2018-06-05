@@ -10,4 +10,8 @@ public class RelaxABit implements Serializable {
     public RelaxABit(SpectatorState spectatorState) {
         this.spectatorState = spectatorState;
     }
+
+    public SpectatorState getSpectatorState() {
+        return spectatorState;
+    }
 }
