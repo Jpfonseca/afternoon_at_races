@@ -1,4 +1,4 @@
-package shared_regions;
+package interfaces;
 
 
 import shared_regions.Winners;

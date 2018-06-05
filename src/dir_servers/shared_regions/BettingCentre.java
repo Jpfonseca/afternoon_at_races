@@ -4,10 +4,11 @@ package shared_regions;
 
 import entities.BrokerState;
 import entities.SpectatorState;
-import extras.config;
 //import servers.Aps;
 
 
+import interfaces.BettingCentreInterface;
+import interfaces.GeneralInformationRepositoryInterface;
 import shared_regions.RMIReply.AcceptTheBets;
 import shared_regions.RMIReply.AreThereAnyWinners;
 import shared_regions.RMIReply.HonourTheBets;
@@ -108,7 +109,7 @@ import RMIReply.HonourTheBets;
     public synchronized AcceptTheBets acceptTheBets(){
 
         try {
-            repoStub.setBrokerState(BrokerState.WAITING_FOR_BETS);
+            repoStub.setBrokerState(BrokerState.WAITING_FOR_BETS.getShortName());
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -161,7 +162,7 @@ import RMIReply.HonourTheBets;
 
 
         try {
-            repoStub.setBrokerState(BrokerState.SETTLING_ACCOUNTS);
+            repoStub.setBrokerState(BrokerState.SETTLING_ACCOUNTS.getShortName());
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -201,7 +202,7 @@ import RMIReply.HonourTheBets;
         bets++;
 
         try {
-            repoStub.setSpectatorState(SpectatorState.PLACING_A_BET,specId);
+            repoStub.setSpectatorState(SpectatorState.PLACING_A_BET.getShortName(),specId);
             repoStub.setSpectatorBet(specId, temp, bet);
             repoStub.reportStatus();
         } catch (RemoteException e) {
@@ -249,7 +250,7 @@ import RMIReply.HonourTheBets;
         //TODO make spectator send its Id and Wallet
 
         try {
-            repoStub.setSpectatorState(SpectatorState.COLLECTING_THE_GAINS,specId);
+            repoStub.setSpectatorState(SpectatorState.COLLECTING_THE_GAINS.getShortName(),specId);
             repoStub.reportStatus();
         } catch (RemoteException e) {
             e.printStackTrace();

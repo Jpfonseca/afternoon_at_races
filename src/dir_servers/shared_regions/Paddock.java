@@ -1,6 +1,8 @@
 package shared_regions;
 
 
+import interfaces.GeneralInformationRepositoryInterface;
+import interfaces.PaddockInterface;
 import shared_regions.RMIReply.GoCheckHorses2;
 import entities.SpectatorState;
 
@@ -120,7 +122,7 @@ public class Paddock implements PaddockInterface {
         //TODO send spectator id
 
         try {
-            repoStub.setSpectatorState(SpectatorState.APPRAISING_THE_HORSES,specId);
+            repoStub.setSpectatorState(SpectatorState.APPRAISING_THE_HORSES.getShortName(),specId);
             repoStub.reportStatus();
         } catch (RemoteException e) {
             e.printStackTrace();

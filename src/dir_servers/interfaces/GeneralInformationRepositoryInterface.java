@@ -1,4 +1,4 @@
-package shared_regions;
+package interfaces;
 import entities.*;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -16,16 +16,17 @@ public interface GeneralInformationRepositoryInterface extends Remote {
 
     /**
      * Used to set the Broker state
-     * @param brokerState Broker state
+     * @param shortName Broker state
      */
-    void setBrokerState(BrokerState brokerState) throws RemoteException;
+
+    void setBrokerState(String shortName) throws RemoteException;
 
     /**
      * Used to set the Spectator State
-     * @param state state to set
+     * @param shortName state to set
      * @param index index of the Spectator
      */
-    void setSpectatorState(SpectatorState state, int index) throws RemoteException;
+    void setSpectatorState(String shortName, int index) throws RemoteException;
 
     /**
      * Used to set the Spectator amount of money in the wallet
@@ -42,10 +43,10 @@ public interface GeneralInformationRepositoryInterface extends Remote {
 
     /**
      * Used to set the HorseJockey state
-     * @param state state to set
+     * @param shortName state to set
      * @param index HorseJockey's index
      */
-    void setHorseJockeyState(HorseJockeyState state, int index) throws RemoteException;
+    void setHorseJockeyState(String shortName, int index) throws RemoteException;
 
     /**
      * Used to set the HorseJockey agility

@@ -1,7 +1,8 @@
-package shared_regions;
+package interfaces;
 
 
 import shared_regions.RMIReply.*;
+import shared_regions.Winners;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

@@ -3,7 +3,8 @@ package shared_regions;
 //import clients.GeneralInformationRepositoryStub;
 import entities.BrokerState;
 import entities.HorseJockeyState;
-import extras.config;
+import interfaces.GeneralInformationRepositoryInterface;
+import interfaces.StableInterface;
 import shared_regions.RMIReply.ProceedToStable;
 import shared_regions.RMIReply.ProceedToStable2;
 import shared_regions.RMIReply.SummonHorsesToPaddock;
@@ -15,7 +16,7 @@ import java.rmi.RemoteException;
 /**
  * This class specifies the methods that will be executed on the Stable .
  */
-public class Stable implements StableInterface{
+public class Stable implements StableInterface {
 
     /**
      * Total competitors per race
@@ -77,7 +78,7 @@ public class Stable implements StableInterface{
             e.printStackTrace();
         }
         try {
-            repoStub.setBrokerState(BrokerState.ANNOUNCING_NEXT_RACE);
+            repoStub.setBrokerState(BrokerState.ANNOUNCING_NEXT_RACE.getShortName());
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -101,7 +102,7 @@ public class Stable implements StableInterface{
 
         try {
             repoStub.setHorseJockeyAgility(agility, hjNumber);
-            repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE, hjNumber);
+            repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE.getShortName(), hjNumber);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -126,7 +127,7 @@ public class Stable implements StableInterface{
         try {
             repoStub.setOdd(hjNumber, odd);
             //horse.setHjState((HorseJockeyState.AT_THE_PADDOCK));
-            repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_PADDOCK, hjNumber);
+            repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_PADDOCK.getShortName(), hjNumber);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -141,7 +142,7 @@ public class Stable implements StableInterface{
     public synchronized ProceedToStable2 proceedToStable2(int hjNumber){
         //((Aps)Thread.currentThread()).setHjState((HorseJockeyState.AT_THE_STABLE));
         try {
-            repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE, hjNumber);
+            repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_STABLE.getShortName(), hjNumber);
             //repo.reportStatus();
 
             repoStub.setIterationStep(hjNumber,-1);

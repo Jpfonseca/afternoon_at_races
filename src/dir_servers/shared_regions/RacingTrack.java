@@ -2,8 +2,9 @@ package shared_regions;
 
 import entities.BrokerState;
 import entities.HorseJockeyState;
-import extras.config;
 
+import interfaces.GeneralInformationRepositoryInterface;
+import interfaces.RacingTrackInterface;
 import shared_regions.RMIReply.StartTheRace;
 import shared_regions.RMIReply.ProceedToStartLine;
 import shared_regions.RMIReply.HasFinishLineBeenCrossed;
@@ -118,7 +119,7 @@ public class RacingTrack implements RacingTrackInterface {
     public synchronized StartTheRace startTheRace(int k){
 
         try {
-            repoStub.setBrokerState(BrokerState.SUPERVISING_THE_RACE);
+            repoStub.setBrokerState(BrokerState.SUPERVISING_THE_RACE.getShortName());
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -148,7 +149,7 @@ public class RacingTrack implements RacingTrackInterface {
     public synchronized ProceedToStartLine proceedToStartLine1(int hj_number) {
 
         try {
-            repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_START_LINE, hj_number);
+            repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_START_LINE.getShortName(), hj_number);
             iterations[hj_number] = 0;
             HJPos[hj_number] = 0;
             repoStub.setIterationStep(hj_number, iterations[hj_number]);
@@ -173,7 +174,7 @@ public class RacingTrack implements RacingTrackInterface {
             }
 
         try {
-            repoStub.setHorseJockeyState(HorseJockeyState.RUNNING,hj_number);
+            repoStub.setHorseJockeyState(HorseJockeyState.RUNNING.getShortName(),hj_number);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -255,7 +256,7 @@ public class RacingTrack implements RacingTrackInterface {
 
 
         try {
-            repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_FINNISH_LINE,fifo[0]);
+            repoStub.setHorseJockeyState(HorseJockeyState.AT_THE_FINNISH_LINE.getShortName(),fifo[0]);
             repoStub.reportStatus();
         } catch (RemoteException e) {
             e.printStackTrace();

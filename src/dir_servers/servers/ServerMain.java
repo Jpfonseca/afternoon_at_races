@@ -1,10 +1,9 @@
 package servers;
 
 import extras.config;
-import interfaces.Register;
+import interfaces.*;
 import shared_regions.*;
 
-import java.io.Serializable;
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;

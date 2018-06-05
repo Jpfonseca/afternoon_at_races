@@ -1,9 +1,10 @@
 package shared_regions;
 
-import extras.config;
 import genclass.GenericIO;
 import genclass.TextFile;
 import entities.*;
+import interfaces.GeneralInformationRepositoryInterface;
+
 /**
  * General Repository
  */
@@ -107,7 +108,7 @@ public class GeneralInformationRepository implements GeneralInformationRepositor
 
         this.N = N;
         this.M = M;
-        this.brokerState = BrokerState.OPENING_THE_EVENT;
+        this.brokerState = BrokerState.longName("OPTE");
         this.spectatorState = new SpectatorState[N];
         this.spectatorMoney = new int[N];
         raceNumber = 0;
@@ -212,49 +213,49 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
             System.exit(1);
         }
 
-        switch (brokerState){
-            case OPENING_THE_EVENT:
+        switch (brokerState.getShortName()){
+            case "OPTE":
                 textToAppend.append(" OPTE ");
                 break;
-            case ANNOUNCING_NEXT_RACE:
+            case "ANNR":
                 textToAppend.append(" ANNR ");
                 break;
-            case WAITING_FOR_BETS:
+            case "WAFB":
                 textToAppend.append(" WAFB ");
                 break;
-            case SUPERVISING_THE_RACE:
+            case "SUTR":
                 textToAppend.append(" SUTR ");
                 break;
-            case SETTLING_ACCOUNTS:
+            case "SETA":
                 textToAppend.append(" SETA ");
                 break;
-            case PLAYING_HOST_AT_THE_BAR:
+            case "PHAB":
                 textToAppend.append(" PHAB ");
                 break;
             default:
                 textToAppend.append(" ---- ");
                 break;
         }
-
+        System.out.println(brokerState.getShortName());
         for (int i=0; i<M; i++){
             if (spectatorState[i]!=null)
-                switch (spectatorState[i]){
-                    case WAITING_FOR_A_RACE_TO_START:
+                switch (spectatorState[i].getShortName()){
+                    case "WFR":
                         textToAppend.append(" WFR");
                         break;
-                    case APPRAISING_THE_HORSES:
+                    case "ATH":
                         textToAppend.append(" ATH");
                         break;
-                    case PLACING_A_BET:
+                    case "PAB":
                         textToAppend.append(" PAB");
                         break;
-                    case WATCHING_A_RACE:
+                    case "WAR":
                         textToAppend.append(" WAR");
                         break;
-                    case COLLECTING_THE_GAINS:
+                    case "CTG":
                         textToAppend.append(" CTG");
                         break;
-                    case CELEBRATING:
+                    case "CEL":
                         textToAppend.append(" CEL");
                         break;
                     default:
@@ -280,20 +281,20 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
 
         for (int i=0; i<N; i++){
             if (horseJockeyState[i]!=null)
-                switch (horseJockeyState[i]){
-                    case AT_THE_STABLE:
+                switch (horseJockeyState[i].getShortName()){
+                    case "ATS":
                         textToAppend.append(" ATS ");
                         break;
-                    case AT_THE_PADDOCK:
+                    case "ATP":
                         textToAppend.append(" ATP ");
                         break;
-                    case AT_THE_START_LINE:
+                    case "ASL":
                         textToAppend.append(" ASL ");
                         break;
-                    case RUNNING:
+                    case "RUN":
                         textToAppend.append(" RUN ");
                         break;
-                    case AT_THE_FINNISH_LINE:
+                    case "AFL":
                         textToAppend.append(" AFL ");
                         break;
                     default:
@@ -399,22 +400,22 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
 
     /**
      * Used to set the Broker state
-     * @param brokerState Broker state
+     * @param shortName Broker state
      */
     @Override
-    public synchronized void setBrokerState(BrokerState brokerState) {
-        this.brokerState = brokerState;
+    public synchronized void setBrokerState(String shortName) {
+        this.brokerState = BrokerState.longName(shortName);
         reportStatus();
     }
 
     /**
      * Used to set the Spectator State
-     * @param state state to set
+     * @param shortname state to set
      * @param index index of the Spectator
      */
     @Override
-    public synchronized void setSpectatorState(SpectatorState state, int index) {
-        this.spectatorState[index] = state;
+    public synchronized void setSpectatorState(String shortname, int index) {
+        this.spectatorState[index] = SpectatorState.longName(shortname);
     }
 
     /**
@@ -428,7 +429,7 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
     }
 
     /**
-     * Used to set the current race number
+     * Used to set the current race numberstate
      * @param raceNumber race number
      */
     @Override
@@ -439,12 +440,12 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
 
     /**
      * Used to set the HorseJockey state
-     * @param state state to set
+     * @param shortname state to set
      * @param index HorseJockey's index
      */
     @Override
-    public synchronized void setHorseJockeyState(HorseJockeyState state, int index) {
-        this.horseJockeyState[index] = state;
+    public synchronized void setHorseJockeyState(String shortname, int index) {
+        this.horseJockeyState[index] = HorseJockeyState.longName(shortname);
         //reportStatus();
     }
 
@@ -525,10 +526,10 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
      * Returns current instance of GeneralInformationRepository
      * @return instance of GeneralInformationRepository
      */
-    public static GeneralInformationRepository getInstance(){
-        if (instance==null)
-            instance = new GeneralInformationRepository(config.logName, config.K, config.N, config.M);
-
-        return instance;
-    }
+//    public static GeneralInformationRepository getInstance(){
+//        if (instance==null)
+//            instance = new GeneralInformationRepository(config.logName, config.K, config.N, config.M);
+//
+//        return instance;
+//    }
 }
