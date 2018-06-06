@@ -8,51 +8,31 @@ import java.io.Serializable;
 public enum BrokerState implements Serializable {
 
     /** initial state (transition) */
-    OPENING_THE_EVENT("OPTE"),
+    OPENING_THE_EVENT,
 
     /** blocking state
      * the broker is waken up by the operation goCheckHorses of the last
      * spectator to reach the paddock */
-    ANNOUNCING_NEXT_RACE("ANNR"),
+    ANNOUNCING_NEXT_RACE,
 
     /** blocking state with transition
      *the broker is waken up by the operation placeABet of each of the spectators
      *and blocks again after the bet is accepted; transition only occurs after the
      *betting of all spectators */
-    WAITING_FOR_BETS("WAFB"),
+    WAITING_FOR_BETS,
 
     /** blocking state
      * the broker is waken up by the operation makeAMove of the last pair
      * horse / jockey crossing the finishing line */
-    SUPERVISING_THE_RACE("SUTR"),
+    SUPERVISING_THE_RACE,
 
     /** blocking state with transition
      * the broker is waken up by the operation goCollectTheGains of each
      * winning spectator and blocks again after honouring the bet; transition
      * only occurs when all spectators have been paid */
-    SETTLING_ACCOUNTS("SETA"),
+    SETTLING_ACCOUNTS,
 
     /** final state (transition) */
-    PLAYING_HOST_AT_THE_BAR("PHATB");
-
-
-
-    private String shortName=null;
-
-    BrokerState(String s){
-        this.shortName=s;
-    }
-    public String getShortName() {
-        return shortName;
-    }
-
-    public static BrokerState longName(String shortName) {
-        for(BrokerState e : BrokerState.values())
-            if(shortName.equals(e.getShortName()))
-                return e;
-
-        return null;
-    }
-
+    PLAYING_HOST_AT_THE_BAR
 
 }
