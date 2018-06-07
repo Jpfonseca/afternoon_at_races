@@ -6,7 +6,7 @@ echo "Removing Old Files"
 rm */*.class
 
 echo "Compiling Files"
-javac */*.java
+javac -cp "$PLANCK_GEN":. */*.java
 
 echo "Copying *.class files to dir_registry"
 

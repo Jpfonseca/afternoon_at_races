@@ -95,6 +95,12 @@ public class ServerMain {
                     } catch (AlreadyBoundException e) {
                         System.out.println("There is an instance of the Stable Stub already bounded on the RMI Registry: " + e.getMessage());
                         e.printStackTrace();
+                        try {
+                            reg.rebind(nameEntryObject,stableStub);
+                        } catch (RemoteException e1) {
+                            e1.printStackTrace();
+                            System.exit(1);
+                        }
                         System.exit(1);
                     }
 
@@ -138,6 +144,12 @@ public class ServerMain {
                         System.exit(1);
                     } catch (AlreadyBoundException e) {
                         System.out.println("There is an instance of the CCWS Stub already bounded on the RMI Registry: " + e.getMessage());
+                        try {
+                            reg.rebind(nameEntryObject,ccwsStub);
+                        } catch (RemoteException e1) {
+                            e1.printStackTrace();
+                            System.exit(1);
+                        }
                         System.exit(1);
                     }
 
@@ -183,6 +195,12 @@ public class ServerMain {
                         System.exit(1);
                     }catch (AlreadyBoundException e){
                         System.out.println("There is an instance of the Paddock Stub already bounded on the RMI Registry: " + e.getMessage());
+                        try {
+                            reg.rebind(nameEntryObject,pdStub);
+                        } catch (RemoteException e1) {
+                            e1.printStackTrace();
+                            System.exit(1);
+                        }
                         System.exit(1);
                     }
 
@@ -229,6 +247,12 @@ public class ServerMain {
                         System.exit(1);
                     }catch (AlreadyBoundException e){
                         System.out.println("There is an instance of the Racing Track Stub already bounded on the RMI Registry: " + e.getMessage());
+                        try {
+                            reg.rebind(nameEntryObject,rtStub);
+                        } catch (RemoteException e1) {
+                            e1.printStackTrace();
+                            System.exit(1);
+                        }
                         System.exit(1);
                     }
                     System.out.println("The Racing Track was successfully registered on the RMI Registry");
@@ -270,11 +294,15 @@ public class ServerMain {
                         System.exit(1);
                     }catch (AlreadyBoundException e){
                         System.out.println("There is an instance of the Betting Centr Stub already bounded on the RMI Registry: " + e.getMessage());
+                        try {
+                            reg.rebind(nameEntryObject,bcStub);
+                        } catch (RemoteException e1) {
+                            e1.printStackTrace();
+                            System.exit(1);
+                        }
                         System.exit(1);
                     }
                     System.out.println("The Betting Centre was successfully registered on the RMI Registry");
-
-
                     break;
 
                 case config.repoServerPort:             // Repo portNumb = 22225
@@ -314,11 +342,14 @@ public class ServerMain {
                         e.printStackTrace ();
                         System.exit(1);
                     } catch (AlreadyBoundException e) {
-                        System.out.println("There is an instance of the Betting Centr Stub already bounded on the RMI Registry: " + e.getMessage());
-                        e.printStackTrace ();
-                        System.exit(1);
+                        System.out.println("There is an instance of the General Repository Stub already bounded on the RMI Registry: " + e.getMessage());
+                        try {
+                            reg.rebind(nameEntryObject,repoStub);
+                        } catch (RemoteException e1) {
+                            e1.printStackTrace();
+                            System.exit(1);
+                        }
                     }
-
                     System.out.println("The General Repository was successfully registered on the RMI Registry");
 
                     break;
