@@ -30,4 +30,12 @@ public interface StableInterface extends Remote {
      * Method used by the HorseJockeys when they finished running to proceed back to the Stable
      */
     ProceedToStable2 proceedToStable2(int hjNumber) throws RemoteException;
+
+
+    /**
+     * Method used by several entities to send a shutdown signal to the Shared region server
+     * @param clientID Id of the Client who asked the shutdown
+     * @throws RemoteException
+     */
+    void shutdown(int clientID) throws RemoteException;
 }

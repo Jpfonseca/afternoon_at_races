@@ -71,6 +71,10 @@ public class RacingTrack implements RacingTrackInterface {
      */
     private int maxStanding;
 
+    private int shutdownRequest;
+    private boolean shutdown;
+
+
     /**
      * Instance of RacingTrack
      * @serialField instance
@@ -317,6 +321,27 @@ public class RacingTrack implements RacingTrackInterface {
     public Winners[] reportResults(){
         //Winners[] temp = winners;
         return winners;
+    }
+
+    @Override
+    public synchronized void shutdown(int clientID){
+        if (shutdownRequest!=0){
+            shutdownRequest=0;
+            this.shutdown=true;
+            notifyAll();
+        }
+    }
+
+    public synchronized boolean isShutdown() {
+
+        while (!shutdown)
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                System.out.println("RT InterruptedException: "+e);
+            }
+        return shutdown;
+
     }
 
 }

@@ -56,6 +56,11 @@ public class ControlCentre implements ControlCentreInterface {
      * @serial M
      */
     private int M;
+
+    private int [] shutdownRequests;
+
+    private boolean shutdown=false;
+
     /**
      * General Repository Stub
      * @serial repo
@@ -87,7 +92,7 @@ public class ControlCentre implements ControlCentreInterface {
         this.waitForResults=true;
         this.waitForRaceToFinish=true;
         this.repoStub = repoStub;
-
+        this.shutdownRequests=new int[]{1,4};
         totalSpec=0;
     }
 
@@ -284,14 +289,24 @@ public class ControlCentre implements ControlCentreInterface {
         notifyAll();
     }
 
-    /**
-     * Returns current instance of ControlCentre
-     * @return instance of ControlCentre
-     */
-//    public static ControlCentre getInstance(){
-//        if (instance==null)
-//            instance = new ControlCentre(config.K, config.M);
-//
-//        return instance;
-//    }
+    @Override
+    public synchronized void shutdown(int clientID){
+        if (shutdownRequests[clientID]!=0){
+            this.shutdownRequests[clientID]--;
+        }
+        else if(shutdownRequests[1]==0 &&shutdownRequests[0]==0){
+            this.shutdown=true;
+            notifyAll();
+        }
+    }
+
+    public synchronized boolean isShutdown() {
+        while (!shutdown)
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                System.out.println("REPO InterruptedException: "+e);
+            }
+        return shutdown;
+    }
 }

@@ -151,18 +151,27 @@ public class Broker extends Thread{
                     }
                     System.out.println("HorseJockey "+(j+1)+" ended");
                 }
-            }
 
+            }
             this.setBrokerState(ccwsStub.entertainTheGuests().getState());
 
-            //stStub.shutdown();
-            //ccwsStub.shutdown();
-            //bcStub.shutdown();
-            //rtStub.shutdown();
-            //repoStub.shutdown();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+
+        try {
+            bcStub.shutdown(0);
+            rtStub.shutdown(0);
+            stStub.shutdown(0);
+            ccwsStub.shutdown(0);
+            repoStub.shutdown(0);
+        } catch (RemoteException e) {
+            System.out.println("A exception has occurred on the Broker while shutting down the servers : "+ e.getMessage());
+            e.printStackTrace();
+        }
+
+
+
     }
 
     /**

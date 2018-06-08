@@ -55,6 +55,10 @@ public class Paddock implements PaddockInterface {
      */
     private static Paddock instance;
 
+    private int shutdownRequest;
+    private boolean shutdown;
+
+
     /**
      * Paddock Constructor
      * @param N Number of HorseJockeys
@@ -64,6 +68,7 @@ public class Paddock implements PaddockInterface {
         this.N = N;
         this.M = M;
         this.repoStub = repoStub;
+        this.shutdownRequest=4;
     }
 
     /**
@@ -147,14 +152,25 @@ public class Paddock implements PaddockInterface {
         return new GoCheckHorses2(SpectatorState.APPRAISING_THE_HORSES);
     }
 
-    /**
-     * Returns current instance of Paddock
-     * @return instance of Paddock
-     */
-//    public static Paddock getInstance(){
-//        if (instance==null)
-//            instance = new Paddock(config.N, config.M);
-//
-//        return instance;
-//    }
+    @Override
+    public synchronized void shutdown(int clientID){
+        if (shutdownRequest==0){
+            shutdownRequest=0;
+            this.shutdown=true;
+            notifyAll();
+        }else{
+            shutdownRequest--;
+        }
+    }
+
+    public synchronized boolean isShutdown() {
+        while (!shutdown)
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                System.out.println("Paddock InterruptedException: "+e);
+            }
+        return shutdown;
+    }
+
 }

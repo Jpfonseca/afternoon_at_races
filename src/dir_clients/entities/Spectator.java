@@ -5,6 +5,8 @@ import shared_regions.RMIReply.*;
 import shared_regions.RMIReply.GoCollectTheGains;
 import shared_regions.RMIReply.PlaceABet;
 
+import java.rmi.RemoteException;
+
 /**
  * Spectator Entity
  */
@@ -106,17 +108,21 @@ public class Spectator extends Thread{
                 rmiReply3 = ccwsStub.waitForNextRace(specId);
                 this.setState(rmiReply3.getSpectatorState());
             }
-
         this.setState(ccwsStub.relaxABit(specId).getSpectatorState());
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        try {
+            ccwsStub.shutdown(1);
+            bcStub.shutdown(1);
+            pdStub.shutdown(1);
+            repoStub.shutdown(1);
+        } catch (RemoteException e) {
+            System.out.println("A exception has occurred on the Spectator while shutting down the servers : "+ e.getMessage());
+            e.printStackTrace();
+        }
 
-        //ccwsStub.shutdown();
-        //bcStub.shutdown();
-        //pdStub.shutdown();
-        //repoStub.shutdown();
     }
 
     /**

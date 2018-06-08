@@ -5,6 +5,7 @@ import interfaces.*;
 import shared_regions.*;
 
 import java.rmi.AlreadyBoundException;
+import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -104,7 +105,19 @@ public class ServerMain {
                         System.exit(1);
                     }
 
-                    System.out.println("The Stable was successfully registered on the RMI Registry");
+
+                    while (!st.isShutdown());
+                    System.out.println("Waiting for unbind");
+                    serverShutdown(reg,nameEntryObject);
+
+                    System.out.println("Unbind Sucessfully done");
+
+                    try {
+                        UnicastRemoteObject.unexportObject(st,true);
+                    } catch (NoSuchObjectException e) {
+                        System.out.println("Exception occurred while unexporting Object REPO in: "+e.getMessage());
+                        e.printStackTrace();
+                    }
 
                     break;
                 case config.controlCentreServerPort:    // ControlCentre portNumb = 22221
@@ -154,6 +167,20 @@ public class ServerMain {
                     }
 
                     System.out.println("The CCWS was successfully registered on the RMI Registry");
+
+                    while (!ccws.isShutdown());
+                    System.out.println("Waiting for unbind");
+                    serverShutdown(reg,nameEntryObject);
+
+                    System.out.println("Unbind Sucessfully done");
+
+
+                    try {
+                        UnicastRemoteObject.unexportObject(ccws,true);
+                    } catch (NoSuchObjectException e) {
+                        System.out.println("Exception occurred while unexporting Object REPO in: "+e.getMessage());
+                        e.printStackTrace();
+                    }
 
                     break;
                 case config.paddockServerPort:          // Paddock portNumb = 22222
@@ -205,6 +232,20 @@ public class ServerMain {
                     }
 
                     System.out.println("The Paddock was successfully registered on the RMI Registry");
+
+                    while (!pd.isShutdown());
+                    System.out.println("Waiting for unbind");
+                    serverShutdown(reg,nameEntryObject);
+
+                    System.out.println("Unbind Sucessfully done");
+
+                    try {
+                        UnicastRemoteObject.unexportObject(pd,true);
+                    } catch (NoSuchObjectException e) {
+                        System.out.println("Exception occurred while unexporting Object REPO in: "+e.getMessage());
+                        e.printStackTrace();
+                    }
+
                     break;
 
                 case config.racingTrackServerPort:      // RacingTrack portNumb = 22223
@@ -257,6 +298,20 @@ public class ServerMain {
                     }
                     System.out.println("The Racing Track was successfully registered on the RMI Registry");
 
+                    while (!rt.isShutdown());
+                    System.out.println("Waiting for unbind");
+
+                    serverShutdown(reg,nameEntryObject);
+                    System.out.println("Unbind Sucessfully done");
+
+                    try {
+                        UnicastRemoteObject.unexportObject(rt, true);
+                    } catch (NoSuchObjectException e) {
+                        System.out.println("Exception occurred while unexporting Object REPO in: "+e.getMessage());
+                        e.printStackTrace();
+                    }
+                    System.out.println("Unexport Sucessfully done");
+
                     break;
                 case config.bettingCentreServerPort:    // BettingCentre portNumb = 22224
                     /** find the InformationRepository  on the RMI service registry**/
@@ -303,6 +358,23 @@ public class ServerMain {
                         System.exit(1);
                     }
                     System.out.println("The Betting Centre was successfully registered on the RMI Registry");
+
+                    while (!bc.isShutdown());
+
+                    System.out.println("Waiting for unbind");
+
+                    serverShutdown(reg,nameEntryObject);
+                    System.out.println("Unbind Sucessfully done");
+
+
+                    try {
+                            UnicastRemoteObject.unexportObject(bc,true);
+                    } catch (NoSuchObjectException e) {
+                        System.out.println("Exception occurred while unexporting Object REPO in: "+e.getMessage());
+                        e.printStackTrace();
+                    }
+                    System.out.println("Unexport Sucessfully done");
+
                     break;
 
                 case config.repoServerPort:             // Repo portNumb = 22225
@@ -352,6 +424,21 @@ public class ServerMain {
                     }
                     System.out.println("The General Repository was successfully registered on the RMI Registry");
 
+
+                    while (!repo.isShutdown());
+
+                    System.out.println("Waiting for unbind");
+
+                    serverShutdown(reg,nameEntryObject);
+                    System.out.println("Unbind Sucessfully done");
+
+                    try {
+                            UnicastRemoteObject.unexportObject(repo,true);
+                    } catch (NoSuchObjectException e) {
+                        System.out.println("Exception occurred while unexporting Object REPO in: "+e.getMessage());
+                        e.printStackTrace();
+                    }
+                    System.out.println("Unexport Sucessfully done");
                     break;
                 default:
                     break;
@@ -410,6 +497,20 @@ public class ServerMain {
         }
         System.out.println("The Repo Stub was found the RMI registry");
         return repoStub;
+    }
+
+    private static void serverShutdown(Register reg,String nameEntryObject){
+        try {
+            reg.unbind(nameEntryObject);
+        }catch (RemoteException e) {
+            System.out.println("There was an exception while unbinding the REPO Interface " + e.getMessage());
+            e.printStackTrace();
+            System.exit(1);
+        } catch (NotBoundException e) {
+            System.out.println("There is no instance of the REPO Stub bounded on the RMI Registry: " + e.getMessage());
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 
 }

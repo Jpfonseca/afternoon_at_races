@@ -40,6 +40,13 @@ public class Stable implements StableInterface {
     private int totalAgility;
 
     /**
+     * Variable to store the remaining shutdowns of the servers
+     */
+    private int [] shutdownRequests;
+
+    private boolean shutdown=false;
+
+    /**
      * General Repository Stub
      * @serial repoStub
      */
@@ -62,6 +69,7 @@ public class Stable implements StableInterface {
         this.queueHJ = 0;
         this.repoStub = repoStub ;
         this.totalAgility=0;
+        this.shutdownRequests=new int[]{1,4};
     }
 
     /**
@@ -169,5 +177,27 @@ public class Stable implements StableInterface {
 //
 //        return instance;
 //    }
+
+    @Override
+    public synchronized void shutdown(int clientID){
+        if (shutdownRequests[clientID]!=0){
+            this.shutdownRequests[clientID]--;
+        }
+        else if(shutdownRequests[1]==0 &&shutdownRequests[0]==0){
+            this.shutdown=true;
+            notifyAll();
+        }
+    }
+
+    public synchronized boolean isShutdown() {
+        while (!shutdown)
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                System.out.println("ST InterruptedException: "+e);
+            }
+        return shutdown;
+    }
+
 
 }

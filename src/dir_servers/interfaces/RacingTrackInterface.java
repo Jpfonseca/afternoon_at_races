@@ -51,4 +51,12 @@ public interface RacingTrackInterface extends Remote {
      * @return winners
      */
     Winners[] reportResults() throws RemoteException;
+
+    /**
+     * Method used by several entities to send a shutdown signal to the Shared region server
+     * @param clientID Id of the Client who asked the shutdown
+     * @throws RemoteException
+     */
+    void shutdown(int clientID) throws RemoteException;
+
 }

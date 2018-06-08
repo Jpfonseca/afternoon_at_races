@@ -75,6 +75,12 @@ public class BettingCentre implements BettingCentreInterface {
      * @serial waitForWinnerCall
      */
     private boolean waitForWinnerCall = true;
+
+    private int [] shutdownRequests;
+
+    private boolean shutdown=false;
+
+
     /**
      * General Repository Stub
      * @serial repo
@@ -98,6 +104,8 @@ import RMIReply.HonourTheBets;
         this.betAmounts=new BetAmount[totalSpectators];
         this.odd=new int[totalSpectators];
         this.repoStub = repoStub;
+        this.shutdownRequests=new int[]{1,4};
+
         for(int i=0; i<M; i++)
             fifo = new int[totalSpectators];
     }
@@ -300,14 +308,25 @@ import RMIReply.HonourTheBets;
         this.odd[horseId] = horseOdd;
     }
 
-    /**
-     * Returns current instance of BettingCentre
-     * @return instance of BettingCentre
-     */
-//    public static BettingCentre getInstance(){
-//        if (instance==null)
-//            instance = new BettingCentre(config.M);
-//
-//        return instance;
-//    }
+    @Override
+    public synchronized void shutdown(int clientID){
+        if (shutdownRequests[clientID]!=0){
+            shutdownRequests[clientID]=shutdownRequests[clientID]-1;
+        }
+        else if(shutdownRequests[1]==0 &&shutdownRequests[0]==0){
+            this.shutdown=true;
+            notifyAll();
+        }
+    }
+
+    public synchronized boolean isShutdown()
+    {
+        while (!shutdown)
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                System.out.println("BC InterruptedException: "+e);
+            }
+        return shutdown;
+    }
 }

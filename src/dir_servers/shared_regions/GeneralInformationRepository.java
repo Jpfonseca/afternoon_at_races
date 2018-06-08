@@ -90,6 +90,10 @@ public class GeneralInformationRepository implements GeneralInformationRepositor
      */
     private int M;
 
+    private int []shutdownRequests;
+    private boolean shutdown;
+
+
     /**
      * Instance of GeneralInformationRepository
      * @serialField instance
@@ -120,6 +124,7 @@ public class GeneralInformationRepository implements GeneralInformationRepositor
         this.standingPos = new int[N];
         this.horseJockeyState = new HorseJockeyState[M];
         this.hjAgility = new int[N];
+        this.shutdownRequests=new int[]{1,4};
 
         for (int i=0; i<N; i++){
             spectatorMoney[i] = -1;
@@ -522,14 +527,25 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
         this.standingPos[horse] = standing;
     }
 
-    /**
-     * Returns current instance of GeneralInformationRepository
-     * @return instance of GeneralInformationRepository
-     */
-//    public static GeneralInformationRepository getInstance(){
-//        if (instance==null)
-//            instance = new GeneralInformationRepository(config.logName, config.K, config.N, config.M);
-//
-//        return instance;
-//    }
+    @Override
+    public synchronized void shutdown(int clientID){
+        if (shutdownRequests[clientID]!=0){
+            this.shutdownRequests[clientID]--;
+        }
+        else if(shutdownRequests[1]==0 &&shutdownRequests[0]==0){
+            this.shutdown=true;
+            notifyAll();
+        }
+    }
+
+    public synchronized boolean isShutdown() {
+        while (!shutdown)
+        try {
+            wait();
+        } catch (InterruptedException e) {
+            System.out.println("REPO InterruptedException: "+e);
+        }
+        return shutdown;
+    }
+
 }
