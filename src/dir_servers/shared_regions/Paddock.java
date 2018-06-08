@@ -154,12 +154,11 @@ public class Paddock implements PaddockInterface {
 
     @Override
     public synchronized void shutdown(int clientID){
+        shutdownRequest--;
         if (shutdownRequest==0){
             shutdownRequest=0;
             this.shutdown=true;
             notifyAll();
-        }else{
-            shutdownRequest--;
         }
     }
 

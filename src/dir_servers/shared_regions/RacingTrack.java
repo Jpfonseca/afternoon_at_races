@@ -98,6 +98,7 @@ public class RacingTrack implements RacingTrackInterface {
         this.winners = new Winners[N];
         this.repoStub = repoStub;
         this.maxStanding = 0;
+        this.shutdownRequest = 1;
 
         for (int i=0; i<K; i++)
             D[i] = DMax - (int) (Math.random() * DMin);
@@ -325,11 +326,9 @@ public class RacingTrack implements RacingTrackInterface {
 
     @Override
     public synchronized void shutdown(int clientID){
-        if (shutdownRequest!=0){
-            shutdownRequest=0;
-            this.shutdown=true;
-            notifyAll();
-        }
+        shutdownRequest=0;
+        this.shutdown=true;
+        notifyAll();
     }
 
     public synchronized boolean isShutdown() {
