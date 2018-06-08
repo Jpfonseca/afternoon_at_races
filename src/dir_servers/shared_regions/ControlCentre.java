@@ -294,7 +294,7 @@ public class ControlCentre implements ControlCentreInterface {
         if (shutdownRequests[clientID]!=0){
             this.shutdownRequests[clientID]--;
         }
-        else if(shutdownRequests[1]==0 &&shutdownRequests[0]==0){
+        if(shutdownRequests[1]==0 &&shutdownRequests[0]==0){
             this.shutdown=true;
             notifyAll();
         }

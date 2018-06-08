@@ -313,7 +313,7 @@ import RMIReply.HonourTheBets;
         if (shutdownRequests[clientID]!=0){
             shutdownRequests[clientID]=shutdownRequests[clientID]-1;
         }
-        else if(shutdownRequests[1]==0 &&shutdownRequests[0]==0){
+        if(shutdownRequests[1]==0 &&shutdownRequests[0]==0){
             this.shutdown=true;
             notifyAll();
         }

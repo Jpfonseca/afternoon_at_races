@@ -532,7 +532,7 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
         if (shutdownRequests[clientID]!=0){
             this.shutdownRequests[clientID]--;
         }
-        else if(shutdownRequests[1]==0 &&shutdownRequests[0]==0){
+        if(shutdownRequests[1]==0 &&shutdownRequests[0]==0){
             this.shutdown=true;
             notifyAll();
         }
@@ -540,11 +540,11 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
 
     public synchronized boolean isShutdown() {
         while (!shutdown)
-        try {
-            wait();
-        } catch (InterruptedException e) {
-            System.out.println("REPO InterruptedException: "+e);
-        }
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                System.out.println("REPO InterruptedException: "+e);
+            }
         return shutdown;
     }
 
