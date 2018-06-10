@@ -52,6 +52,10 @@ public class Spectator extends Thread{
      * Spectator constructor
      * @param specId Spectator Id
      * @param wallet Spectator wallet
+     * @param repoStub Repository Stub
+     * @param bcStub Betting Centre Stub
+     * @param ccwsStub CCWS Stub
+     * @param pdStub Paddock Stub
      */
     public Spectator(int specId, int wallet, ControlCentreInterface ccwsStub, PaddockInterface pdStub, BettingCentreInterface bcStub, GeneralInformationRepositoryInterface repoStub) {
         this.specId=specId;
@@ -88,10 +92,10 @@ public class Spectator extends Thread{
             this.setState(rmiReply3.getSpectatorState());
             while(rmiReply3.getWaitForNextRace()){
 
-                last = pdStub.goCheckHorses1();     // Este método verifica o último.
+                last = pdStub.goCheckHorses1();     // Este metodo verifica o ultimo.
                 if (last)
-                    ccwsStub.goCheckHorses();    // Acorda o Broker , que dá inicio à corrida
-                this.setState(pdStub.goCheckHorses2(last, specId).getState());          //envia o spectator para o pdStub e diz se é o último
+                    ccwsStub.goCheckHorses();    // Acorda o Broker , que da inicio a corrida
+                this.setState(pdStub.goCheckHorses2(last, specId).getState());          //envia o spectator para o pdStub e diz se e o ultimo
 
                 rmiReply1 = bcStub.placeABet(specId, wallet);
                 this.setWallet(rmiReply1.getSpecWallet());

@@ -21,8 +21,8 @@ public class ServerRegisterRemoteObject
 {
     /**
      *  Main task.
+     * @param args Arguments to be passed from shell
      */
-
     public static void main(String[] args)
     {
         /* get location of the registry service */

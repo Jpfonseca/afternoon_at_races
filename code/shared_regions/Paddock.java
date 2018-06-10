@@ -63,6 +63,7 @@ public class Paddock implements PaddockInterface {
      * Paddock Constructor
      * @param N Number of HorseJockeys
      * @param M Number of Spectators
+     * @param repoStub Repository Stub
      */
     public Paddock(int N, int M, GeneralInformationRepositoryInterface repoStub) {
         this.N = N;
@@ -77,7 +78,7 @@ public class Paddock implements PaddockInterface {
      * */
     @Override
     public synchronized boolean proceedToPaddock1(){
-        //check if it’s the last horse
+        //check if its the last horse
         totalHJ++;
 
         return (totalHJ == N);
@@ -152,6 +153,10 @@ public class Paddock implements PaddockInterface {
         return new GoCheckHorses2(SpectatorState.APPRAISING_THE_HORSES);
     }
 
+    /**
+     * Method used to shutdown server
+     * @param clientID Client ID
+     */
     @Override
     public synchronized void shutdown(int clientID){
         shutdownRequest--;
@@ -162,6 +167,10 @@ public class Paddock implements PaddockInterface {
         }
     }
 
+    /**
+     * Method used to know if server can shutdown
+     * @return boolean with true or false for server shutdown
+     */
     public synchronized boolean isShutdown() {
         while (!shutdown)
             try {

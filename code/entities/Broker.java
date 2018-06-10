@@ -79,6 +79,13 @@ public class Broker extends Thread{
      * @param K Total races
      * @param N Number of Horses in each race
      * @param maxAgil maximum Agility of each HorseJockey
+     * @param repoStub Repository Stub
+     * @param bcStub Betting Centre Stub
+     * @param ccwsStub CCWS Stub
+     * @param pdStub Paddock Stub
+     * @param rtStub Racing Track Stub
+     * @param stStub Stable Stub
+     *
      */
     public Broker(int K, int N, int maxAgil, ControlCentreInterface ccwsStub, StableInterface stStub, BettingCentreInterface bcStub, RacingTrackInterface rtStub, GeneralInformationRepositoryInterface repoStub, PaddockInterface pdStub) {
     //public Broker(int K, int N, ControlCentre ccws, Stable st, BettingCentre bc, Paddock pd, int maxAgil, RacingTrack rtStub) {
@@ -127,7 +134,7 @@ public class Broker extends Thread{
                 System.out.println("Race "+k+" Start");
 
 
-                this.setBrokerState(stStub.summonHorsesToPaddock(k,totalAgility).getState()); // primeira parte é invocada no stable a segunda no ccws
+                this.setBrokerState(stStub.summonHorsesToPaddock(k,totalAgility).getState()); // primeira parte invocada no stable a segunda no ccws
                 ccwsStub.summonHorsesToPaddock();
                 this.setBrokerState(bcStub.acceptTheBets().getState());
                 this.setBrokerState(rtStub.startTheRace(k).getState());

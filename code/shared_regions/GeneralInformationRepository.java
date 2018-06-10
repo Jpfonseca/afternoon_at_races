@@ -375,7 +375,7 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
                 textToAppend.append("  ").append(iterationStep[i]);
             else if (iterationStep[i]<100)
                 textToAppend.append(" ").append(iterationStep[i]);
-            else if (iterationStep[i]<100)
+            else if (iterationStep[i]<1000)
                 textToAppend.append(iterationStep[i]);
 
             if (currentPos[i]==-1)
@@ -527,6 +527,10 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
         this.standingPos[horse] = standing;
     }
 
+    /**
+     * Method used to shutdown server
+     * @param clientID Client ID
+     */
     @Override
     public synchronized void shutdown(int clientID){
         if (shutdownRequests[clientID]!=0){
@@ -538,6 +542,10 @@ MAN/BRK         SPECTATOR/BETTER              HORSE/JOCKEY PAIR at Race RN
         }
     }
 
+    /**
+     * Method used to know if server can shutdown
+     * @return boolean with true or false for server shutdown
+     */
     public synchronized boolean isShutdown() {
         while (!shutdown)
             try {

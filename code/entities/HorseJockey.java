@@ -64,6 +64,12 @@ public class HorseJockey extends Thread{
      * HorseJockey Constructor
      * @param hj_number HorseJockey index
      * @param maxAgil Maximum agility of HorseJockey
+     * @param repoStub Repository Stub
+     * @param bcStub Betting Centre Stub
+     * @param ccwsStub CCWS Stub
+     * @param pdStub Paddock Stub
+     * @param rtStub Racing Track Stub
+     * @param stStub Stable Stub
      */
     public HorseJockey(int hj_number, int maxAgil, ControlCentreInterface ccwsStub, StableInterface stStub, PaddockInterface pdStub, RacingTrackInterface rtStub, BettingCentreInterface bcStub, GeneralInformationRepositoryInterface repoStub) {
         this.hj_number = hj_number;
@@ -86,7 +92,7 @@ public class HorseJockey extends Thread{
         }
         /*
         each horse / jockey Cnk, with n = 0, 1, ... , N-1 and k = 0, 1, ... , K-1 carries out a single position
-        increment per iteration by moving randomly 1 to Pnk length units along its path – the maximum
+        increment per iteration by moving randomly 1 to Pnk length units along its path the maximum
         value Pnk is specific of a given horse, because they are not all equal, some being more agile and
         faster than others;
          */
@@ -109,9 +115,9 @@ public class HorseJockey extends Thread{
             setHjState(rmiReply2.getHjState());
 
             bcStub.setHorseJockeyOdd(hj_number, odd);
-            last = pdStub.proceedToPaddock1();     // Este método verifica o último.
+            last = pdStub.proceedToPaddock1();     // Este metodo verifica o ultimo.
             if (last)
-                ccwsStub.proceedToPaddock();    // Acorda spectator que está no ccws a espera de ser acordado
+                ccwsStub.proceedToPaddock();    // Acorda spectator que esta no ccws a espera de ser acordado
             pdStub.proceedToPaddock2();   //envia para o paddock
 
             this.setHjState(rtStub.proceedToStartLine1(hj_number).getState());
@@ -120,7 +126,7 @@ public class HorseJockey extends Thread{
                 rtStub.makeAMove(hj_number, agility);
                 rmiReply1 = rtStub.hasFinishLineBeenCrossed();
                 this.setHjState(rmiReply1.getState());
-            }while(!rmiReply1.getStatus()); //devolve se terminou ou não. Em caso de témino devolve a posição
+            }while(!rmiReply1.getStatus()); //devolve se terminou ou nao. Em caso de termino devolve a posicao
             ccwsStub.lastHorseCrossedLine();
 
             this.setHjState(stStub.proceedToStable2(hj_number).getHjState());

@@ -73,15 +73,10 @@ public class ControlCentre implements ControlCentreInterface {
     private int totalSpec;
 
     /**
-     * Instance of ControlCentre
-     * @serialField instance
-     */
-    private static ControlCentre instance;
-
-    /**
      * This constructor specifies the initialization of the Control Centre shared Region.
      * @param K  current race number
      * @param M current number spectators
+     * @param repoStub Repository Stub
      */
     public ControlCentre(int K, int M, GeneralInformationRepositoryInterface repoStub) {
         this.K = K;
@@ -289,6 +284,10 @@ public class ControlCentre implements ControlCentreInterface {
         notifyAll();
     }
 
+    /**
+     * Method used to shutdown server
+     * @param clientID Client ID
+     */
     @Override
     public synchronized void shutdown(int clientID){
         if (shutdownRequests[clientID]!=0){
@@ -300,6 +299,10 @@ public class ControlCentre implements ControlCentreInterface {
         }
     }
 
+    /**
+     * Method used to know if server can shutdown
+     * @return boolean with true or false for server shutdown
+     */
     public synchronized boolean isShutdown() {
         while (!shutdown)
             try {

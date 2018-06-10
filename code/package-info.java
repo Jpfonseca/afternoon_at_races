@@ -6,4 +6,4 @@
  *
  * All the events of the race are previously programmed in the Simulator and will be executed by the entities mentioned before.
 */
-package code;
+package src;

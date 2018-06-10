@@ -70,16 +70,11 @@ public class RacingTrack implements RacingTrackInterface {
      * @serial maxStanding
      */
     private int maxStanding;
-
-    private int shutdownRequest;
-    private boolean shutdown;
-
-
     /**
-     * Instance of RacingTrack
-     * @serialField instance
+     * Variable to know when to shutdown
+     * @serial shutdown
      */
-    private static RacingTrack instance;
+    private boolean shutdown;
 
     /**
      * RacingTrack Constructor
@@ -87,6 +82,7 @@ public class RacingTrack implements RacingTrackInterface {
      * @param N Total amount of HorseJockeys
      * @param DMax Maximum distance
      * @param DMin Minimum Distance
+     * @param repoStub Repository Stub
      */
     public RacingTrack(int K, int N, int DMin, int DMax, GeneralInformationRepositoryInterface repoStub) {
         this.currentRace = 0;
@@ -98,7 +94,6 @@ public class RacingTrack implements RacingTrackInterface {
         this.winners = new Winners[N];
         this.repoStub = repoStub;
         this.maxStanding = 0;
-        this.shutdownRequest = 1;
 
         for (int i=0; i<K; i++)
             D[i] = DMax - (int) (Math.random() * DMin);
@@ -194,9 +189,9 @@ public class RacingTrack implements RacingTrackInterface {
     @Override
     public synchronized void makeAMove(int hj_number,int hj_agility) {
         //TODO send horse_jockey number and agility
-        HJPos[hj_number] += (int)(Math.random()*(hj_agility+1));
+        HJPos[hj_number] += (int)(Math.random()*(hj_agility)+1);
 
-        //System.out.println("Cavalo:" +hj_number+" Posição:"+HJPos[hj_number]);
+        //System.out.println("Cavalo:" +hj_number+" Position:"+HJPos[hj_number]);
 
         iterations[hj_number]++;
 
@@ -324,13 +319,20 @@ public class RacingTrack implements RacingTrackInterface {
         return winners;
     }
 
+    /**
+     * Method used to shutdown server
+     * @param clientID Client ID
+     */
     @Override
     public synchronized void shutdown(int clientID){
-        shutdownRequest=0;
         this.shutdown=true;
         notifyAll();
     }
 
+    /**
+     * Method used to know if server can shutdown
+     * @return boolean with true or false for server shutdown
+     */
     public synchronized boolean isShutdown() {
 
         while (!shutdown)

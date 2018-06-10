@@ -1,4 +1,4 @@
 /**
  * Package that holds all the possible RMI Replies sent by Shared_Regions (Servers) to the Entities (Clients);
  */
-package RMIReply;
+package shared_regions.RMIReply;

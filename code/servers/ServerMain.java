@@ -42,7 +42,7 @@ public class ServerMain {
         String rmiRegHostName = config.RMI_REGISTRY_HOSTNAME;
         int rmiRegPortNumb = config.RMI_REGISTRY_PORT;
 
-        /* instanciação e instalação do gestor de segurança */
+        /* instanciacao e instalacao do gestor de seguranca */
         if (System.getSecurityManager() == null) {
             System.setSecurityManager(new SecurityManager());
         }
@@ -105,6 +105,7 @@ public class ServerMain {
                         System.exit(1);
                     }
 
+                    System.out.println("The Stable was successfully registered on the RMI Registry");
 
                     while (!st.isShutdown());
                     System.out.println("Waiting for unbind");
@@ -119,7 +120,10 @@ public class ServerMain {
                         e.printStackTrace();
                     }
 
+                    System.out.println("Unexport Sucessfully done");
+
                     break;
+
                 case config.controlCentreServerPort:    // ControlCentre portNumb = 22221
                     /** find the InformationRepository  on the RMI service registry**/
 
@@ -181,6 +185,8 @@ public class ServerMain {
                         System.out.println("Exception occurred while unexporting Object REPO in: "+e.getMessage());
                         e.printStackTrace();
                     }
+
+                    System.out.println("Unexport Sucessfully done");
 
                     break;
                 case config.paddockServerPort:          // Paddock portNumb = 22222
@@ -245,6 +251,8 @@ public class ServerMain {
                         System.out.println("Exception occurred while unexporting Object REPO in: "+e.getMessage());
                         e.printStackTrace();
                     }
+
+                    System.out.println("Unexport Sucessfully done");
 
                     break;
 
@@ -329,6 +337,8 @@ public class ServerMain {
                         System.out.println("Exception while creating the bcStub: " + e.getMessage());
                         System.exit(1);
                     }
+
+                    System.out.println("The bcSub is running!");
 
                     /* name of the service in the register inside the RMI registry service */
                     nameEntryObject = "BC";

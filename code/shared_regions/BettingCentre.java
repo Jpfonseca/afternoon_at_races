@@ -95,8 +95,9 @@ public class BettingCentre implements BettingCentreInterface {
     private static BettingCentre instance;
 
     /**import RMIReply.AreThereAnyWinners;
-import RMIReply.HonourTheBets;
+     import RMIReply.HonourTheBets;
      * This is the Betting Centre constructor. <br> It specifies the variables which will be essential to create this shared region.
+     * @param repoStub General Repository Stub
      * @param M number of spectators
      */
     public BettingCentre(int M, GeneralInformationRepositoryInterface repoStub) {
@@ -308,6 +309,10 @@ import RMIReply.HonourTheBets;
         this.odd[horseId] = horseOdd;
     }
 
+    /**
+     * Method used to shutdown server
+     * @param clientID Client ID
+     */
     @Override
     public synchronized void shutdown(int clientID){
         if (shutdownRequests[clientID]!=0){
@@ -319,6 +324,10 @@ import RMIReply.HonourTheBets;
         }
     }
 
+    /**
+     * Method used to know if server can shutdown
+     * @return boolean with true or false for server shutdown
+     */
     public synchronized boolean isShutdown()
     {
         while (!shutdown)

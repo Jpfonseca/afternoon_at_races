@@ -52,14 +52,9 @@ public class Stable implements StableInterface {
     private GeneralInformationRepositoryInterface repoStub;
 
     /**
-     * Instance of Stable
-     * @serialField instance
-     */
-    private static Stable instance;
-
-    /**
      * Stable Constructor
      * @param N Number of HorseJockeys
+     * @param repoStub Repository Stub
      */
 
     public Stable(int N, GeneralInformationRepositoryInterface repoStub) {
@@ -165,22 +160,19 @@ public class Stable implements StableInterface {
     }
 
     /**
-     * Returns current instance of Stable
-     * @return instance of Stable
+     * Method used to shutdown server
+     * @param clientID Client ID
      */
-//    public static Stable getInstance(){
-//        if (instance==null)
-//            instance = new Stable(config.N);
-//
-//        return instance;
-//    }
-
     @Override
     public synchronized void shutdown(int clientID){
         this.shutdown=true;
         notifyAll();
     }
 
+    /**
+     * Method used to know if server can shutdown
+     * @return boolean with true or false for server shutdown
+     */
     public synchronized boolean isShutdown() {
         while (!shutdown)
             try {
