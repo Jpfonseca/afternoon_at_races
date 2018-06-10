@@ -34,7 +34,7 @@ servers(){
     xfce4-terminal --tab -H -T "Register" -e "ssh sd0203@l040101-ws01.ua.pt 'cd ~/Private/dir_registry && sh register_com.sh'"
     sleep 2
     scp ${SRC_DIR}dir_servers.zip sd0203@l040101-ws02.ua.pt:/home/sd0203/Private/
-    xfce4-terminal --tab -H -T "General Repository" -e "ssh sd0203@l040101-ws02.ua.pt 'cd ~/Private/ && unzip dir_servers.zip && cd ~/Private/dir_servers && sh servers_com.sh 5' && scp sd0203@l040101-ws02.ua.pt:~/Private/dir_servers/Afternoon_At_Races.log . && cat Afternoon_at_races.log"
+    xfce4-terminal --tab -H -T "General Repository" -e "ssh sd0203@l040101-ws02.ua.pt 'cd ~/Private/ && unzip dir_servers.zip && cd ~/Private/dir_servers && sh servers_com.sh 5' && scp sd0203@l040101-ws02.ua.pt:~/Private/dir_servers/Afternoon_At_Races.log . && cat ./Afternoon_at_races.log"
     sleep 2
     scp ${SRC_DIR}dir_servers.zip sd0203@l040101-ws03.ua.pt:/home/sd0203/Private/
     xfce4-terminal --tab -H -T "Betting Centre" -e "ssh sd0203@l040101-ws03.ua.pt 'cd ~/Private/ && unzip dir_servers.zip && cd ~/Private/dir_servers && sh servers_com.sh 4'"
