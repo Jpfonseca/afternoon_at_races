@@ -164,17 +164,6 @@ public class Stable implements StableInterface {
         return new ProceedToStable2(HorseJockeyState.AT_THE_STABLE);
     }
 
-    /**
-     * Returns current instance of Stable
-     * @return instance of Stable
-     */
-//    public static Stable getInstance(){
-//        if (instance==null)
-//            instance = new Stable(config.N);
-//
-//        return instance;
-//    }
-
     @Override
     public synchronized void shutdown(int clientID){
         this.shutdown=true;
