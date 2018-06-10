@@ -120,7 +120,10 @@ public class ServerMain {
                         e.printStackTrace();
                     }
 
+                    System.out.println("Unexport Sucessfully done");
+
                     break;
+
                 case config.controlCentreServerPort:    // ControlCentre portNumb = 22221
                     /** find the InformationRepository  on the RMI service registry**/
 
@@ -182,6 +185,8 @@ public class ServerMain {
                         System.out.println("Exception occurred while unexporting Object REPO in: "+e.getMessage());
                         e.printStackTrace();
                     }
+
+                    System.out.println("Unexport Sucessfully done");
 
                     break;
                 case config.paddockServerPort:          // Paddock portNumb = 22222
@@ -246,6 +251,8 @@ public class ServerMain {
                         System.out.println("Exception occurred while unexporting Object REPO in: "+e.getMessage());
                         e.printStackTrace();
                     }
+
+                    System.out.println("Unexport Sucessfully done");
 
                     break;
 
